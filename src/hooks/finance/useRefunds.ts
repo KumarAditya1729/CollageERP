@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+import { useAccess } from "@/hooks/useAccess";
 
 export interface RefundRequestRow {
   id: string;
@@ -12,13 +14,13 @@ export interface RefundRequestRow {
 }
 
 export function useRefunds() {
-  const { tenant } = useAuth();
+  const { tenant } = useAccess();
 
   return useQuery({
     queryKey: ["refunds", tenant?.id],
     queryFn: async () => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_refund_requests")
         .select("*")
         .order("created_at", { ascending: false });
@@ -32,11 +34,11 @@ export function useRefunds() {
 
 export function useCreateRefund() {
   const queryClient = useQueryClient();
-  const { tenant } = useAuth();
+  const { tenant } = useAccess();
 
   return useMutation({
     mutationFn: async (input: Partial<RefundRequestRow>) => {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_refund_requests")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useBudgets } from "@/hooks/finance/useBudgets";
 import { BudgetPlanner } from "@/components/finance/BudgetPlanner";
-import { formatCurrency } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/finance/budgets")({
   component: BudgetsPage,
@@ -44,7 +44,7 @@ function BudgetsPage() {
             <CardContent>
               <div className="mt-4">
                 <p className="text-sm font-medium text-muted-foreground">Total Envelope</p>
-                <p className="text-2xl font-bold">{formatCurrency(budget.total_amount)}</p>
+                <p className="text-2xl font-bold">{(`₹${Number(budget.total_amount).toLocaleString('en-IN')}`)}</p>
               </div>
             </CardContent>
           </Card>

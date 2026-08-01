@@ -73,6 +73,30 @@ import { Route as AuthenticatedExamsResultsRouteImport } from './routes/_authent
 import { Route as AuthenticatedExamsRevaluationRouteImport } from './routes/_authenticated/exams/revaluation'
 import { Route as AuthenticatedExamsSeatingRouteImport } from './routes/_authenticated/exams/seating'
 import { Route as AuthenticatedExamsSessionsRouteImport } from './routes/_authenticated/exams/sessions'
+import { Route as AuthenticatedFinanceIndexRouteImport } from './routes/_authenticated/finance/index'
+import { Route as AuthenticatedFinanceAssetsRouteImport } from './routes/_authenticated/finance/assets'
+import { Route as AuthenticatedFinanceBudgetsRouteImport } from './routes/_authenticated/finance/budgets'
+import { Route as AuthenticatedFinanceFeeStructuresRouteImport } from './routes/_authenticated/finance/fee-structures'
+import { Route as AuthenticatedFinanceInvoicesRouteImport } from './routes/_authenticated/finance/invoices'
+import { Route as AuthenticatedFinanceLedgerRouteImport } from './routes/_authenticated/finance/ledger'
+import { Route as AuthenticatedFinancePaymentsRouteImport } from './routes/_authenticated/finance/payments'
+import { Route as AuthenticatedFinanceProcurementRouteImport } from './routes/_authenticated/finance/procurement'
+import { Route as AuthenticatedFinanceReconciliationRouteImport } from './routes/_authenticated/finance/reconciliation'
+import { Route as AuthenticatedFinanceRefundsRouteImport } from './routes/_authenticated/finance/refunds'
+import { Route as AuthenticatedFinanceReportsRouteImport } from './routes/_authenticated/finance/reports'
+import { Route as AuthenticatedFinanceScholarshipsRouteImport } from './routes/_authenticated/finance/scholarships'
+import { Route as AuthenticatedFinanceTaxationRouteImport } from './routes/_authenticated/finance/taxation'
+import { Route as AuthenticatedFinanceVendorsRouteImport } from './routes/_authenticated/finance/vendors'
+import { Route as AuthenticatedHrmsIndexRouteImport } from './routes/_authenticated/hrms/index'
+import { Route as AuthenticatedHrmsAttendanceRouteImport } from './routes/_authenticated/hrms/attendance'
+import { Route as AuthenticatedHrmsEmployeesRouteImport } from './routes/_authenticated/hrms/employees'
+import { Route as AuthenticatedHrmsLeaveRouteImport } from './routes/_authenticated/hrms/leave'
+import { Route as AuthenticatedHrmsPayrollRouteImport } from './routes/_authenticated/hrms/payroll'
+import { Route as AuthenticatedHrmsPerformanceRouteImport } from './routes/_authenticated/hrms/performance'
+import { Route as AuthenticatedHrmsRecruitmentRouteImport } from './routes/_authenticated/hrms/recruitment'
+import { Route as AuthenticatedHrmsReportsRouteImport } from './routes/_authenticated/hrms/reports'
+import { Route as AuthenticatedHrmsSelfServiceRouteImport } from './routes/_authenticated/hrms/self-service'
+import { Route as AuthenticatedHrmsShiftsRouteImport } from './routes/_authenticated/hrms/shifts'
 import { Route as AuthenticatedLmsIndexRouteImport } from './routes/_authenticated/lms/index'
 import { Route as AuthenticatedLmsWorkspaceIdRouteImport } from './routes/_authenticated/lms/$workspaceId'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
@@ -452,6 +476,147 @@ const AuthenticatedExamsSessionsRoute =
     path: '/exams/sessions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedFinanceIndexRoute =
+  AuthenticatedFinanceIndexRouteImport.update({
+    id: '/finance/',
+    path: '/finance/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceAssetsRoute =
+  AuthenticatedFinanceAssetsRouteImport.update({
+    id: '/finance/assets',
+    path: '/finance/assets',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceBudgetsRoute =
+  AuthenticatedFinanceBudgetsRouteImport.update({
+    id: '/finance/budgets',
+    path: '/finance/budgets',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceFeeStructuresRoute =
+  AuthenticatedFinanceFeeStructuresRouteImport.update({
+    id: '/finance/fee-structures',
+    path: '/finance/fee-structures',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceInvoicesRoute =
+  AuthenticatedFinanceInvoicesRouteImport.update({
+    id: '/finance/invoices',
+    path: '/finance/invoices',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceLedgerRoute =
+  AuthenticatedFinanceLedgerRouteImport.update({
+    id: '/finance/ledger',
+    path: '/finance/ledger',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinancePaymentsRoute =
+  AuthenticatedFinancePaymentsRouteImport.update({
+    id: '/finance/payments',
+    path: '/finance/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceProcurementRoute =
+  AuthenticatedFinanceProcurementRouteImport.update({
+    id: '/finance/procurement',
+    path: '/finance/procurement',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceReconciliationRoute =
+  AuthenticatedFinanceReconciliationRouteImport.update({
+    id: '/finance/reconciliation',
+    path: '/finance/reconciliation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceRefundsRoute =
+  AuthenticatedFinanceRefundsRouteImport.update({
+    id: '/finance/refunds',
+    path: '/finance/refunds',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceReportsRoute =
+  AuthenticatedFinanceReportsRouteImport.update({
+    id: '/finance/reports',
+    path: '/finance/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceScholarshipsRoute =
+  AuthenticatedFinanceScholarshipsRouteImport.update({
+    id: '/finance/scholarships',
+    path: '/finance/scholarships',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceTaxationRoute =
+  AuthenticatedFinanceTaxationRouteImport.update({
+    id: '/finance/taxation',
+    path: '/finance/taxation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFinanceVendorsRoute =
+  AuthenticatedFinanceVendorsRouteImport.update({
+    id: '/finance/vendors',
+    path: '/finance/vendors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsIndexRoute = AuthenticatedHrmsIndexRouteImport.update({
+  id: '/hrms/',
+  path: '/hrms/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHrmsAttendanceRoute =
+  AuthenticatedHrmsAttendanceRouteImport.update({
+    id: '/hrms/attendance',
+    path: '/hrms/attendance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsEmployeesRoute =
+  AuthenticatedHrmsEmployeesRouteImport.update({
+    id: '/hrms/employees',
+    path: '/hrms/employees',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsLeaveRoute = AuthenticatedHrmsLeaveRouteImport.update({
+  id: '/hrms/leave',
+  path: '/hrms/leave',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHrmsPayrollRoute =
+  AuthenticatedHrmsPayrollRouteImport.update({
+    id: '/hrms/payroll',
+    path: '/hrms/payroll',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsPerformanceRoute =
+  AuthenticatedHrmsPerformanceRouteImport.update({
+    id: '/hrms/performance',
+    path: '/hrms/performance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsRecruitmentRoute =
+  AuthenticatedHrmsRecruitmentRouteImport.update({
+    id: '/hrms/recruitment',
+    path: '/hrms/recruitment',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsReportsRoute =
+  AuthenticatedHrmsReportsRouteImport.update({
+    id: '/hrms/reports',
+    path: '/hrms/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsSelfServiceRoute =
+  AuthenticatedHrmsSelfServiceRouteImport.update({
+    id: '/hrms/self-service',
+    path: '/hrms/self-service',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHrmsShiftsRoute = AuthenticatedHrmsShiftsRouteImport.update({
+  id: '/hrms/shifts',
+  path: '/hrms/shifts',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLmsIndexRoute = AuthenticatedLmsIndexRouteImport.update({
   id: '/lms/',
   path: '/lms/',
@@ -626,6 +791,28 @@ export interface FileRoutesByFullPath {
   '/exams/revaluation': typeof AuthenticatedExamsRevaluationRoute
   '/exams/seating': typeof AuthenticatedExamsSeatingRoute
   '/exams/sessions': typeof AuthenticatedExamsSessionsRoute
+  '/finance/assets': typeof AuthenticatedFinanceAssetsRoute
+  '/finance/budgets': typeof AuthenticatedFinanceBudgetsRoute
+  '/finance/fee-structures': typeof AuthenticatedFinanceFeeStructuresRoute
+  '/finance/invoices': typeof AuthenticatedFinanceInvoicesRoute
+  '/finance/ledger': typeof AuthenticatedFinanceLedgerRoute
+  '/finance/payments': typeof AuthenticatedFinancePaymentsRoute
+  '/finance/procurement': typeof AuthenticatedFinanceProcurementRoute
+  '/finance/reconciliation': typeof AuthenticatedFinanceReconciliationRoute
+  '/finance/refunds': typeof AuthenticatedFinanceRefundsRoute
+  '/finance/reports': typeof AuthenticatedFinanceReportsRoute
+  '/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
+  '/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
+  '/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
+  '/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
+  '/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
+  '/hrms/payroll': typeof AuthenticatedHrmsPayrollRoute
+  '/hrms/performance': typeof AuthenticatedHrmsPerformanceRoute
+  '/hrms/recruitment': typeof AuthenticatedHrmsRecruitmentRoute
+  '/hrms/reports': typeof AuthenticatedHrmsReportsRoute
+  '/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
+  '/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -641,6 +828,8 @@ export interface FileRoutesByFullPath {
   '/academics/': typeof AuthenticatedAcademicsIndexRoute
   '/attendance/': typeof AuthenticatedAttendanceIndexRoute
   '/exams/': typeof AuthenticatedExamsIndexRoute
+  '/finance/': typeof AuthenticatedFinanceIndexRoute
+  '/hrms/': typeof AuthenticatedHrmsIndexRoute
   '/lms/': typeof AuthenticatedLmsIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/students/': typeof AuthenticatedStudentsIndexRoute
@@ -709,6 +898,28 @@ export interface FileRoutesByTo {
   '/exams/revaluation': typeof AuthenticatedExamsRevaluationRoute
   '/exams/seating': typeof AuthenticatedExamsSeatingRoute
   '/exams/sessions': typeof AuthenticatedExamsSessionsRoute
+  '/finance/assets': typeof AuthenticatedFinanceAssetsRoute
+  '/finance/budgets': typeof AuthenticatedFinanceBudgetsRoute
+  '/finance/fee-structures': typeof AuthenticatedFinanceFeeStructuresRoute
+  '/finance/invoices': typeof AuthenticatedFinanceInvoicesRoute
+  '/finance/ledger': typeof AuthenticatedFinanceLedgerRoute
+  '/finance/payments': typeof AuthenticatedFinancePaymentsRoute
+  '/finance/procurement': typeof AuthenticatedFinanceProcurementRoute
+  '/finance/reconciliation': typeof AuthenticatedFinanceReconciliationRoute
+  '/finance/refunds': typeof AuthenticatedFinanceRefundsRoute
+  '/finance/reports': typeof AuthenticatedFinanceReportsRoute
+  '/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
+  '/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
+  '/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
+  '/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
+  '/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
+  '/hrms/payroll': typeof AuthenticatedHrmsPayrollRoute
+  '/hrms/performance': typeof AuthenticatedHrmsPerformanceRoute
+  '/hrms/recruitment': typeof AuthenticatedHrmsRecruitmentRoute
+  '/hrms/reports': typeof AuthenticatedHrmsReportsRoute
+  '/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
+  '/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -724,6 +935,8 @@ export interface FileRoutesByTo {
   '/academics': typeof AuthenticatedAcademicsIndexRoute
   '/attendance': typeof AuthenticatedAttendanceIndexRoute
   '/exams': typeof AuthenticatedExamsIndexRoute
+  '/finance': typeof AuthenticatedFinanceIndexRoute
+  '/hrms': typeof AuthenticatedHrmsIndexRoute
   '/lms': typeof AuthenticatedLmsIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
@@ -795,6 +1008,28 @@ export interface FileRoutesById {
   '/_authenticated/exams/revaluation': typeof AuthenticatedExamsRevaluationRoute
   '/_authenticated/exams/seating': typeof AuthenticatedExamsSeatingRoute
   '/_authenticated/exams/sessions': typeof AuthenticatedExamsSessionsRoute
+  '/_authenticated/finance/assets': typeof AuthenticatedFinanceAssetsRoute
+  '/_authenticated/finance/budgets': typeof AuthenticatedFinanceBudgetsRoute
+  '/_authenticated/finance/fee-structures': typeof AuthenticatedFinanceFeeStructuresRoute
+  '/_authenticated/finance/invoices': typeof AuthenticatedFinanceInvoicesRoute
+  '/_authenticated/finance/ledger': typeof AuthenticatedFinanceLedgerRoute
+  '/_authenticated/finance/payments': typeof AuthenticatedFinancePaymentsRoute
+  '/_authenticated/finance/procurement': typeof AuthenticatedFinanceProcurementRoute
+  '/_authenticated/finance/reconciliation': typeof AuthenticatedFinanceReconciliationRoute
+  '/_authenticated/finance/refunds': typeof AuthenticatedFinanceRefundsRoute
+  '/_authenticated/finance/reports': typeof AuthenticatedFinanceReportsRoute
+  '/_authenticated/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
+  '/_authenticated/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
+  '/_authenticated/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/_authenticated/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
+  '/_authenticated/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
+  '/_authenticated/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
+  '/_authenticated/hrms/payroll': typeof AuthenticatedHrmsPayrollRoute
+  '/_authenticated/hrms/performance': typeof AuthenticatedHrmsPerformanceRoute
+  '/_authenticated/hrms/recruitment': typeof AuthenticatedHrmsRecruitmentRoute
+  '/_authenticated/hrms/reports': typeof AuthenticatedHrmsReportsRoute
+  '/_authenticated/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
+  '/_authenticated/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
   '/_authenticated/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/_authenticated/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/_authenticated/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -810,6 +1045,8 @@ export interface FileRoutesById {
   '/_authenticated/academics/': typeof AuthenticatedAcademicsIndexRoute
   '/_authenticated/attendance/': typeof AuthenticatedAttendanceIndexRoute
   '/_authenticated/exams/': typeof AuthenticatedExamsIndexRoute
+  '/_authenticated/finance/': typeof AuthenticatedFinanceIndexRoute
+  '/_authenticated/hrms/': typeof AuthenticatedHrmsIndexRoute
   '/_authenticated/lms/': typeof AuthenticatedLmsIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/students/': typeof AuthenticatedStudentsIndexRoute
@@ -881,6 +1118,28 @@ export interface FileRouteTypes {
     | '/exams/revaluation'
     | '/exams/seating'
     | '/exams/sessions'
+    | '/finance/assets'
+    | '/finance/budgets'
+    | '/finance/fee-structures'
+    | '/finance/invoices'
+    | '/finance/ledger'
+    | '/finance/payments'
+    | '/finance/procurement'
+    | '/finance/reconciliation'
+    | '/finance/refunds'
+    | '/finance/reports'
+    | '/finance/scholarships'
+    | '/finance/taxation'
+    | '/finance/vendors'
+    | '/hrms/attendance'
+    | '/hrms/employees'
+    | '/hrms/leave'
+    | '/hrms/payroll'
+    | '/hrms/performance'
+    | '/hrms/recruitment'
+    | '/hrms/reports'
+    | '/hrms/self-service'
+    | '/hrms/shifts'
     | '/lms/$workspaceId'
     | '/settings/$scope'
     | '/settings/api'
@@ -896,6 +1155,8 @@ export interface FileRouteTypes {
     | '/academics/'
     | '/attendance/'
     | '/exams/'
+    | '/finance/'
+    | '/hrms/'
     | '/lms/'
     | '/settings/'
     | '/students/'
@@ -964,6 +1225,28 @@ export interface FileRouteTypes {
     | '/exams/revaluation'
     | '/exams/seating'
     | '/exams/sessions'
+    | '/finance/assets'
+    | '/finance/budgets'
+    | '/finance/fee-structures'
+    | '/finance/invoices'
+    | '/finance/ledger'
+    | '/finance/payments'
+    | '/finance/procurement'
+    | '/finance/reconciliation'
+    | '/finance/refunds'
+    | '/finance/reports'
+    | '/finance/scholarships'
+    | '/finance/taxation'
+    | '/finance/vendors'
+    | '/hrms/attendance'
+    | '/hrms/employees'
+    | '/hrms/leave'
+    | '/hrms/payroll'
+    | '/hrms/performance'
+    | '/hrms/recruitment'
+    | '/hrms/reports'
+    | '/hrms/self-service'
+    | '/hrms/shifts'
     | '/lms/$workspaceId'
     | '/settings/$scope'
     | '/settings/api'
@@ -979,6 +1262,8 @@ export interface FileRouteTypes {
     | '/academics'
     | '/attendance'
     | '/exams'
+    | '/finance'
+    | '/hrms'
     | '/lms'
     | '/settings'
     | '/students'
@@ -1049,6 +1334,28 @@ export interface FileRouteTypes {
     | '/_authenticated/exams/revaluation'
     | '/_authenticated/exams/seating'
     | '/_authenticated/exams/sessions'
+    | '/_authenticated/finance/assets'
+    | '/_authenticated/finance/budgets'
+    | '/_authenticated/finance/fee-structures'
+    | '/_authenticated/finance/invoices'
+    | '/_authenticated/finance/ledger'
+    | '/_authenticated/finance/payments'
+    | '/_authenticated/finance/procurement'
+    | '/_authenticated/finance/reconciliation'
+    | '/_authenticated/finance/refunds'
+    | '/_authenticated/finance/reports'
+    | '/_authenticated/finance/scholarships'
+    | '/_authenticated/finance/taxation'
+    | '/_authenticated/finance/vendors'
+    | '/_authenticated/hrms/attendance'
+    | '/_authenticated/hrms/employees'
+    | '/_authenticated/hrms/leave'
+    | '/_authenticated/hrms/payroll'
+    | '/_authenticated/hrms/performance'
+    | '/_authenticated/hrms/recruitment'
+    | '/_authenticated/hrms/reports'
+    | '/_authenticated/hrms/self-service'
+    | '/_authenticated/hrms/shifts'
     | '/_authenticated/lms/$workspaceId'
     | '/_authenticated/settings/$scope'
     | '/_authenticated/settings/api'
@@ -1064,6 +1371,8 @@ export interface FileRouteTypes {
     | '/_authenticated/academics/'
     | '/_authenticated/attendance/'
     | '/_authenticated/exams/'
+    | '/_authenticated/finance/'
+    | '/_authenticated/hrms/'
     | '/_authenticated/lms/'
     | '/_authenticated/settings/'
     | '/_authenticated/students/'
@@ -1535,6 +1844,174 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedExamsSessionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/finance/': {
+      id: '/_authenticated/finance/'
+      path: '/finance'
+      fullPath: '/finance/'
+      preLoaderRoute: typeof AuthenticatedFinanceIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/assets': {
+      id: '/_authenticated/finance/assets'
+      path: '/finance/assets'
+      fullPath: '/finance/assets'
+      preLoaderRoute: typeof AuthenticatedFinanceAssetsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/budgets': {
+      id: '/_authenticated/finance/budgets'
+      path: '/finance/budgets'
+      fullPath: '/finance/budgets'
+      preLoaderRoute: typeof AuthenticatedFinanceBudgetsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/fee-structures': {
+      id: '/_authenticated/finance/fee-structures'
+      path: '/finance/fee-structures'
+      fullPath: '/finance/fee-structures'
+      preLoaderRoute: typeof AuthenticatedFinanceFeeStructuresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/invoices': {
+      id: '/_authenticated/finance/invoices'
+      path: '/finance/invoices'
+      fullPath: '/finance/invoices'
+      preLoaderRoute: typeof AuthenticatedFinanceInvoicesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/ledger': {
+      id: '/_authenticated/finance/ledger'
+      path: '/finance/ledger'
+      fullPath: '/finance/ledger'
+      preLoaderRoute: typeof AuthenticatedFinanceLedgerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/payments': {
+      id: '/_authenticated/finance/payments'
+      path: '/finance/payments'
+      fullPath: '/finance/payments'
+      preLoaderRoute: typeof AuthenticatedFinancePaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/procurement': {
+      id: '/_authenticated/finance/procurement'
+      path: '/finance/procurement'
+      fullPath: '/finance/procurement'
+      preLoaderRoute: typeof AuthenticatedFinanceProcurementRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/reconciliation': {
+      id: '/_authenticated/finance/reconciliation'
+      path: '/finance/reconciliation'
+      fullPath: '/finance/reconciliation'
+      preLoaderRoute: typeof AuthenticatedFinanceReconciliationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/refunds': {
+      id: '/_authenticated/finance/refunds'
+      path: '/finance/refunds'
+      fullPath: '/finance/refunds'
+      preLoaderRoute: typeof AuthenticatedFinanceRefundsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/reports': {
+      id: '/_authenticated/finance/reports'
+      path: '/finance/reports'
+      fullPath: '/finance/reports'
+      preLoaderRoute: typeof AuthenticatedFinanceReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/scholarships': {
+      id: '/_authenticated/finance/scholarships'
+      path: '/finance/scholarships'
+      fullPath: '/finance/scholarships'
+      preLoaderRoute: typeof AuthenticatedFinanceScholarshipsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/taxation': {
+      id: '/_authenticated/finance/taxation'
+      path: '/finance/taxation'
+      fullPath: '/finance/taxation'
+      preLoaderRoute: typeof AuthenticatedFinanceTaxationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/finance/vendors': {
+      id: '/_authenticated/finance/vendors'
+      path: '/finance/vendors'
+      fullPath: '/finance/vendors'
+      preLoaderRoute: typeof AuthenticatedFinanceVendorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/': {
+      id: '/_authenticated/hrms/'
+      path: '/hrms'
+      fullPath: '/hrms/'
+      preLoaderRoute: typeof AuthenticatedHrmsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/attendance': {
+      id: '/_authenticated/hrms/attendance'
+      path: '/hrms/attendance'
+      fullPath: '/hrms/attendance'
+      preLoaderRoute: typeof AuthenticatedHrmsAttendanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/employees': {
+      id: '/_authenticated/hrms/employees'
+      path: '/hrms/employees'
+      fullPath: '/hrms/employees'
+      preLoaderRoute: typeof AuthenticatedHrmsEmployeesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/leave': {
+      id: '/_authenticated/hrms/leave'
+      path: '/hrms/leave'
+      fullPath: '/hrms/leave'
+      preLoaderRoute: typeof AuthenticatedHrmsLeaveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/payroll': {
+      id: '/_authenticated/hrms/payroll'
+      path: '/hrms/payroll'
+      fullPath: '/hrms/payroll'
+      preLoaderRoute: typeof AuthenticatedHrmsPayrollRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/performance': {
+      id: '/_authenticated/hrms/performance'
+      path: '/hrms/performance'
+      fullPath: '/hrms/performance'
+      preLoaderRoute: typeof AuthenticatedHrmsPerformanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/recruitment': {
+      id: '/_authenticated/hrms/recruitment'
+      path: '/hrms/recruitment'
+      fullPath: '/hrms/recruitment'
+      preLoaderRoute: typeof AuthenticatedHrmsRecruitmentRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/reports': {
+      id: '/_authenticated/hrms/reports'
+      path: '/hrms/reports'
+      fullPath: '/hrms/reports'
+      preLoaderRoute: typeof AuthenticatedHrmsReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/self-service': {
+      id: '/_authenticated/hrms/self-service'
+      path: '/hrms/self-service'
+      fullPath: '/hrms/self-service'
+      preLoaderRoute: typeof AuthenticatedHrmsSelfServiceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hrms/shifts': {
+      id: '/_authenticated/hrms/shifts'
+      path: '/hrms/shifts'
+      fullPath: '/hrms/shifts'
+      preLoaderRoute: typeof AuthenticatedHrmsShiftsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/lms/': {
       id: '/_authenticated/lms/'
       path: '/lms'
@@ -1750,6 +2227,28 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedExamsRevaluationRoute: typeof AuthenticatedExamsRevaluationRoute
   AuthenticatedExamsSeatingRoute: typeof AuthenticatedExamsSeatingRoute
   AuthenticatedExamsSessionsRoute: typeof AuthenticatedExamsSessionsRoute
+  AuthenticatedFinanceAssetsRoute: typeof AuthenticatedFinanceAssetsRoute
+  AuthenticatedFinanceBudgetsRoute: typeof AuthenticatedFinanceBudgetsRoute
+  AuthenticatedFinanceFeeStructuresRoute: typeof AuthenticatedFinanceFeeStructuresRoute
+  AuthenticatedFinanceInvoicesRoute: typeof AuthenticatedFinanceInvoicesRoute
+  AuthenticatedFinanceLedgerRoute: typeof AuthenticatedFinanceLedgerRoute
+  AuthenticatedFinancePaymentsRoute: typeof AuthenticatedFinancePaymentsRoute
+  AuthenticatedFinanceProcurementRoute: typeof AuthenticatedFinanceProcurementRoute
+  AuthenticatedFinanceReconciliationRoute: typeof AuthenticatedFinanceReconciliationRoute
+  AuthenticatedFinanceRefundsRoute: typeof AuthenticatedFinanceRefundsRoute
+  AuthenticatedFinanceReportsRoute: typeof AuthenticatedFinanceReportsRoute
+  AuthenticatedFinanceScholarshipsRoute: typeof AuthenticatedFinanceScholarshipsRoute
+  AuthenticatedFinanceTaxationRoute: typeof AuthenticatedFinanceTaxationRoute
+  AuthenticatedFinanceVendorsRoute: typeof AuthenticatedFinanceVendorsRoute
+  AuthenticatedHrmsAttendanceRoute: typeof AuthenticatedHrmsAttendanceRoute
+  AuthenticatedHrmsEmployeesRoute: typeof AuthenticatedHrmsEmployeesRoute
+  AuthenticatedHrmsLeaveRoute: typeof AuthenticatedHrmsLeaveRoute
+  AuthenticatedHrmsPayrollRoute: typeof AuthenticatedHrmsPayrollRoute
+  AuthenticatedHrmsPerformanceRoute: typeof AuthenticatedHrmsPerformanceRoute
+  AuthenticatedHrmsRecruitmentRoute: typeof AuthenticatedHrmsRecruitmentRoute
+  AuthenticatedHrmsReportsRoute: typeof AuthenticatedHrmsReportsRoute
+  AuthenticatedHrmsSelfServiceRoute: typeof AuthenticatedHrmsSelfServiceRoute
+  AuthenticatedHrmsShiftsRoute: typeof AuthenticatedHrmsShiftsRoute
   AuthenticatedLmsWorkspaceIdRoute: typeof AuthenticatedLmsWorkspaceIdRoute
   AuthenticatedStudentsStudentIdRoute: typeof AuthenticatedStudentsStudentIdRoute
   AuthenticatedStudentsAdmissionsRoute: typeof AuthenticatedStudentsAdmissionsRoute
@@ -1760,6 +2259,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAcademicsIndexRoute: typeof AuthenticatedAcademicsIndexRoute
   AuthenticatedAttendanceIndexRoute: typeof AuthenticatedAttendanceIndexRoute
   AuthenticatedExamsIndexRoute: typeof AuthenticatedExamsIndexRoute
+  AuthenticatedFinanceIndexRoute: typeof AuthenticatedFinanceIndexRoute
+  AuthenticatedHrmsIndexRoute: typeof AuthenticatedHrmsIndexRoute
   AuthenticatedLmsIndexRoute: typeof AuthenticatedLmsIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
   AuthenticatedTimetableIndexRoute: typeof AuthenticatedTimetableIndexRoute
@@ -1824,6 +2325,30 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedExamsRevaluationRoute: AuthenticatedExamsRevaluationRoute,
   AuthenticatedExamsSeatingRoute: AuthenticatedExamsSeatingRoute,
   AuthenticatedExamsSessionsRoute: AuthenticatedExamsSessionsRoute,
+  AuthenticatedFinanceAssetsRoute: AuthenticatedFinanceAssetsRoute,
+  AuthenticatedFinanceBudgetsRoute: AuthenticatedFinanceBudgetsRoute,
+  AuthenticatedFinanceFeeStructuresRoute:
+    AuthenticatedFinanceFeeStructuresRoute,
+  AuthenticatedFinanceInvoicesRoute: AuthenticatedFinanceInvoicesRoute,
+  AuthenticatedFinanceLedgerRoute: AuthenticatedFinanceLedgerRoute,
+  AuthenticatedFinancePaymentsRoute: AuthenticatedFinancePaymentsRoute,
+  AuthenticatedFinanceProcurementRoute: AuthenticatedFinanceProcurementRoute,
+  AuthenticatedFinanceReconciliationRoute:
+    AuthenticatedFinanceReconciliationRoute,
+  AuthenticatedFinanceRefundsRoute: AuthenticatedFinanceRefundsRoute,
+  AuthenticatedFinanceReportsRoute: AuthenticatedFinanceReportsRoute,
+  AuthenticatedFinanceScholarshipsRoute: AuthenticatedFinanceScholarshipsRoute,
+  AuthenticatedFinanceTaxationRoute: AuthenticatedFinanceTaxationRoute,
+  AuthenticatedFinanceVendorsRoute: AuthenticatedFinanceVendorsRoute,
+  AuthenticatedHrmsAttendanceRoute: AuthenticatedHrmsAttendanceRoute,
+  AuthenticatedHrmsEmployeesRoute: AuthenticatedHrmsEmployeesRoute,
+  AuthenticatedHrmsLeaveRoute: AuthenticatedHrmsLeaveRoute,
+  AuthenticatedHrmsPayrollRoute: AuthenticatedHrmsPayrollRoute,
+  AuthenticatedHrmsPerformanceRoute: AuthenticatedHrmsPerformanceRoute,
+  AuthenticatedHrmsRecruitmentRoute: AuthenticatedHrmsRecruitmentRoute,
+  AuthenticatedHrmsReportsRoute: AuthenticatedHrmsReportsRoute,
+  AuthenticatedHrmsSelfServiceRoute: AuthenticatedHrmsSelfServiceRoute,
+  AuthenticatedHrmsShiftsRoute: AuthenticatedHrmsShiftsRoute,
   AuthenticatedLmsWorkspaceIdRoute: AuthenticatedLmsWorkspaceIdRoute,
   AuthenticatedStudentsStudentIdRoute: AuthenticatedStudentsStudentIdRoute,
   AuthenticatedStudentsAdmissionsRoute: AuthenticatedStudentsAdmissionsRoute,
@@ -1835,6 +2360,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAcademicsIndexRoute: AuthenticatedAcademicsIndexRoute,
   AuthenticatedAttendanceIndexRoute: AuthenticatedAttendanceIndexRoute,
   AuthenticatedExamsIndexRoute: AuthenticatedExamsIndexRoute,
+  AuthenticatedFinanceIndexRoute: AuthenticatedFinanceIndexRoute,
+  AuthenticatedHrmsIndexRoute: AuthenticatedHrmsIndexRoute,
   AuthenticatedLmsIndexRoute: AuthenticatedLmsIndexRoute,
   AuthenticatedStudentsIndexRoute: AuthenticatedStudentsIndexRoute,
   AuthenticatedTimetableIndexRoute: AuthenticatedTimetableIndexRoute,
@@ -1861,13 +2388,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -255,13 +255,13 @@ function WorkspaceDetail() {
 
   // Quiz Review State
   const [reviewOpen, setReviewOpen] = useState(false);
-  const [reviewAttempt, setReviewAttempt] = useState<any | null>(null);
+  const [reviewAttempt, setReviewAttempt] = useState<Record<string, unknown> | null>(null);
 
   // Discussions Tab State
   const discussions = useDiscussions();
   const workspaceDiscussions =
     discussions.data?.filter((d) => d.workspace_id === workspaceId) ?? [];
-  const [selectedDiscussion, setSelectedDiscussion] = useState<any | null>(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<Record<string, unknown> | null>(null);
   const [discussionOpen, setDiscussionOpen] = useState(false);
   const [discTitle, setDiscTitle] = useState("");
   const [discBody, setDiscBody] = useState("");
@@ -1174,7 +1174,7 @@ function WorkspaceDetail() {
                           {attempt && (
                             <div className="flex items-center gap-2">
                               <span className="text-xs text-muted-foreground">
-                                Score: {Number(attempt.score) ?? "Pending grading"}
+                                Score: {Number(attempt.score) || "Pending grading"}
                               </span>
                               <Button
                                 size="sm"
@@ -1594,7 +1594,7 @@ function WorkspaceDetail() {
           </DialogHeader>
           <div className="space-y-3 max-h-60 overflow-y-auto">
             {contentVersions && contentVersions.length > 0 ? (
-              contentVersions.map((v: any) => (
+              contentVersions.map((v: { id: string; version: number; note?: string; created_at?: string }) => (
                 <div
                   key={v.id}
                   className="flex justify-between items-center text-xs rounded border p-2 bg-muted/10"

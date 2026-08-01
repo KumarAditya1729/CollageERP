@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useAssets } from "@/hooks/finance/useAssets";
 import { AssetManager } from "@/components/finance/AssetManager";
-import { formatCurrency } from "@/lib/utils";
+
 
 export const Route = createFileRoute("/_authenticated/finance/assets")({
   component: AssetsPage,
@@ -44,7 +44,7 @@ function AssetsPage() {
               <div className="mt-4 flex justify-between items-end">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Current Value</p>
-                  <p className="text-2xl font-bold">{formatCurrency(asset.current_value)}</p>
+                  <p className="text-2xl font-bold">{(`₹${Number(asset.current_value).toLocaleString('en-IN')}`)}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-muted-foreground">Purchased</p>

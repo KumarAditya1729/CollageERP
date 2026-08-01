@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+import { useAccess } from "@/hooks/useAccess";
 
 export interface BudgetRow {
   id: string;
@@ -17,13 +19,13 @@ export interface BudgetRow {
 }
 
 export function useBudgets() {
-  const { tenant } = useAuth();
+  const { tenant } = useAccess();
 
   return useQuery({
     queryKey: ["budgets", tenant?.id],
     queryFn: async () => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_budgets")
         .select("*")
         .order("start_date", { ascending: false });
@@ -37,11 +39,11 @@ export function useBudgets() {
 
 export function useCreateBudget() {
   const queryClient = useQueryClient();
-  const { tenant } = useAuth();
+  const { tenant } = useAccess();
 
   return useMutation({
     mutationFn: async (input: Partial<BudgetRow>) => {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_budgets")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()

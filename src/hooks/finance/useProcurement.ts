@@ -1,5 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+import { useAccess } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
 
 export interface PurchaseRequestRow {
@@ -13,13 +16,13 @@ export interface PurchaseRequestRow {
 }
 
 export function usePurchaseRequests() {
-  const { tenant } = useAuth();
+  const { tenant } = useAccess();
 
   return useQuery({
     queryKey: ["purchase_requests", tenant?.id],
     queryFn: async () => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_purchase_requests")
         .select("*")
         .order("request_date", { ascending: false });
@@ -33,12 +36,13 @@ export function usePurchaseRequests() {
 
 export function useCreatePurchaseRequest() {
   const queryClient = useQueryClient();
-  const { tenant, user } = useAuth();
+  const { tenant } = useAccess();
+  const { user } = useAuth();
 
   return useMutation({
     mutationFn: async (input: Partial<PurchaseRequestRow>) => {
       if (!user) throw new Error("No user");
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("finance_purchase_requests")
         .insert([{ ...input, tenant_id: tenant?.id, requested_by: user.id }])
         .select()
