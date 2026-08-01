@@ -2,6 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccess } from "@/hooks/useAccess";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 export interface JobPositionRow {
   id: string;
   tenant_id: string;
@@ -36,14 +39,15 @@ export function useJobPositions() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["job_positions", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<JobPositionRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_job_positions")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("posted_date", { ascending: false });
       if (error) throw error;
-      return data as JobPositionRow[];
+      return (data ?? []) as JobPositionRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -53,16 +57,17 @@ export function useApplicants(jobPositionId?: string) {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["applicants", tenant?.id, jobPositionId],
-    queryFn: async () => {
+    queryFn: async (): Promise<ApplicantRow[]> => {
       if (!tenant?.id) return [];
-      let query = supabase
+      let query = db
         .from("hr_applicants")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("applied_date", { ascending: false });
       if (jobPositionId) query = query.eq("job_position_id", jobPositionId);
       const { data, error } = await query;
       if (error) throw error;
-      return data as ApplicantRow[];
+      return (data ?? []) as ApplicantRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -72,14 +77,14 @@ export function useCreateJobPosition() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<JobPositionRow>) => {
-      const { data, error } = await supabase
+    mutationFn: async (input: Partial<JobPositionRow>): Promise<JobPositionRow> => {
+      const { data, error } = await db
         .from("hr_job_positions")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as JobPositionRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["job_positions"] });
@@ -90,15 +95,15 @@ export function useCreateJobPosition() {
 export function useUpdateApplicantStage() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, stage }: { id: string; stage: string }) => {
-      const { data, error } = await supabase
+    mutationFn: async ({ id, stage }: { id: string; stage: string }): Promise<ApplicantRow> => {
+      const { data, error } = await db
         .from("hr_applicants")
         .update({ stage })
         .eq("id", id)
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as ApplicantRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["applicants"] });

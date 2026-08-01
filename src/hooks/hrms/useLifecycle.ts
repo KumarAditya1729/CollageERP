@@ -2,6 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccess } from "@/hooks/useAccess";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 export interface TransferRow {
   id: string;
   tenant_id: string;
@@ -35,14 +38,15 @@ export function useTransfers() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["transfers", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<TransferRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_transfers")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("effective_date", { ascending: false });
       if (error) throw error;
-      return data as TransferRow[];
+      return (data ?? []) as TransferRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -52,14 +56,15 @@ export function useExits() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["exits", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<ExitRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_exits")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return data as ExitRow[];
+      return (data ?? []) as ExitRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -69,14 +74,14 @@ export function useInitiateTransfer() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<TransferRow>) => {
-      const { data, error } = await supabase
+    mutationFn: async (input: Partial<TransferRow>): Promise<TransferRow> => {
+      const { data, error } = await db
         .from("hr_transfers")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as TransferRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transfers"] });
@@ -88,14 +93,14 @@ export function useInitiateExit() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<ExitRow>) => {
-      const { data, error } = await supabase
+    mutationFn: async (input: Partial<ExitRow>): Promise<ExitRow> => {
+      const { data, error } = await db
         .from("hr_exits")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as ExitRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["exits"] });

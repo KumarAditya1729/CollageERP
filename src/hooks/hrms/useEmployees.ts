@@ -2,6 +2,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccess } from "@/hooks/useAccess";
 
+// Escape hatch for HRMS tables not yet in generated Supabase types.
+// Remove cast once `supabase gen types` is run after applying the migration.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 export interface StaffRow {
   id: string;
   tenant_id: string;
@@ -65,14 +70,15 @@ export function useStaffList() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["staff", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<StaffRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("staff")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("first_name", { ascending: true });
       if (error) throw error;
-      return data as StaffRow[];
+      return (data ?? []) as StaffRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -82,14 +88,15 @@ export function useFacultyList() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["faculty", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<FacultyRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("faculty")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("first_name", { ascending: true });
       if (error) throw error;
-      return data as FacultyRow[];
+      return (data ?? []) as FacultyRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -98,13 +105,13 @@ export function useFacultyList() {
 export function useEmployeeExtension(staffId?: string, facultyId?: string) {
   return useQuery({
     queryKey: ["employee_extension", staffId, facultyId],
-    queryFn: async () => {
-      const query = supabase.from("hr_employee_extensions").select("*");
-      if (staffId) query.eq("staff_id", staffId);
-      else if (facultyId) query.eq("faculty_id", facultyId);
+    queryFn: async (): Promise<EmployeeExtensionRow | null> => {
+      let query = db.from("hr_employee_extensions").select("*");
+      if (staffId) query = query.eq("staff_id", staffId);
+      else if (facultyId) query = query.eq("faculty_id", facultyId);
       const { data, error } = await query.maybeSingle();
       if (error) throw error;
-      return data as EmployeeExtensionRow | null;
+      return (data ?? null) as EmployeeExtensionRow | null;
     },
     enabled: !!(staffId || facultyId),
   });
@@ -113,15 +120,21 @@ export function useEmployeeExtension(staffId?: string, facultyId?: string) {
 export function useUpdateEmployee() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, updates }: { id: string; updates: Partial<StaffRow> }) => {
-      const { data, error } = await supabase
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: Partial<StaffRow>;
+    }): Promise<StaffRow> => {
+      const { data, error } = await db
         .from("staff")
         .update(updates)
         .eq("id", id)
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as StaffRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff"] });
@@ -135,13 +148,14 @@ export function useDesignations() {
     queryKey: ["hr_designations", tenant?.id],
     queryFn: async () => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_designations")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .eq("is_active", true)
         .order("level", { ascending: true });
       if (error) throw error;
-      return data;
+      return data ?? [];
     },
     enabled: !!tenant?.id,
   });
@@ -153,13 +167,14 @@ export function usePayGrades() {
     queryKey: ["hr_pay_grades", tenant?.id],
     queryFn: async () => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_pay_grades")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .eq("is_active", true)
         .order("min_salary", { ascending: true });
       if (error) throw error;
-      return data;
+      return data ?? [];
     },
     enabled: !!tenant?.id,
   });

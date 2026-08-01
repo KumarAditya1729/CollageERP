@@ -3,6 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAccess } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 export interface PayrollRunRow {
   id: string;
   tenant_id: string;
@@ -56,14 +59,15 @@ export function usePayrollRuns() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["payroll_runs", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<PayrollRunRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_payroll_runs")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("pay_period_start", { ascending: false });
       if (error) throw error;
-      return data as PayrollRunRow[];
+      return (data ?? []) as PayrollRunRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -72,14 +76,14 @@ export function usePayrollRuns() {
 export function usePayslips(payrollRunId: string) {
   return useQuery({
     queryKey: ["payslips", payrollRunId],
-    queryFn: async () => {
-      const { data, error } = await supabase
+    queryFn: async (): Promise<PayslipRow[]> => {
+      const { data, error } = await db
         .from("hr_payslips")
         .select("*")
         .eq("payroll_run_id", payrollRunId)
         .order("employee_name", { ascending: true });
       if (error) throw error;
-      return data as PayslipRow[];
+      return (data ?? []) as PayslipRow[];
     },
     enabled: !!payrollRunId,
   });
@@ -89,14 +93,14 @@ export function useCreatePayrollRun() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<PayrollRunRow>) => {
-      const { data, error } = await supabase
+    mutationFn: async (input: Partial<PayrollRunRow>): Promise<PayrollRunRow> => {
+      const { data, error } = await db
         .from("hr_payroll_runs")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as PayrollRunRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payroll_runs"] });
@@ -108,8 +112,8 @@ export function useApprovePayrollRun() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   return useMutation({
-    mutationFn: async (runId: string) => {
-      const { data, error } = await supabase
+    mutationFn: async (runId: string): Promise<PayrollRunRow> => {
+      const { data, error } = await db
         .from("hr_payroll_runs")
         .update({
           status: "approved",
@@ -120,7 +124,7 @@ export function useApprovePayrollRun() {
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as PayrollRunRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payroll_runs"] });
@@ -132,15 +136,16 @@ export function useSalaryStructures() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["salary_structures", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<SalaryStructureRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_salary_structures")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .eq("is_active", true)
         .order("name", { ascending: true });
       if (error) throw error;
-      return data as SalaryStructureRow[];
+      return (data ?? []) as SalaryStructureRow[];
     },
     enabled: !!tenant?.id,
   });

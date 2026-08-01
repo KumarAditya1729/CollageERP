@@ -2,6 +2,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAccess } from "@/hooks/useAccess";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as any;
+
 export interface AppraisalCycleRow {
   id: string;
   tenant_id: string;
@@ -51,14 +54,15 @@ export function useAppraisalCycles() {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["appraisal_cycles", tenant?.id],
-    queryFn: async () => {
+    queryFn: async (): Promise<AppraisalCycleRow[]> => {
       if (!tenant?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from("hr_appraisal_cycles")
         .select("*")
+        .eq("tenant_id", tenant.id)
         .order("start_date", { ascending: false });
       if (error) throw error;
-      return data as AppraisalCycleRow[];
+      return (data ?? []) as AppraisalCycleRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -68,13 +72,16 @@ export function useAppraisals(cycleId?: string) {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["appraisals", tenant?.id, cycleId],
-    queryFn: async () => {
+    queryFn: async (): Promise<AppraisalRow[]> => {
       if (!tenant?.id) return [];
-      let query = supabase.from("hr_appraisals").select("*");
+      let query = db
+        .from("hr_appraisals")
+        .select("*")
+        .eq("tenant_id", tenant.id);
       if (cycleId) query = query.eq("cycle_id", cycleId);
       const { data, error } = await query;
       if (error) throw error;
-      return data as AppraisalRow[];
+      return (data ?? []) as AppraisalRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -84,13 +91,17 @@ export function useGoals(staffId?: string) {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["goals", tenant?.id, staffId],
-    queryFn: async () => {
+    queryFn: async (): Promise<GoalRow[]> => {
       if (!tenant?.id) return [];
-      let query = supabase.from("hr_goals").select("*").order("due_date", { ascending: true });
+      let query = db
+        .from("hr_goals")
+        .select("*")
+        .eq("tenant_id", tenant.id)
+        .order("due_date", { ascending: true });
       if (staffId) query = query.eq("staff_id", staffId);
       const { data, error } = await query;
       if (error) throw error;
-      return data as GoalRow[];
+      return (data ?? []) as GoalRow[];
     },
     enabled: !!tenant?.id,
   });
@@ -100,14 +111,14 @@ export function useCreateAppraisalCycle() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<AppraisalCycleRow>) => {
-      const { data, error } = await supabase
+    mutationFn: async (input: Partial<AppraisalCycleRow>): Promise<AppraisalCycleRow> => {
+      const { data, error } = await db
         .from("hr_appraisal_cycles")
         .insert([{ ...input, tenant_id: tenant?.id }])
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as AppraisalCycleRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appraisal_cycles"] });
@@ -126,15 +137,15 @@ export function useSubmitSelfReview() {
       id: string;
       self_rating: number;
       self_review_notes: string;
-    }) => {
-      const { data, error } = await supabase
+    }): Promise<AppraisalRow> => {
+      const { data, error } = await db
         .from("hr_appraisals")
         .update({ self_rating, self_review_notes, status: "manager_review" })
         .eq("id", id)
         .select()
         .single();
       if (error) throw error;
-      return data;
+      return data as AppraisalRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appraisals"] });
