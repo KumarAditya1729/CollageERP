@@ -124,19 +124,33 @@ export function useStudentLookups() {
 /** The full student register for the active tenant/campus. */
 export function useStudentRegister({
   includeArchived = false,
-}: { includeArchived?: boolean } = {}) {
+  page = 1,
+  pageSize = 50,
+}: { includeArchived?: boolean; page?: number; pageSize?: number } = {}) {
   const { tenant, campus } = useAccess();
 
   return useQuery({
-    queryKey: ["students-register", tenant?.id, campus?.id ?? null, includeArchived],
+    queryKey: ["students-register", tenant?.id, campus?.id ?? null, includeArchived, page, pageSize],
     enabled: Boolean(tenant?.id),
     queryFn: async () => {
-      let builder = supabase.from("students").select(STUDENT_SELECT).eq("tenant_id", tenant!.id);
+      let builder = supabase
+        .from("students")
+        .select(STUDENT_SELECT, { count: "exact" })
+        .eq("tenant_id", tenant!.id);
+        
       if (!includeArchived) builder = builder.is("deleted_at", null);
       if (campus?.id) builder = builder.eq("campus_id", campus.id);
-      const { data, error } = await builder.order("admission_number").limit(2000);
+      
+      const from = (page - 1) * pageSize;
+      const to = from + pageSize - 1;
+      
+      const { data, error, count } = await builder.order("admission_number").range(from, to);
+      
       if (error) throw error;
-      return (data ?? []) as unknown as StudentRecord[];
+      return {
+        data: (data ?? []) as unknown as StudentRecord[],
+        count: count ?? 0,
+      };
     },
   });
 }
@@ -227,7 +241,19 @@ export function useStudentMutations() {
         application_date: new Date().toISOString().split("T")[0],
       } as unknown as never);
 
-      // Integration 3: Auto-create Transport Eligibility is skipped because trn_student_allocations requires route_id and stops which we don't have at admission.
+      // Integration 3: Auto-create Transport Eligibility (Waiting List)
+      if (values.opt_transport && tenant?.id) {
+        const { error: trnError } = await supabase.from("trn_waiting_list").insert({
+          tenant_id: tenant.id,
+          student_id: data.id,
+          status: "waiting",
+        });
+
+        if (trnError) {
+          console.error("Failed to add to transport waiting list:", trnError);
+          // Non-blocking error
+        }
+      }
 
       // Integration 4: Audit, Search, and Timeline
       await integrationService.insertAuditLog({

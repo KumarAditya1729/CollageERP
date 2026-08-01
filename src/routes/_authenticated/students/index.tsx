@@ -86,8 +86,10 @@ function StudentRegisterPage() {
   const [pendingArchive, setPendingArchive] = useState<string[] | null>(null);
   const [bulk, setBulk] = useState<{ ids: string[]; kind: "assign" | "status" } | null>(null);
 
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
   const lookups = useStudentLookups();
-  const register = useStudentRegister({ includeArchived: archived });
+  const register = useStudentRegister({ includeArchived: archived, page, pageSize });
   const { createStudent, updateStudent, archiveStudents, restoreStudents } = useStudentMutations();
 
   const departmentName = (id: string | null) =>
@@ -98,7 +100,7 @@ function StudentRegisterPage() {
     lookups.data?.semesters.find((row) => row.id === id)?.name ?? null;
 
   const rows = useMemo(() => {
-    const all = register.data ?? [];
+    const all = register.data?.data ?? [];
     return all.filter((row) => {
       if (archived ? !row.deleted_at : Boolean(row.deleted_at)) return false;
       if (status !== ALL && row.status !== status) return false;
@@ -107,17 +109,17 @@ function StudentRegisterPage() {
       if (gender !== ALL && row.gender !== gender) return false;
       return true;
     });
-  }, [register.data, archived, status, departmentId, programId, gender]);
+  }, [register.data?.data, archived, status, departmentId, programId, gender]);
 
   const stats = useMemo(() => {
-    const live = (register.data ?? []).filter((row) => !row.deleted_at);
+    const live = (register.data?.data ?? []).filter((row) => !row.deleted_at);
     return {
       total: live.length,
       enrolled: live.filter((row) => row.status === "enrolled").length,
       applicants: live.filter((row) => row.status === "applicant").length,
       graduated: live.filter((row) => row.status === "graduated").length,
     };
-  }, [register.data]);
+  }, [register.data?.data]);
 
   const openCreate = async () => {
     setCreateDefaults({});
@@ -322,6 +324,13 @@ function StudentRegisterPage() {
         onRowClick={(row) =>
           void navigate({ to: "/students/$studentId", params: { studentId: row.id } })
         }
+        serverPagination={{
+          totalRows: register.data?.count ?? 0,
+          page,
+          pageSize,
+          onPageChange: setPage,
+          onPageSizeChange: setPageSize,
+        }}
         searchPlaceholder="Search by name, admission no., roll no., email, phone or guardian…"
         storageKey="students-register"
         exportName="student-register"

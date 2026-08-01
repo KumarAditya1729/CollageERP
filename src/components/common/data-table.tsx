@@ -85,6 +85,13 @@ export interface DataTableProps<T> {
   /** Persists column visibility, page size and sorting for this table. */
   storageKey?: string;
   pageSizeOptions?: number[];
+  serverPagination?: {
+    totalRows: number;
+    page: number;
+    pageSize: number;
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (pageSize: number) => void;
+  };
 }
 
 function readValue<T>(column: DataTableColumn<T>, row: T) {
@@ -111,9 +118,10 @@ export function DataTable<T>({
   emptyTitle = "Nothing here yet",
   emptyDescription,
   emptyAction,
-  exportName = "export",
+  exportName = "Export",
   storageKey,
   pageSizeOptions = [10, 25, 50, 100],
+  serverPagination,
 }: DataTableProps<T>) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
@@ -144,6 +152,7 @@ export function DataTable<T>({
 
   useEffect(() => setPage(1), [query, view.pageSize]);
 
+  const columnKeys = columns.map((c) => c.key).join(",");
   const visibleColumns = columns.filter((c) => c.alwaysVisible || !view.hidden.includes(c.key));
 
   const filtered = useMemo(() => {
@@ -157,7 +166,8 @@ export function DataTable<T>({
           .includes(needle),
       ),
     );
-  }, [rows, query, columns]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, query, columnKeys]);
 
   const sorted = useMemo(() => {
     if (!view.sortKey) return filtered;
@@ -172,11 +182,18 @@ export function DataTable<T>({
       if (typeof av === "number" && typeof bv === "number") return (av - bv) * factor;
       return String(av).localeCompare(String(bv), undefined, { numeric: true }) * factor;
     });
-  }, [filtered, view.sortKey, view.sortDir, columns]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtered, view.sortKey, view.sortDir, columnKeys]);
 
-  const totalPages = Math.max(1, Math.ceil(sorted.length / view.pageSize));
-  const currentPage = Math.min(page, totalPages);
-  const pageRows = sorted.slice((currentPage - 1) * view.pageSize, currentPage * view.pageSize);
+  const totalPages = serverPagination
+    ? Math.max(1, Math.ceil(serverPagination.totalRows / serverPagination.pageSize))
+    : Math.max(1, Math.ceil(sorted.length / view.pageSize));
+  
+  const currentPage = serverPagination ? serverPagination.page : Math.min(page, totalPages);
+  
+  const pageRows = serverPagination 
+    ? (rows ?? [])
+    : sorted.slice((currentPage - 1) * view.pageSize, currentPage * view.pageSize);
 
   const exportRows = () =>
     sorted.map((row) => visibleColumns.map((column) => readValue(column, row) ?? ""));
@@ -393,16 +410,25 @@ export function DataTable<T>({
         )}
       </div>
 
-      {!loading && !error && sorted.length > 0 ? (
+      {!loading && !error && (serverPagination ? serverPagination.totalRows > 0 : sorted.length > 0) ? (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            Showing {(currentPage - 1) * view.pageSize + 1}–
-            {Math.min(currentPage * view.pageSize, sorted.length)} of {sorted.length}
+            Showing {(currentPage - 1) * (serverPagination ? serverPagination.pageSize : view.pageSize) + 1}–
+            {Math.min(currentPage * (serverPagination ? serverPagination.pageSize : view.pageSize), serverPagination ? serverPagination.totalRows : sorted.length)} of {serverPagination ? serverPagination.totalRows : sorted.length}
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-2">
+            <p className="hidden text-sm font-medium md:block">Rows per page</p>
             <Select
-              value={String(view.pageSize)}
-              onValueChange={(value) => setView((prev) => ({ ...prev, pageSize: Number(value) }))}
+              value={String(serverPagination ? serverPagination.pageSize : view.pageSize)}
+              onValueChange={(v) => {
+                const size = Number(v);
+                if (serverPagination) {
+                  serverPagination.onPageSizeChange(size);
+                } else {
+                  setView((prev) => ({ ...prev, pageSize: size }));
+                  setPage(1);
+                }
+              }}
             >
               <SelectTrigger className="h-8 w-[120px]" aria-label="Rows per page">
                 <SelectValue />
@@ -415,29 +441,35 @@ export function DataTable<T>({
                 ))}
               </SelectContent>
             </Select>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              disabled={currentPage <= 1}
-              onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-              aria-label="Previous page"
-            >
-              <ChevronLeft className="size-4" />
-            </Button>
-            <span className="text-xs tabular-nums text-muted-foreground">
-              {currentPage} / {totalPages}
-            </span>
-            <Button
-              variant="outline"
-              size="icon"
-              className="size-8"
-              disabled={currentPage >= totalPages}
-              onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
-              aria-label="Next page"
-            >
-              <ChevronRight className="size-4" />
-            </Button>
+            <div className="flex items-center justify-center text-sm font-medium">
+              Page {currentPage} of {totalPages}
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                className="h-8 w-8 p-0"
+                onClick={() => {
+                  if (serverPagination) serverPagination.onPageChange(currentPage - 1);
+                  else setPage((p) => p - 1);
+                }}
+                disabled={currentPage <= 1 || loading}
+              >
+                <span className="sr-only">Go to previous page</span>
+                <ChevronLeft className="size-4" />
+              </Button>
+              <Button
+                variant="outline"
+                className="h-8 w-8 p-0"
+                onClick={() => {
+                  if (serverPagination) serverPagination.onPageChange(currentPage + 1);
+                  else setPage((p) => p + 1);
+                }}
+                disabled={currentPage >= totalPages || loading}
+              >
+                <span className="sr-only">Go to next page</span>
+                <ChevronRight className="size-4" />
+              </Button>
+            </div>
           </div>
         </div>
       ) : null}
