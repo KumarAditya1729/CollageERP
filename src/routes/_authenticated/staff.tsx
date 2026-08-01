@@ -81,7 +81,7 @@ function StaffPage() {
               variant={row.employment_status === "active" ? "default" : "secondary"}
               className="capitalize"
             >
-              {row.employment_status.replace(/_/g, " ")}
+              {row.employment_status?.replace(/_/g, " ") ?? "-"}
             </Badge>
           ),
         },

@@ -119,7 +119,7 @@ function StudentPortal() {
         crumbs={[{ label: "Overview" }, { label: "My studies" }]}
         actions={
           <Badge variant="outline" className="capitalize">
-            {student.status.replace(/_/g, " ")}
+            {student.status?.replace(/_/g, " ") ?? "-"}
           </Badge>
         }
       />
@@ -195,7 +195,7 @@ function StudentPortal() {
                       </p>
                     </div>
                     <Badge variant="outline" className="capitalize">
-                      {String(event.event_type).replace(/_/g, " ")}
+                      {event.event_type ? String(event.event_type).replace(/_/g, " ") : "-"}
                     </Badge>
                   </li>
                 ))}

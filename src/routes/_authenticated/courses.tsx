@@ -67,7 +67,7 @@ function CoursesPage() {
           header: "Type",
           render: (row) => (
             <Badge variant="outline" className="capitalize">
-              {row.type.replace(/_/g, " ")}
+              {row.type?.replace(/_/g, " ") ?? "-"}
             </Badge>
           ),
         },

@@ -43,7 +43,7 @@ function ProcurementPage() {
                         : "secondary"
                   }
                 >
-                  {req.status.replace("_", " ")}
+                  {req.status?.replace("_", " ") ?? "-"}
                 </Badge>
               </div>
             </CardHeader>

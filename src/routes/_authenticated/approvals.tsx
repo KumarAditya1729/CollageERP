@@ -123,7 +123,7 @@ function ApprovalsPage() {
                 }
                 className="capitalize"
               >
-                {row.status.replace(/_/g, " ")}
+                {row.status?.replace(/_/g, " ") ?? "-"}
               </Badge>
             ),
           },

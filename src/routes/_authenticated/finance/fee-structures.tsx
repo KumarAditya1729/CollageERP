@@ -149,7 +149,7 @@ function FeeStructuresPage() {
                         <TableCell className="font-medium">{head.name}</TableCell>
                         <TableCell>{head.code}</TableCell>
                         <TableCell className="capitalize">
-                          {head.frequency.replace("_", " ")}
+                          {head.frequency?.replace("_", " ") ?? "-"}
                         </TableCell>
                         <TableCell>{head.is_refundable ? "Yes" : "No"}</TableCell>
                         <TableCell className="text-right">

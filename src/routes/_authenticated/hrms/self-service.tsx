@@ -164,7 +164,7 @@ function SelfServicePage() {
                     }
                     className="text-xs"
                   >
-                    {rec.status.replace("_", " ")}
+                    {rec.status?.replace("_", " ") ?? "-"}
                   </Badge>
                 </div>
               </CardContent>

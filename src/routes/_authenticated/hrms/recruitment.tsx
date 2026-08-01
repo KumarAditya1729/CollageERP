@@ -88,7 +88,7 @@ function RecruitmentPage() {
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-1">
                     <p>Openings: {job.openings}</p>
-                    <p>{job.employment_type.replace("_", " ")}</p>
+                    <p>{job.employment_type?.replace("_", " ") ?? "-"}</p>
                     {job.closing_date && (
                       <p>Closes: {new Date(job.closing_date).toLocaleDateString()}</p>
                     )}

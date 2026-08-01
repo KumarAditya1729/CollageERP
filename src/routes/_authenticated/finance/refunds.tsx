@@ -45,7 +45,7 @@ function RefundsPage() {
                           : "secondary"
                     }
                   >
-                    {refund.status.replace("_", " ")}
+                    {refund.status?.replace("_", " ") ?? "-"}
                   </Badge>
                 </div>
               </div>

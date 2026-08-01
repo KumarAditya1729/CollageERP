@@ -97,7 +97,7 @@ function ScholarshipsPage() {
                           <div className="text-xs text-muted-foreground">{scholarship.code}</div>
                         </TableCell>
                         <TableCell className="capitalize">
-                          {scholarship.type.replace("_", " ")}
+                          {scholarship.type?.replace("_", " ") ?? "-"}
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary">

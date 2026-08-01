@@ -62,7 +62,7 @@ function HRAttendancePage() {
               <CardContent className="py-3 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Badge variant={statusColor[rec.status] ?? "secondary"}>
-                    {rec.status.replace("_", " ")}
+                    {rec.status?.replace("_", " ") ?? "-"}
                   </Badge>
                   <div>
                     <p className="text-sm font-medium">{rec.staff_id ?? rec.faculty_id}</p>

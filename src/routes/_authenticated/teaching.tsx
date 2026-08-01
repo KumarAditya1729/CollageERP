@@ -161,7 +161,7 @@ function TeachingPortal() {
                       </p>
                     </div>
                     <Badge variant="outline" className="capitalize">
-                      {String(course.type).replace(/_/g, " ")}
+                      {course.type ? String(course.type).replace(/_/g, " ") : "-"}
                     </Badge>
                   </li>
                 ))}
@@ -195,7 +195,7 @@ function TeachingPortal() {
                       </p>
                     </div>
                     <Badge variant="outline" className="capitalize">
-                      {String(event.event_type).replace(/_/g, " ")}
+                      {event.event_type ? String(event.event_type).replace(/_/g, " ") : "-"}
                     </Badge>
                   </li>
                 ))}

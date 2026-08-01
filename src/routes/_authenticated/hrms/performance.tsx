@@ -73,7 +73,7 @@ function PerformancePage() {
                         ? `Staff: ${a.staff_id.split("-")[0]}`
                         : `Faculty: ${a.faculty_id?.split("-")[0]}`}
                     </CardTitle>
-                    <Badge variant="secondary">{a.status.replace("_", " ")}</Badge>
+                    <Badge variant="secondary">{a.status?.replace("_", " ") ?? "-"}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">

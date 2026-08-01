@@ -90,7 +90,7 @@ function PaymentsPage() {
                       <TableCell>{payment.student_id}</TableCell>
                       <TableCell>{new Date(payment.payment_date).toLocaleDateString()}</TableCell>
                       <TableCell className="capitalize">
-                        {payment.payment_mode.replace("_", " ")}
+                        {payment.payment_mode?.replace("_", " ") ?? "-"}
                       </TableCell>
                       <TableCell>
                         <Badge
