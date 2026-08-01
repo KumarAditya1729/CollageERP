@@ -67,7 +67,7 @@ function ProgramsPage() {
         {
           key: "level",
           header: "Level",
-          render: (row) => <span className="capitalize">{row.level.replace(/_/g, " ")}</span>,
+          render: (row) => <span className="capitalize">{row.level?.replace(/_/g, " ") ?? "-"}</span>,
         },
         {
           key: "department_id",
