@@ -27,11 +27,17 @@ export function PaymentCollector() {
   const [open, setOpen] = useState(false);
   const { mutateAsync: recordPayment, isPending } = useRecordPayment();
 
-  const { register, handleSubmit, watch, setValue } = useForm({
+  const { register, handleSubmit, watch, setValue } = useForm<{
+    studentId: string;
+    amount: number;
+    mode: "online" | "cash" | "bank_transfer" | "demand_draft" | "cheque";
+    reference: string;
+    invoiceId: string;
+  }>({
     defaultValues: {
       studentId: "",
       amount: 0,
-      mode: "online" as const,
+      mode: "online",
       reference: "",
       invoiceId: "",
     },

@@ -85,6 +85,8 @@ import {
   type SubmissionRow,
   type AssignmentRow,
   type ContentItemRow,
+  type DiscussionRow,
+  type QuizAttemptRow,
 } from "@/hooks/useLMS";
 import { labelize, statusTone, riskLevel } from "@/lib/lms";
 import { formatDateTime } from "@/lib/export";
@@ -238,6 +240,7 @@ function WorkspaceDetail() {
       }, 5000);
       return () => clearInterval(autosaveInterval);
     }
+    return undefined;
   }, [activeAttemptId, answers]);
 
   // Quiz Timer Countdown Effect
@@ -251,17 +254,18 @@ function WorkspaceDetail() {
       toast.warning("Time limit reached. Autosubmitting quiz...");
       void handleSubmitQuiz();
     }
+    return undefined;
   }, [activeQuizId, quizTimeLeft]);
 
   // Quiz Review State
   const [reviewOpen, setReviewOpen] = useState(false);
-  const [reviewAttempt, setReviewAttempt] = useState<Record<string, unknown> | null>(null);
+  const [reviewAttempt, setReviewAttempt] = useState<QuizAttemptRow | null>(null);
 
   // Discussions Tab State
   const discussions = useDiscussions();
   const workspaceDiscussions =
     discussions.data?.filter((d) => d.workspace_id === workspaceId) ?? [];
-  const [selectedDiscussion, setSelectedDiscussion] = useState<Record<string, unknown> | null>(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<DiscussionRow | null>(null);
   const [discussionOpen, setDiscussionOpen] = useState(false);
   const [discTitle, setDiscTitle] = useState("");
   const [discBody, setDiscBody] = useState("");

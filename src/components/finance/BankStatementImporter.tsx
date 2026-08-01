@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 
 export function BankStatementImporter() {
   const [open, setOpen] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<{ bank_account_id: string; file: FileList }>();
 
   const onSubmit = async (data: { bank_account_id: string; file: FileList }) => {
     console.log("Importing bank statement...", data);

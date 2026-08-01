@@ -17,7 +17,13 @@ import { Label } from "@/components/ui/label";
 
 export function AssetManager() {
   const [open, setOpen] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<{
+    name: string;
+    asset_code: string;
+    category: string;
+    purchase_cost: number;
+    purchase_date: string;
+  }>();
 
   const onSubmit = async (data: {
     name: string;

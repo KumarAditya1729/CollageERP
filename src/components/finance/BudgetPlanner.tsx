@@ -27,10 +27,17 @@ export function BudgetPlanner() {
   const [open, setOpen] = useState(false);
   const { mutateAsync: createBudget, isPending } = useCreateBudget();
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue } = useForm<{
+    name: string;
+    type: "annual" | "department" | "program" | "project";
+    total_amount: number;
+    start_date: string;
+    end_date: string;
+    academic_year_id: string;
+  }>({
     defaultValues: {
       name: "",
-      type: "department" as const,
+      type: "department",
       total_amount: 0,
       start_date: "",
       end_date: "",
