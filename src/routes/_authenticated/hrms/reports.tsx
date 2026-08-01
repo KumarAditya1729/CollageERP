@@ -6,7 +6,6 @@ import { useStaffList, useFacultyList } from "@/hooks/hrms/useEmployees";
 import { usePayrollRuns } from "@/hooks/hrms/usePayroll";
 import { useLeaveApplications } from "@/hooks/hrms/useLeave";
 
-
 export const Route = createFileRoute("/_authenticated/hrms/reports")({
   component: HRReportsPage,
 });
@@ -93,7 +92,7 @@ function HRReportsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{`₹${(totalPayroll).toLocaleString("en-IN")}`}</div>
+            <div className="text-3xl font-bold">{`₹${totalPayroll.toLocaleString("en-IN")}`}</div>
           </CardContent>
         </Card>
         <Card>

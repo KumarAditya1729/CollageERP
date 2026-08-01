@@ -74,10 +74,7 @@ export function useAppraisals(cycleId?: string) {
     queryKey: ["appraisals", tenant?.id, cycleId],
     queryFn: async (): Promise<AppraisalRow[]> => {
       if (!tenant?.id) return [];
-      let query = db
-        .from("hr_appraisals")
-        .select("*")
-        .eq("tenant_id", tenant.id);
+      let query = db.from("hr_appraisals").select("*").eq("tenant_id", tenant.id);
       if (cycleId) query = query.eq("cycle_id", cycleId);
       const { data, error } = await query;
       if (error) throw error;

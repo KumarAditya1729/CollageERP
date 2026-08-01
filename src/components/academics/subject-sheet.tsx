@@ -179,12 +179,24 @@ export function SubjectSheet({
     onError: (error: Error) => toast.error(error.message),
   });
 
-  const softDelete = (table: string, keys: string[]) =>
-    useMutationFactory(table, keys, user?.id, invalidate);
-
-  const removeOutcome = softDelete("course_outcomes", ["course-outcomes", "co-po-mappings"]);
-  const removePrereq = softDelete("course_prerequisites", ["course-prereqs"]);
-  const removeMapping = softDelete("co_po_mappings", ["co-po-mappings"]);
+  const removeOutcome = useMutationFactory(
+    "course_outcomes",
+    ["course-outcomes", "co-po-mappings"],
+    user?.id,
+    invalidate,
+  );
+  const removePrereq = useMutationFactory(
+    "course_prerequisites",
+    ["course-prereqs"],
+    user?.id,
+    invalidate,
+  );
+  const removeMapping = useMutationFactory(
+    "co_po_mappings",
+    ["co-po-mappings"],
+    user?.id,
+    invalidate,
+  );
 
   const addPrereq = useMutation({
     mutationFn: async () => {

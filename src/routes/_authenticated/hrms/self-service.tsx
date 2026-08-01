@@ -12,7 +12,6 @@ export const Route = createFileRoute("/_authenticated/hrms/self-service")({
 });
 
 function SelfServicePage() {
-
   const { data: leaves } = useLeaveApplications({});
   const { data: balances } = useLeaveBalances();
   const { data: attendance } = useHRAttendance({

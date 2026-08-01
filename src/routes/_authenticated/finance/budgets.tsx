@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { useBudgets } from "@/hooks/finance/useBudgets";
 import { BudgetPlanner } from "@/components/finance/BudgetPlanner";
 
-
 export const Route = createFileRoute("/_authenticated/finance/budgets")({
   component: BudgetsPage,
 });
@@ -44,7 +43,7 @@ function BudgetsPage() {
             <CardContent>
               <div className="mt-4">
                 <p className="text-sm font-medium text-muted-foreground">Total Envelope</p>
-                <p className="text-2xl font-bold">{(`₹${Number(budget.total_amount).toLocaleString('en-IN')}`)}</p>
+                <p className="text-2xl font-bold">{`₹${Number(budget.total_amount).toLocaleString("en-IN")}`}</p>
               </div>
             </CardContent>
           </Card>

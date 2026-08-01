@@ -127,12 +127,7 @@ export function useUpdateEmployee() {
       id: string;
       updates: Partial<StaffRow>;
     }): Promise<StaffRow> => {
-      const { data, error } = await db
-        .from("staff")
-        .update(updates)
-        .eq("id", id)
-        .select()
-        .single();
+      const { data, error } = await db.from("staff").update(updates).eq("id", id).select().single();
       if (error) throw error;
       return data as StaffRow;
     },

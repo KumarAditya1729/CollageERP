@@ -19,7 +19,11 @@ import { useCreateRefund } from "@/hooks/finance/useRefunds";
 export function RefundProcessor() {
   const [open, setOpen] = useState(false);
   const { mutateAsync: createRefund, isPending } = useCreateRefund();
-  const { register, handleSubmit } = useForm<{ student_id: string; amount: number; reason: string }>();
+  const { register, handleSubmit } = useForm<{
+    student_id: string;
+    amount: number;
+    reason: string;
+  }>();
 
   const onSubmit = async (data: { student_id: string; amount: number; reason: string }) => {
     try {

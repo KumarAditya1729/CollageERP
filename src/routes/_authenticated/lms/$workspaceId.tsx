@@ -1598,20 +1598,22 @@ function WorkspaceDetail() {
           </DialogHeader>
           <div className="space-y-3 max-h-60 overflow-y-auto">
             {contentVersions && contentVersions.length > 0 ? (
-              contentVersions.map((v: { id: string; version: number; note?: string; created_at?: string }) => (
-                <div
-                  key={v.id}
-                  className="flex justify-between items-center text-xs rounded border p-2 bg-muted/10"
-                >
-                  <div>
-                    <p className="font-semibold">Version {v.version}</p>
-                    <p className="text-muted-foreground">{v.note || "No edit comments."}</p>
+              contentVersions.map(
+                (v: { id: string; version: number; note?: string; created_at?: string }) => (
+                  <div
+                    key={v.id}
+                    className="flex justify-between items-center text-xs rounded border p-2 bg-muted/10"
+                  >
+                    <div>
+                      <p className="font-semibold">Version {v.version}</p>
+                      <p className="text-muted-foreground">{v.note || "No edit comments."}</p>
+                    </div>
+                    <span className="text-[10px] text-muted-foreground">
+                      {formatDateTime(v.created_at)}
+                    </span>
                   </div>
-                  <span className="text-[10px] text-muted-foreground">
-                    {formatDateTime(v.created_at)}
-                  </span>
-                </div>
-              ))
+                ),
+              )
             ) : (
               <p className="text-xs text-muted-foreground">No document edits stored yet.</p>
             )}
@@ -1816,7 +1818,7 @@ function WorkspaceDetail() {
             <select
               id="a-mode"
               value={assignMode}
-              onChange={(e) => setAssignMode(e.target.value as any)}
+              onChange={(e) => setAssignMode(e.target.value as "individual" | "group")}
               className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm"
             >
               <option value="individual">Individual Assignment</option>

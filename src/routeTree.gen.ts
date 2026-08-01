@@ -33,6 +33,7 @@ import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authen
 import { Route as AuthenticatedStaffRouteImport } from './routes/_authenticated/staff'
 import { Route as AuthenticatedStudentRouteImport } from './routes/_authenticated/student'
 import { Route as AuthenticatedTeachingRouteImport } from './routes/_authenticated/teaching'
+import { Route as AuthenticatedTransportRouteRouteImport } from './routes/_authenticated/transport/route'
 import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated/users'
 import { Route as AuthenticatedAcademicsIndexRouteImport } from './routes/_authenticated/academics/index'
 import { Route as AuthenticatedAcademicsAllocationsRouteImport } from './routes/_authenticated/academics/allocations'
@@ -56,6 +57,7 @@ import { Route as AuthenticatedAttendanceMyRouteImport } from './routes/_authent
 import { Route as AuthenticatedAttendancePoliciesRouteImport } from './routes/_authenticated/attendance/policies'
 import { Route as AuthenticatedAttendanceReportsRouteImport } from './routes/_authenticated/attendance/reports'
 import { Route as AuthenticatedAttendanceSessionsRouteImport } from './routes/_authenticated/attendance/sessions'
+import { Route as AuthenticatedCampusMaintenanceIndexRouteImport } from './routes/_authenticated/campus-maintenance/index'
 import { Route as AuthenticatedExamsIndexRouteImport } from './routes/_authenticated/exams/index'
 import { Route as AuthenticatedExamsAnalyticsRouteImport } from './routes/_authenticated/exams/analytics'
 import { Route as AuthenticatedExamsCertificatesRouteImport } from './routes/_authenticated/exams/certificates'
@@ -87,6 +89,21 @@ import { Route as AuthenticatedFinanceReportsRouteImport } from './routes/_authe
 import { Route as AuthenticatedFinanceScholarshipsRouteImport } from './routes/_authenticated/finance/scholarships'
 import { Route as AuthenticatedFinanceTaxationRouteImport } from './routes/_authenticated/finance/taxation'
 import { Route as AuthenticatedFinanceVendorsRouteImport } from './routes/_authenticated/finance/vendors'
+import { Route as AuthenticatedHostelIndexRouteImport } from './routes/_authenticated/hostel/index'
+import { Route as AuthenticatedHostelAllocationsRouteImport } from './routes/_authenticated/hostel/allocations'
+import { Route as AuthenticatedHostelAttendanceRouteImport } from './routes/_authenticated/hostel/attendance'
+import { Route as AuthenticatedHostelBedsRouteImport } from './routes/_authenticated/hostel/beds'
+import { Route as AuthenticatedHostelBuildingsRouteImport } from './routes/_authenticated/hostel/buildings'
+import { Route as AuthenticatedHostelComplaintsRouteImport } from './routes/_authenticated/hostel/complaints'
+import { Route as AuthenticatedHostelFloorsRouteImport } from './routes/_authenticated/hostel/floors'
+import { Route as AuthenticatedHostelGatePassRouteImport } from './routes/_authenticated/hostel/gate-pass'
+import { Route as AuthenticatedHostelMaintenanceRouteImport } from './routes/_authenticated/hostel/maintenance'
+import { Route as AuthenticatedHostelMessRouteImport } from './routes/_authenticated/hostel/mess'
+import { Route as AuthenticatedHostelReportsRouteImport } from './routes/_authenticated/hostel/reports'
+import { Route as AuthenticatedHostelRoomsRouteImport } from './routes/_authenticated/hostel/rooms'
+import { Route as AuthenticatedHostelSettingsRouteImport } from './routes/_authenticated/hostel/settings'
+import { Route as AuthenticatedHostelVisitorsRouteImport } from './routes/_authenticated/hostel/visitors'
+import { Route as AuthenticatedHostelWaitingListRouteImport } from './routes/_authenticated/hostel/waiting-list'
 import { Route as AuthenticatedHrmsIndexRouteImport } from './routes/_authenticated/hrms/index'
 import { Route as AuthenticatedHrmsAttendanceRouteImport } from './routes/_authenticated/hrms/attendance'
 import { Route as AuthenticatedHrmsEmployeesRouteImport } from './routes/_authenticated/hrms/employees'
@@ -97,8 +114,19 @@ import { Route as AuthenticatedHrmsRecruitmentRouteImport } from './routes/_auth
 import { Route as AuthenticatedHrmsReportsRouteImport } from './routes/_authenticated/hrms/reports'
 import { Route as AuthenticatedHrmsSelfServiceRouteImport } from './routes/_authenticated/hrms/self-service'
 import { Route as AuthenticatedHrmsShiftsRouteImport } from './routes/_authenticated/hrms/shifts'
+import { Route as AuthenticatedInventoryIndexRouteImport } from './routes/_authenticated/inventory/index'
+import { Route as AuthenticatedInventoryItemsRouteImport } from './routes/_authenticated/inventory/items'
+import { Route as AuthenticatedInventoryTransactionsRouteImport } from './routes/_authenticated/inventory/transactions'
+import { Route as AuthenticatedLibraryIndexRouteImport } from './routes/_authenticated/library/index'
+import { Route as AuthenticatedLibraryCatalogRouteImport } from './routes/_authenticated/library/catalog'
+import { Route as AuthenticatedLibraryCirculationRouteImport } from './routes/_authenticated/library/circulation'
+import { Route as AuthenticatedLibraryFinesRouteImport } from './routes/_authenticated/library/fines'
+import { Route as AuthenticatedLibraryMembersRouteImport } from './routes/_authenticated/library/members'
+import { Route as AuthenticatedLibrarySettingsRouteImport } from './routes/_authenticated/library/settings'
 import { Route as AuthenticatedLmsIndexRouteImport } from './routes/_authenticated/lms/index'
 import { Route as AuthenticatedLmsWorkspaceIdRouteImport } from './routes/_authenticated/lms/$workspaceId'
+import { Route as AuthenticatedMedicalIndexRouteImport } from './routes/_authenticated/medical/index'
+import { Route as AuthenticatedSecurityIndexRouteImport } from './routes/_authenticated/security/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedSettingsScopeRouteImport } from './routes/_authenticated/settings/$scope'
 import { Route as AuthenticatedSettingsApiRouteImport } from './routes/_authenticated/settings/api'
@@ -112,6 +140,21 @@ import { Route as AuthenticatedStudentsImportRouteImport } from './routes/_authe
 import { Route as AuthenticatedStudentsReportsRouteImport } from './routes/_authenticated/students/reports'
 import { Route as AuthenticatedTimetableIndexRouteImport } from './routes/_authenticated/timetable/index'
 import { Route as AuthenticatedTimetableSubstitutionsRouteImport } from './routes/_authenticated/timetable/substitutions'
+import { Route as AuthenticatedTransportIndexRouteImport } from './routes/_authenticated/transport/index'
+import { Route as AuthenticatedTransportAllocationsRouteImport } from './routes/_authenticated/transport/allocations'
+import { Route as AuthenticatedTransportAttendanceRouteImport } from './routes/_authenticated/transport/attendance'
+import { Route as AuthenticatedTransportAttendantsRouteImport } from './routes/_authenticated/transport/attendants'
+import { Route as AuthenticatedTransportDocumentsRouteImport } from './routes/_authenticated/transport/documents'
+import { Route as AuthenticatedTransportDriversRouteImport } from './routes/_authenticated/transport/drivers'
+import { Route as AuthenticatedTransportFuelLogsRouteImport } from './routes/_authenticated/transport/fuel-logs'
+import { Route as AuthenticatedTransportIncidentsRouteImport } from './routes/_authenticated/transport/incidents'
+import { Route as AuthenticatedTransportMaintenanceRouteImport } from './routes/_authenticated/transport/maintenance'
+import { Route as AuthenticatedTransportReportsRouteImport } from './routes/_authenticated/transport/reports'
+import { Route as AuthenticatedTransportRoutesRouteImport } from './routes/_authenticated/transport/routes'
+import { Route as AuthenticatedTransportSettingsRouteImport } from './routes/_authenticated/transport/settings'
+import { Route as AuthenticatedTransportStopsRouteImport } from './routes/_authenticated/transport/stops'
+import { Route as AuthenticatedTransportVehiclesRouteImport } from './routes/_authenticated/transport/vehicles'
+import { Route as AuthenticatedVisitorsIndexRouteImport } from './routes/_authenticated/visitors/index'
 import { Route as ApiPublicVerifyRouteImport } from './routes/api/public/verify'
 import { Route as AuthenticatedAcademicsDepartmentsDepartmentIdRouteImport } from './routes/_authenticated/academics/departments.$departmentId'
 import { Route as AuthenticatedAcademicsProgramsProgramIdRouteImport } from './routes/_authenticated/academics/programs.$programId'
@@ -239,6 +282,12 @@ const AuthenticatedTeachingRoute = AuthenticatedTeachingRouteImport.update({
   path: '/teaching',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTransportRouteRoute =
+  AuthenticatedTransportRouteRouteImport.update({
+    id: '/transport',
+    path: '/transport',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -374,6 +423,12 @@ const AuthenticatedAttendanceSessionsRoute =
   AuthenticatedAttendanceSessionsRouteImport.update({
     id: '/attendance/sessions',
     path: '/attendance/sessions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCampusMaintenanceIndexRoute =
+  AuthenticatedCampusMaintenanceIndexRouteImport.update({
+    id: '/campus-maintenance/',
+    path: '/campus-maintenance/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedExamsIndexRoute = AuthenticatedExamsIndexRouteImport.update({
@@ -560,6 +615,94 @@ const AuthenticatedFinanceVendorsRoute =
     path: '/finance/vendors',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedHostelIndexRoute =
+  AuthenticatedHostelIndexRouteImport.update({
+    id: '/hostel/',
+    path: '/hostel/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelAllocationsRoute =
+  AuthenticatedHostelAllocationsRouteImport.update({
+    id: '/hostel/allocations',
+    path: '/hostel/allocations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelAttendanceRoute =
+  AuthenticatedHostelAttendanceRouteImport.update({
+    id: '/hostel/attendance',
+    path: '/hostel/attendance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelBedsRoute = AuthenticatedHostelBedsRouteImport.update({
+  id: '/hostel/beds',
+  path: '/hostel/beds',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHostelBuildingsRoute =
+  AuthenticatedHostelBuildingsRouteImport.update({
+    id: '/hostel/buildings',
+    path: '/hostel/buildings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelComplaintsRoute =
+  AuthenticatedHostelComplaintsRouteImport.update({
+    id: '/hostel/complaints',
+    path: '/hostel/complaints',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelFloorsRoute =
+  AuthenticatedHostelFloorsRouteImport.update({
+    id: '/hostel/floors',
+    path: '/hostel/floors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelGatePassRoute =
+  AuthenticatedHostelGatePassRouteImport.update({
+    id: '/hostel/gate-pass',
+    path: '/hostel/gate-pass',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelMaintenanceRoute =
+  AuthenticatedHostelMaintenanceRouteImport.update({
+    id: '/hostel/maintenance',
+    path: '/hostel/maintenance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelMessRoute = AuthenticatedHostelMessRouteImport.update({
+  id: '/hostel/mess',
+  path: '/hostel/mess',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHostelReportsRoute =
+  AuthenticatedHostelReportsRouteImport.update({
+    id: '/hostel/reports',
+    path: '/hostel/reports',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelRoomsRoute =
+  AuthenticatedHostelRoomsRouteImport.update({
+    id: '/hostel/rooms',
+    path: '/hostel/rooms',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelSettingsRoute =
+  AuthenticatedHostelSettingsRouteImport.update({
+    id: '/hostel/settings',
+    path: '/hostel/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelVisitorsRoute =
+  AuthenticatedHostelVisitorsRouteImport.update({
+    id: '/hostel/visitors',
+    path: '/hostel/visitors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHostelWaitingListRoute =
+  AuthenticatedHostelWaitingListRouteImport.update({
+    id: '/hostel/waiting-list',
+    path: '/hostel/waiting-list',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHrmsIndexRoute = AuthenticatedHrmsIndexRouteImport.update({
   id: '/hrms/',
   path: '/hrms/',
@@ -617,6 +760,60 @@ const AuthenticatedHrmsShiftsRoute = AuthenticatedHrmsShiftsRouteImport.update({
   path: '/hrms/shifts',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedInventoryIndexRoute =
+  AuthenticatedInventoryIndexRouteImport.update({
+    id: '/inventory/',
+    path: '/inventory/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryItemsRoute =
+  AuthenticatedInventoryItemsRouteImport.update({
+    id: '/inventory/items',
+    path: '/inventory/items',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInventoryTransactionsRoute =
+  AuthenticatedInventoryTransactionsRouteImport.update({
+    id: '/inventory/transactions',
+    path: '/inventory/transactions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryIndexRoute =
+  AuthenticatedLibraryIndexRouteImport.update({
+    id: '/library/',
+    path: '/library/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryCatalogRoute =
+  AuthenticatedLibraryCatalogRouteImport.update({
+    id: '/library/catalog',
+    path: '/library/catalog',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryCirculationRoute =
+  AuthenticatedLibraryCirculationRouteImport.update({
+    id: '/library/circulation',
+    path: '/library/circulation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryFinesRoute =
+  AuthenticatedLibraryFinesRouteImport.update({
+    id: '/library/fines',
+    path: '/library/fines',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibraryMembersRoute =
+  AuthenticatedLibraryMembersRouteImport.update({
+    id: '/library/members',
+    path: '/library/members',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedLibrarySettingsRoute =
+  AuthenticatedLibrarySettingsRouteImport.update({
+    id: '/library/settings',
+    path: '/library/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedLmsIndexRoute = AuthenticatedLmsIndexRouteImport.update({
   id: '/lms/',
   path: '/lms/',
@@ -626,6 +823,18 @@ const AuthenticatedLmsWorkspaceIdRoute =
   AuthenticatedLmsWorkspaceIdRouteImport.update({
     id: '/lms/$workspaceId',
     path: '/lms/$workspaceId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMedicalIndexRoute =
+  AuthenticatedMedicalIndexRouteImport.update({
+    id: '/medical/',
+    path: '/medical/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSecurityIndexRoute =
+  AuthenticatedSecurityIndexRouteImport.update({
+    id: '/security/',
+    path: '/security/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsIndexRoute =
@@ -706,6 +915,96 @@ const AuthenticatedTimetableSubstitutionsRoute =
     path: '/timetable/substitutions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTransportIndexRoute =
+  AuthenticatedTransportIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportAllocationsRoute =
+  AuthenticatedTransportAllocationsRouteImport.update({
+    id: '/allocations',
+    path: '/allocations',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportAttendanceRoute =
+  AuthenticatedTransportAttendanceRouteImport.update({
+    id: '/attendance',
+    path: '/attendance',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportAttendantsRoute =
+  AuthenticatedTransportAttendantsRouteImport.update({
+    id: '/attendants',
+    path: '/attendants',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportDocumentsRoute =
+  AuthenticatedTransportDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportDriversRoute =
+  AuthenticatedTransportDriversRouteImport.update({
+    id: '/drivers',
+    path: '/drivers',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportFuelLogsRoute =
+  AuthenticatedTransportFuelLogsRouteImport.update({
+    id: '/fuel-logs',
+    path: '/fuel-logs',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportIncidentsRoute =
+  AuthenticatedTransportIncidentsRouteImport.update({
+    id: '/incidents',
+    path: '/incidents',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportMaintenanceRoute =
+  AuthenticatedTransportMaintenanceRouteImport.update({
+    id: '/maintenance',
+    path: '/maintenance',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportReportsRoute =
+  AuthenticatedTransportReportsRouteImport.update({
+    id: '/reports',
+    path: '/reports',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportRoutesRoute =
+  AuthenticatedTransportRoutesRouteImport.update({
+    id: '/routes',
+    path: '/routes',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportSettingsRoute =
+  AuthenticatedTransportSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportStopsRoute =
+  AuthenticatedTransportStopsRouteImport.update({
+    id: '/stops',
+    path: '/stops',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedTransportVehiclesRoute =
+  AuthenticatedTransportVehiclesRouteImport.update({
+    id: '/vehicles',
+    path: '/vehicles',
+    getParentRoute: () => AuthenticatedTransportRouteRoute,
+  } as any)
+const AuthenticatedVisitorsIndexRoute =
+  AuthenticatedVisitorsIndexRouteImport.update({
+    id: '/visitors/',
+    path: '/visitors/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicVerifyRoute = ApiPublicVerifyRouteImport.update({
   id: '/api/public/verify',
   path: '/api/public/verify',
@@ -739,6 +1038,7 @@ export interface FileRoutesByFullPath {
   '/unauthorized': typeof UnauthorizedRoute
   '/verify': typeof VerifyRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/transport': typeof AuthenticatedTransportRouteRouteWithChildren
   '/activity': typeof AuthenticatedActivityRoute
   '/approvals': typeof AuthenticatedApprovalsRoute
   '/courses': typeof AuthenticatedCoursesRoute
@@ -804,6 +1104,20 @@ export interface FileRoutesByFullPath {
   '/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
   '/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
   '/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/hostel/allocations': typeof AuthenticatedHostelAllocationsRoute
+  '/hostel/attendance': typeof AuthenticatedHostelAttendanceRoute
+  '/hostel/beds': typeof AuthenticatedHostelBedsRoute
+  '/hostel/buildings': typeof AuthenticatedHostelBuildingsRoute
+  '/hostel/complaints': typeof AuthenticatedHostelComplaintsRoute
+  '/hostel/floors': typeof AuthenticatedHostelFloorsRoute
+  '/hostel/gate-pass': typeof AuthenticatedHostelGatePassRoute
+  '/hostel/maintenance': typeof AuthenticatedHostelMaintenanceRoute
+  '/hostel/mess': typeof AuthenticatedHostelMessRoute
+  '/hostel/reports': typeof AuthenticatedHostelReportsRoute
+  '/hostel/rooms': typeof AuthenticatedHostelRoomsRoute
+  '/hostel/settings': typeof AuthenticatedHostelSettingsRoute
+  '/hostel/visitors': typeof AuthenticatedHostelVisitorsRoute
+  '/hostel/waiting-list': typeof AuthenticatedHostelWaitingListRoute
   '/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
   '/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
   '/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
@@ -813,6 +1127,13 @@ export interface FileRoutesByFullPath {
   '/hrms/reports': typeof AuthenticatedHrmsReportsRoute
   '/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
   '/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
+  '/inventory/items': typeof AuthenticatedInventoryItemsRoute
+  '/inventory/transactions': typeof AuthenticatedInventoryTransactionsRoute
+  '/library/catalog': typeof AuthenticatedLibraryCatalogRoute
+  '/library/circulation': typeof AuthenticatedLibraryCirculationRoute
+  '/library/fines': typeof AuthenticatedLibraryFinesRoute
+  '/library/members': typeof AuthenticatedLibraryMembersRoute
+  '/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -824,16 +1145,37 @@ export interface FileRoutesByFullPath {
   '/students/import': typeof AuthenticatedStudentsImportRoute
   '/students/reports': typeof AuthenticatedStudentsReportsRoute
   '/timetable/substitutions': typeof AuthenticatedTimetableSubstitutionsRoute
+  '/transport/allocations': typeof AuthenticatedTransportAllocationsRoute
+  '/transport/attendance': typeof AuthenticatedTransportAttendanceRoute
+  '/transport/attendants': typeof AuthenticatedTransportAttendantsRoute
+  '/transport/documents': typeof AuthenticatedTransportDocumentsRoute
+  '/transport/drivers': typeof AuthenticatedTransportDriversRoute
+  '/transport/fuel-logs': typeof AuthenticatedTransportFuelLogsRoute
+  '/transport/incidents': typeof AuthenticatedTransportIncidentsRoute
+  '/transport/maintenance': typeof AuthenticatedTransportMaintenanceRoute
+  '/transport/reports': typeof AuthenticatedTransportReportsRoute
+  '/transport/routes': typeof AuthenticatedTransportRoutesRoute
+  '/transport/settings': typeof AuthenticatedTransportSettingsRoute
+  '/transport/stops': typeof AuthenticatedTransportStopsRoute
+  '/transport/vehicles': typeof AuthenticatedTransportVehiclesRoute
   '/api/public/verify': typeof ApiPublicVerifyRoute
   '/academics/': typeof AuthenticatedAcademicsIndexRoute
   '/attendance/': typeof AuthenticatedAttendanceIndexRoute
+  '/campus-maintenance/': typeof AuthenticatedCampusMaintenanceIndexRoute
   '/exams/': typeof AuthenticatedExamsIndexRoute
   '/finance/': typeof AuthenticatedFinanceIndexRoute
+  '/hostel/': typeof AuthenticatedHostelIndexRoute
   '/hrms/': typeof AuthenticatedHrmsIndexRoute
+  '/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/library/': typeof AuthenticatedLibraryIndexRoute
   '/lms/': typeof AuthenticatedLmsIndexRoute
+  '/medical/': typeof AuthenticatedMedicalIndexRoute
+  '/security/': typeof AuthenticatedSecurityIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/students/': typeof AuthenticatedStudentsIndexRoute
   '/timetable/': typeof AuthenticatedTimetableIndexRoute
+  '/transport/': typeof AuthenticatedTransportIndexRoute
+  '/visitors/': typeof AuthenticatedVisitorsIndexRoute
   '/academics/departments/$departmentId': typeof AuthenticatedAcademicsDepartmentsDepartmentIdRoute
   '/academics/programs/$programId': typeof AuthenticatedAcademicsProgramsProgramIdRoute
   '/settings/templates/$channel': typeof AuthenticatedSettingsTemplatesChannelRoute
@@ -911,6 +1253,20 @@ export interface FileRoutesByTo {
   '/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
   '/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
   '/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/hostel/allocations': typeof AuthenticatedHostelAllocationsRoute
+  '/hostel/attendance': typeof AuthenticatedHostelAttendanceRoute
+  '/hostel/beds': typeof AuthenticatedHostelBedsRoute
+  '/hostel/buildings': typeof AuthenticatedHostelBuildingsRoute
+  '/hostel/complaints': typeof AuthenticatedHostelComplaintsRoute
+  '/hostel/floors': typeof AuthenticatedHostelFloorsRoute
+  '/hostel/gate-pass': typeof AuthenticatedHostelGatePassRoute
+  '/hostel/maintenance': typeof AuthenticatedHostelMaintenanceRoute
+  '/hostel/mess': typeof AuthenticatedHostelMessRoute
+  '/hostel/reports': typeof AuthenticatedHostelReportsRoute
+  '/hostel/rooms': typeof AuthenticatedHostelRoomsRoute
+  '/hostel/settings': typeof AuthenticatedHostelSettingsRoute
+  '/hostel/visitors': typeof AuthenticatedHostelVisitorsRoute
+  '/hostel/waiting-list': typeof AuthenticatedHostelWaitingListRoute
   '/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
   '/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
   '/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
@@ -920,6 +1276,13 @@ export interface FileRoutesByTo {
   '/hrms/reports': typeof AuthenticatedHrmsReportsRoute
   '/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
   '/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
+  '/inventory/items': typeof AuthenticatedInventoryItemsRoute
+  '/inventory/transactions': typeof AuthenticatedInventoryTransactionsRoute
+  '/library/catalog': typeof AuthenticatedLibraryCatalogRoute
+  '/library/circulation': typeof AuthenticatedLibraryCirculationRoute
+  '/library/fines': typeof AuthenticatedLibraryFinesRoute
+  '/library/members': typeof AuthenticatedLibraryMembersRoute
+  '/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -931,16 +1294,37 @@ export interface FileRoutesByTo {
   '/students/import': typeof AuthenticatedStudentsImportRoute
   '/students/reports': typeof AuthenticatedStudentsReportsRoute
   '/timetable/substitutions': typeof AuthenticatedTimetableSubstitutionsRoute
+  '/transport/allocations': typeof AuthenticatedTransportAllocationsRoute
+  '/transport/attendance': typeof AuthenticatedTransportAttendanceRoute
+  '/transport/attendants': typeof AuthenticatedTransportAttendantsRoute
+  '/transport/documents': typeof AuthenticatedTransportDocumentsRoute
+  '/transport/drivers': typeof AuthenticatedTransportDriversRoute
+  '/transport/fuel-logs': typeof AuthenticatedTransportFuelLogsRoute
+  '/transport/incidents': typeof AuthenticatedTransportIncidentsRoute
+  '/transport/maintenance': typeof AuthenticatedTransportMaintenanceRoute
+  '/transport/reports': typeof AuthenticatedTransportReportsRoute
+  '/transport/routes': typeof AuthenticatedTransportRoutesRoute
+  '/transport/settings': typeof AuthenticatedTransportSettingsRoute
+  '/transport/stops': typeof AuthenticatedTransportStopsRoute
+  '/transport/vehicles': typeof AuthenticatedTransportVehiclesRoute
   '/api/public/verify': typeof ApiPublicVerifyRoute
   '/academics': typeof AuthenticatedAcademicsIndexRoute
   '/attendance': typeof AuthenticatedAttendanceIndexRoute
+  '/campus-maintenance': typeof AuthenticatedCampusMaintenanceIndexRoute
   '/exams': typeof AuthenticatedExamsIndexRoute
   '/finance': typeof AuthenticatedFinanceIndexRoute
+  '/hostel': typeof AuthenticatedHostelIndexRoute
   '/hrms': typeof AuthenticatedHrmsIndexRoute
+  '/inventory': typeof AuthenticatedInventoryIndexRoute
+  '/library': typeof AuthenticatedLibraryIndexRoute
   '/lms': typeof AuthenticatedLmsIndexRoute
+  '/medical': typeof AuthenticatedMedicalIndexRoute
+  '/security': typeof AuthenticatedSecurityIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
   '/timetable': typeof AuthenticatedTimetableIndexRoute
+  '/transport': typeof AuthenticatedTransportIndexRoute
+  '/visitors': typeof AuthenticatedVisitorsIndexRoute
   '/academics/departments/$departmentId': typeof AuthenticatedAcademicsDepartmentsDepartmentIdRoute
   '/academics/programs/$programId': typeof AuthenticatedAcademicsProgramsProgramIdRoute
   '/settings/templates/$channel': typeof AuthenticatedSettingsTemplatesChannelRoute
@@ -956,6 +1340,7 @@ export interface FileRoutesById {
   '/unauthorized': typeof UnauthorizedRoute
   '/verify': typeof VerifyRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/transport': typeof AuthenticatedTransportRouteRouteWithChildren
   '/_authenticated/activity': typeof AuthenticatedActivityRoute
   '/_authenticated/approvals': typeof AuthenticatedApprovalsRoute
   '/_authenticated/courses': typeof AuthenticatedCoursesRoute
@@ -1021,6 +1406,20 @@ export interface FileRoutesById {
   '/_authenticated/finance/scholarships': typeof AuthenticatedFinanceScholarshipsRoute
   '/_authenticated/finance/taxation': typeof AuthenticatedFinanceTaxationRoute
   '/_authenticated/finance/vendors': typeof AuthenticatedFinanceVendorsRoute
+  '/_authenticated/hostel/allocations': typeof AuthenticatedHostelAllocationsRoute
+  '/_authenticated/hostel/attendance': typeof AuthenticatedHostelAttendanceRoute
+  '/_authenticated/hostel/beds': typeof AuthenticatedHostelBedsRoute
+  '/_authenticated/hostel/buildings': typeof AuthenticatedHostelBuildingsRoute
+  '/_authenticated/hostel/complaints': typeof AuthenticatedHostelComplaintsRoute
+  '/_authenticated/hostel/floors': typeof AuthenticatedHostelFloorsRoute
+  '/_authenticated/hostel/gate-pass': typeof AuthenticatedHostelGatePassRoute
+  '/_authenticated/hostel/maintenance': typeof AuthenticatedHostelMaintenanceRoute
+  '/_authenticated/hostel/mess': typeof AuthenticatedHostelMessRoute
+  '/_authenticated/hostel/reports': typeof AuthenticatedHostelReportsRoute
+  '/_authenticated/hostel/rooms': typeof AuthenticatedHostelRoomsRoute
+  '/_authenticated/hostel/settings': typeof AuthenticatedHostelSettingsRoute
+  '/_authenticated/hostel/visitors': typeof AuthenticatedHostelVisitorsRoute
+  '/_authenticated/hostel/waiting-list': typeof AuthenticatedHostelWaitingListRoute
   '/_authenticated/hrms/attendance': typeof AuthenticatedHrmsAttendanceRoute
   '/_authenticated/hrms/employees': typeof AuthenticatedHrmsEmployeesRoute
   '/_authenticated/hrms/leave': typeof AuthenticatedHrmsLeaveRoute
@@ -1030,6 +1429,13 @@ export interface FileRoutesById {
   '/_authenticated/hrms/reports': typeof AuthenticatedHrmsReportsRoute
   '/_authenticated/hrms/self-service': typeof AuthenticatedHrmsSelfServiceRoute
   '/_authenticated/hrms/shifts': typeof AuthenticatedHrmsShiftsRoute
+  '/_authenticated/inventory/items': typeof AuthenticatedInventoryItemsRoute
+  '/_authenticated/inventory/transactions': typeof AuthenticatedInventoryTransactionsRoute
+  '/_authenticated/library/catalog': typeof AuthenticatedLibraryCatalogRoute
+  '/_authenticated/library/circulation': typeof AuthenticatedLibraryCirculationRoute
+  '/_authenticated/library/fines': typeof AuthenticatedLibraryFinesRoute
+  '/_authenticated/library/members': typeof AuthenticatedLibraryMembersRoute
+  '/_authenticated/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/_authenticated/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
   '/_authenticated/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/_authenticated/settings/api': typeof AuthenticatedSettingsApiRoute
@@ -1041,16 +1447,37 @@ export interface FileRoutesById {
   '/_authenticated/students/import': typeof AuthenticatedStudentsImportRoute
   '/_authenticated/students/reports': typeof AuthenticatedStudentsReportsRoute
   '/_authenticated/timetable/substitutions': typeof AuthenticatedTimetableSubstitutionsRoute
+  '/_authenticated/transport/allocations': typeof AuthenticatedTransportAllocationsRoute
+  '/_authenticated/transport/attendance': typeof AuthenticatedTransportAttendanceRoute
+  '/_authenticated/transport/attendants': typeof AuthenticatedTransportAttendantsRoute
+  '/_authenticated/transport/documents': typeof AuthenticatedTransportDocumentsRoute
+  '/_authenticated/transport/drivers': typeof AuthenticatedTransportDriversRoute
+  '/_authenticated/transport/fuel-logs': typeof AuthenticatedTransportFuelLogsRoute
+  '/_authenticated/transport/incidents': typeof AuthenticatedTransportIncidentsRoute
+  '/_authenticated/transport/maintenance': typeof AuthenticatedTransportMaintenanceRoute
+  '/_authenticated/transport/reports': typeof AuthenticatedTransportReportsRoute
+  '/_authenticated/transport/routes': typeof AuthenticatedTransportRoutesRoute
+  '/_authenticated/transport/settings': typeof AuthenticatedTransportSettingsRoute
+  '/_authenticated/transport/stops': typeof AuthenticatedTransportStopsRoute
+  '/_authenticated/transport/vehicles': typeof AuthenticatedTransportVehiclesRoute
   '/api/public/verify': typeof ApiPublicVerifyRoute
   '/_authenticated/academics/': typeof AuthenticatedAcademicsIndexRoute
   '/_authenticated/attendance/': typeof AuthenticatedAttendanceIndexRoute
+  '/_authenticated/campus-maintenance/': typeof AuthenticatedCampusMaintenanceIndexRoute
   '/_authenticated/exams/': typeof AuthenticatedExamsIndexRoute
   '/_authenticated/finance/': typeof AuthenticatedFinanceIndexRoute
+  '/_authenticated/hostel/': typeof AuthenticatedHostelIndexRoute
   '/_authenticated/hrms/': typeof AuthenticatedHrmsIndexRoute
+  '/_authenticated/inventory/': typeof AuthenticatedInventoryIndexRoute
+  '/_authenticated/library/': typeof AuthenticatedLibraryIndexRoute
   '/_authenticated/lms/': typeof AuthenticatedLmsIndexRoute
+  '/_authenticated/medical/': typeof AuthenticatedMedicalIndexRoute
+  '/_authenticated/security/': typeof AuthenticatedSecurityIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/students/': typeof AuthenticatedStudentsIndexRoute
   '/_authenticated/timetable/': typeof AuthenticatedTimetableIndexRoute
+  '/_authenticated/transport/': typeof AuthenticatedTransportIndexRoute
+  '/_authenticated/visitors/': typeof AuthenticatedVisitorsIndexRoute
   '/_authenticated/academics/departments/$departmentId': typeof AuthenticatedAcademicsDepartmentsDepartmentIdRoute
   '/_authenticated/academics/programs/$programId': typeof AuthenticatedAcademicsProgramsProgramIdRoute
   '/_authenticated/settings/templates/$channel': typeof AuthenticatedSettingsTemplatesChannelRoute
@@ -1066,6 +1493,7 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/verify'
     | '/settings'
+    | '/transport'
     | '/activity'
     | '/approvals'
     | '/courses'
@@ -1131,6 +1559,20 @@ export interface FileRouteTypes {
     | '/finance/scholarships'
     | '/finance/taxation'
     | '/finance/vendors'
+    | '/hostel/allocations'
+    | '/hostel/attendance'
+    | '/hostel/beds'
+    | '/hostel/buildings'
+    | '/hostel/complaints'
+    | '/hostel/floors'
+    | '/hostel/gate-pass'
+    | '/hostel/maintenance'
+    | '/hostel/mess'
+    | '/hostel/reports'
+    | '/hostel/rooms'
+    | '/hostel/settings'
+    | '/hostel/visitors'
+    | '/hostel/waiting-list'
     | '/hrms/attendance'
     | '/hrms/employees'
     | '/hrms/leave'
@@ -1140,6 +1582,13 @@ export interface FileRouteTypes {
     | '/hrms/reports'
     | '/hrms/self-service'
     | '/hrms/shifts'
+    | '/inventory/items'
+    | '/inventory/transactions'
+    | '/library/catalog'
+    | '/library/circulation'
+    | '/library/fines'
+    | '/library/members'
+    | '/library/settings'
     | '/lms/$workspaceId'
     | '/settings/$scope'
     | '/settings/api'
@@ -1151,16 +1600,37 @@ export interface FileRouteTypes {
     | '/students/import'
     | '/students/reports'
     | '/timetable/substitutions'
+    | '/transport/allocations'
+    | '/transport/attendance'
+    | '/transport/attendants'
+    | '/transport/documents'
+    | '/transport/drivers'
+    | '/transport/fuel-logs'
+    | '/transport/incidents'
+    | '/transport/maintenance'
+    | '/transport/reports'
+    | '/transport/routes'
+    | '/transport/settings'
+    | '/transport/stops'
+    | '/transport/vehicles'
     | '/api/public/verify'
     | '/academics/'
     | '/attendance/'
+    | '/campus-maintenance/'
     | '/exams/'
     | '/finance/'
+    | '/hostel/'
     | '/hrms/'
+    | '/inventory/'
+    | '/library/'
     | '/lms/'
+    | '/medical/'
+    | '/security/'
     | '/settings/'
     | '/students/'
     | '/timetable/'
+    | '/transport/'
+    | '/visitors/'
     | '/academics/departments/$departmentId'
     | '/academics/programs/$programId'
     | '/settings/templates/$channel'
@@ -1238,6 +1708,20 @@ export interface FileRouteTypes {
     | '/finance/scholarships'
     | '/finance/taxation'
     | '/finance/vendors'
+    | '/hostel/allocations'
+    | '/hostel/attendance'
+    | '/hostel/beds'
+    | '/hostel/buildings'
+    | '/hostel/complaints'
+    | '/hostel/floors'
+    | '/hostel/gate-pass'
+    | '/hostel/maintenance'
+    | '/hostel/mess'
+    | '/hostel/reports'
+    | '/hostel/rooms'
+    | '/hostel/settings'
+    | '/hostel/visitors'
+    | '/hostel/waiting-list'
     | '/hrms/attendance'
     | '/hrms/employees'
     | '/hrms/leave'
@@ -1247,6 +1731,13 @@ export interface FileRouteTypes {
     | '/hrms/reports'
     | '/hrms/self-service'
     | '/hrms/shifts'
+    | '/inventory/items'
+    | '/inventory/transactions'
+    | '/library/catalog'
+    | '/library/circulation'
+    | '/library/fines'
+    | '/library/members'
+    | '/library/settings'
     | '/lms/$workspaceId'
     | '/settings/$scope'
     | '/settings/api'
@@ -1258,16 +1749,37 @@ export interface FileRouteTypes {
     | '/students/import'
     | '/students/reports'
     | '/timetable/substitutions'
+    | '/transport/allocations'
+    | '/transport/attendance'
+    | '/transport/attendants'
+    | '/transport/documents'
+    | '/transport/drivers'
+    | '/transport/fuel-logs'
+    | '/transport/incidents'
+    | '/transport/maintenance'
+    | '/transport/reports'
+    | '/transport/routes'
+    | '/transport/settings'
+    | '/transport/stops'
+    | '/transport/vehicles'
     | '/api/public/verify'
     | '/academics'
     | '/attendance'
+    | '/campus-maintenance'
     | '/exams'
     | '/finance'
+    | '/hostel'
     | '/hrms'
+    | '/inventory'
+    | '/library'
     | '/lms'
+    | '/medical'
+    | '/security'
     | '/settings'
     | '/students'
     | '/timetable'
+    | '/transport'
+    | '/visitors'
     | '/academics/departments/$departmentId'
     | '/academics/programs/$programId'
     | '/settings/templates/$channel'
@@ -1282,6 +1794,7 @@ export interface FileRouteTypes {
     | '/unauthorized'
     | '/verify'
     | '/_authenticated/settings'
+    | '/_authenticated/transport'
     | '/_authenticated/activity'
     | '/_authenticated/approvals'
     | '/_authenticated/courses'
@@ -1347,6 +1860,20 @@ export interface FileRouteTypes {
     | '/_authenticated/finance/scholarships'
     | '/_authenticated/finance/taxation'
     | '/_authenticated/finance/vendors'
+    | '/_authenticated/hostel/allocations'
+    | '/_authenticated/hostel/attendance'
+    | '/_authenticated/hostel/beds'
+    | '/_authenticated/hostel/buildings'
+    | '/_authenticated/hostel/complaints'
+    | '/_authenticated/hostel/floors'
+    | '/_authenticated/hostel/gate-pass'
+    | '/_authenticated/hostel/maintenance'
+    | '/_authenticated/hostel/mess'
+    | '/_authenticated/hostel/reports'
+    | '/_authenticated/hostel/rooms'
+    | '/_authenticated/hostel/settings'
+    | '/_authenticated/hostel/visitors'
+    | '/_authenticated/hostel/waiting-list'
     | '/_authenticated/hrms/attendance'
     | '/_authenticated/hrms/employees'
     | '/_authenticated/hrms/leave'
@@ -1356,6 +1883,13 @@ export interface FileRouteTypes {
     | '/_authenticated/hrms/reports'
     | '/_authenticated/hrms/self-service'
     | '/_authenticated/hrms/shifts'
+    | '/_authenticated/inventory/items'
+    | '/_authenticated/inventory/transactions'
+    | '/_authenticated/library/catalog'
+    | '/_authenticated/library/circulation'
+    | '/_authenticated/library/fines'
+    | '/_authenticated/library/members'
+    | '/_authenticated/library/settings'
     | '/_authenticated/lms/$workspaceId'
     | '/_authenticated/settings/$scope'
     | '/_authenticated/settings/api'
@@ -1367,16 +1901,37 @@ export interface FileRouteTypes {
     | '/_authenticated/students/import'
     | '/_authenticated/students/reports'
     | '/_authenticated/timetable/substitutions'
+    | '/_authenticated/transport/allocations'
+    | '/_authenticated/transport/attendance'
+    | '/_authenticated/transport/attendants'
+    | '/_authenticated/transport/documents'
+    | '/_authenticated/transport/drivers'
+    | '/_authenticated/transport/fuel-logs'
+    | '/_authenticated/transport/incidents'
+    | '/_authenticated/transport/maintenance'
+    | '/_authenticated/transport/reports'
+    | '/_authenticated/transport/routes'
+    | '/_authenticated/transport/settings'
+    | '/_authenticated/transport/stops'
+    | '/_authenticated/transport/vehicles'
     | '/api/public/verify'
     | '/_authenticated/academics/'
     | '/_authenticated/attendance/'
+    | '/_authenticated/campus-maintenance/'
     | '/_authenticated/exams/'
     | '/_authenticated/finance/'
+    | '/_authenticated/hostel/'
     | '/_authenticated/hrms/'
+    | '/_authenticated/inventory/'
+    | '/_authenticated/library/'
     | '/_authenticated/lms/'
+    | '/_authenticated/medical/'
+    | '/_authenticated/security/'
     | '/_authenticated/settings/'
     | '/_authenticated/students/'
     | '/_authenticated/timetable/'
+    | '/_authenticated/transport/'
+    | '/_authenticated/visitors/'
     | '/_authenticated/academics/departments/$departmentId'
     | '/_authenticated/academics/programs/$programId'
     | '/_authenticated/settings/templates/$channel'
@@ -1564,6 +2119,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeachingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/transport': {
+      id: '/_authenticated/transport'
+      path: '/transport'
+      fullPath: '/transport'
+      preLoaderRoute: typeof AuthenticatedTransportRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/users': {
       id: '/_authenticated/users'
       path: '/users'
@@ -1723,6 +2285,13 @@ declare module '@tanstack/react-router' {
       path: '/attendance/sessions'
       fullPath: '/attendance/sessions'
       preLoaderRoute: typeof AuthenticatedAttendanceSessionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/campus-maintenance/': {
+      id: '/_authenticated/campus-maintenance/'
+      path: '/campus-maintenance'
+      fullPath: '/campus-maintenance/'
+      preLoaderRoute: typeof AuthenticatedCampusMaintenanceIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/exams/': {
@@ -1942,6 +2511,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFinanceVendorsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/hostel/': {
+      id: '/_authenticated/hostel/'
+      path: '/hostel'
+      fullPath: '/hostel/'
+      preLoaderRoute: typeof AuthenticatedHostelIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/allocations': {
+      id: '/_authenticated/hostel/allocations'
+      path: '/hostel/allocations'
+      fullPath: '/hostel/allocations'
+      preLoaderRoute: typeof AuthenticatedHostelAllocationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/attendance': {
+      id: '/_authenticated/hostel/attendance'
+      path: '/hostel/attendance'
+      fullPath: '/hostel/attendance'
+      preLoaderRoute: typeof AuthenticatedHostelAttendanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/beds': {
+      id: '/_authenticated/hostel/beds'
+      path: '/hostel/beds'
+      fullPath: '/hostel/beds'
+      preLoaderRoute: typeof AuthenticatedHostelBedsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/buildings': {
+      id: '/_authenticated/hostel/buildings'
+      path: '/hostel/buildings'
+      fullPath: '/hostel/buildings'
+      preLoaderRoute: typeof AuthenticatedHostelBuildingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/complaints': {
+      id: '/_authenticated/hostel/complaints'
+      path: '/hostel/complaints'
+      fullPath: '/hostel/complaints'
+      preLoaderRoute: typeof AuthenticatedHostelComplaintsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/floors': {
+      id: '/_authenticated/hostel/floors'
+      path: '/hostel/floors'
+      fullPath: '/hostel/floors'
+      preLoaderRoute: typeof AuthenticatedHostelFloorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/gate-pass': {
+      id: '/_authenticated/hostel/gate-pass'
+      path: '/hostel/gate-pass'
+      fullPath: '/hostel/gate-pass'
+      preLoaderRoute: typeof AuthenticatedHostelGatePassRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/maintenance': {
+      id: '/_authenticated/hostel/maintenance'
+      path: '/hostel/maintenance'
+      fullPath: '/hostel/maintenance'
+      preLoaderRoute: typeof AuthenticatedHostelMaintenanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/mess': {
+      id: '/_authenticated/hostel/mess'
+      path: '/hostel/mess'
+      fullPath: '/hostel/mess'
+      preLoaderRoute: typeof AuthenticatedHostelMessRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/reports': {
+      id: '/_authenticated/hostel/reports'
+      path: '/hostel/reports'
+      fullPath: '/hostel/reports'
+      preLoaderRoute: typeof AuthenticatedHostelReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/rooms': {
+      id: '/_authenticated/hostel/rooms'
+      path: '/hostel/rooms'
+      fullPath: '/hostel/rooms'
+      preLoaderRoute: typeof AuthenticatedHostelRoomsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/settings': {
+      id: '/_authenticated/hostel/settings'
+      path: '/hostel/settings'
+      fullPath: '/hostel/settings'
+      preLoaderRoute: typeof AuthenticatedHostelSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/visitors': {
+      id: '/_authenticated/hostel/visitors'
+      path: '/hostel/visitors'
+      fullPath: '/hostel/visitors'
+      preLoaderRoute: typeof AuthenticatedHostelVisitorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hostel/waiting-list': {
+      id: '/_authenticated/hostel/waiting-list'
+      path: '/hostel/waiting-list'
+      fullPath: '/hostel/waiting-list'
+      preLoaderRoute: typeof AuthenticatedHostelWaitingListRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/hrms/': {
       id: '/_authenticated/hrms/'
       path: '/hrms'
@@ -2012,6 +2686,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHrmsShiftsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory/': {
+      id: '/_authenticated/inventory/'
+      path: '/inventory'
+      fullPath: '/inventory/'
+      preLoaderRoute: typeof AuthenticatedInventoryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/items': {
+      id: '/_authenticated/inventory/items'
+      path: '/inventory/items'
+      fullPath: '/inventory/items'
+      preLoaderRoute: typeof AuthenticatedInventoryItemsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inventory/transactions': {
+      id: '/_authenticated/inventory/transactions'
+      path: '/inventory/transactions'
+      fullPath: '/inventory/transactions'
+      preLoaderRoute: typeof AuthenticatedInventoryTransactionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/': {
+      id: '/_authenticated/library/'
+      path: '/library'
+      fullPath: '/library/'
+      preLoaderRoute: typeof AuthenticatedLibraryIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/catalog': {
+      id: '/_authenticated/library/catalog'
+      path: '/library/catalog'
+      fullPath: '/library/catalog'
+      preLoaderRoute: typeof AuthenticatedLibraryCatalogRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/circulation': {
+      id: '/_authenticated/library/circulation'
+      path: '/library/circulation'
+      fullPath: '/library/circulation'
+      preLoaderRoute: typeof AuthenticatedLibraryCirculationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/fines': {
+      id: '/_authenticated/library/fines'
+      path: '/library/fines'
+      fullPath: '/library/fines'
+      preLoaderRoute: typeof AuthenticatedLibraryFinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/members': {
+      id: '/_authenticated/library/members'
+      path: '/library/members'
+      fullPath: '/library/members'
+      preLoaderRoute: typeof AuthenticatedLibraryMembersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/library/settings': {
+      id: '/_authenticated/library/settings'
+      path: '/library/settings'
+      fullPath: '/library/settings'
+      preLoaderRoute: typeof AuthenticatedLibrarySettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/lms/': {
       id: '/_authenticated/lms/'
       path: '/lms'
@@ -2024,6 +2761,20 @@ declare module '@tanstack/react-router' {
       path: '/lms/$workspaceId'
       fullPath: '/lms/$workspaceId'
       preLoaderRoute: typeof AuthenticatedLmsWorkspaceIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/medical/': {
+      id: '/_authenticated/medical/'
+      path: '/medical'
+      fullPath: '/medical/'
+      preLoaderRoute: typeof AuthenticatedMedicalIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/security/': {
+      id: '/_authenticated/security/'
+      path: '/security'
+      fullPath: '/security/'
+      preLoaderRoute: typeof AuthenticatedSecurityIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -2117,6 +2868,111 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTimetableSubstitutionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/transport/': {
+      id: '/_authenticated/transport/'
+      path: '/'
+      fullPath: '/transport/'
+      preLoaderRoute: typeof AuthenticatedTransportIndexRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/allocations': {
+      id: '/_authenticated/transport/allocations'
+      path: '/allocations'
+      fullPath: '/transport/allocations'
+      preLoaderRoute: typeof AuthenticatedTransportAllocationsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/attendance': {
+      id: '/_authenticated/transport/attendance'
+      path: '/attendance'
+      fullPath: '/transport/attendance'
+      preLoaderRoute: typeof AuthenticatedTransportAttendanceRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/attendants': {
+      id: '/_authenticated/transport/attendants'
+      path: '/attendants'
+      fullPath: '/transport/attendants'
+      preLoaderRoute: typeof AuthenticatedTransportAttendantsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/documents': {
+      id: '/_authenticated/transport/documents'
+      path: '/documents'
+      fullPath: '/transport/documents'
+      preLoaderRoute: typeof AuthenticatedTransportDocumentsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/drivers': {
+      id: '/_authenticated/transport/drivers'
+      path: '/drivers'
+      fullPath: '/transport/drivers'
+      preLoaderRoute: typeof AuthenticatedTransportDriversRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/fuel-logs': {
+      id: '/_authenticated/transport/fuel-logs'
+      path: '/fuel-logs'
+      fullPath: '/transport/fuel-logs'
+      preLoaderRoute: typeof AuthenticatedTransportFuelLogsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/incidents': {
+      id: '/_authenticated/transport/incidents'
+      path: '/incidents'
+      fullPath: '/transport/incidents'
+      preLoaderRoute: typeof AuthenticatedTransportIncidentsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/maintenance': {
+      id: '/_authenticated/transport/maintenance'
+      path: '/maintenance'
+      fullPath: '/transport/maintenance'
+      preLoaderRoute: typeof AuthenticatedTransportMaintenanceRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/reports': {
+      id: '/_authenticated/transport/reports'
+      path: '/reports'
+      fullPath: '/transport/reports'
+      preLoaderRoute: typeof AuthenticatedTransportReportsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/routes': {
+      id: '/_authenticated/transport/routes'
+      path: '/routes'
+      fullPath: '/transport/routes'
+      preLoaderRoute: typeof AuthenticatedTransportRoutesRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/settings': {
+      id: '/_authenticated/transport/settings'
+      path: '/settings'
+      fullPath: '/transport/settings'
+      preLoaderRoute: typeof AuthenticatedTransportSettingsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/stops': {
+      id: '/_authenticated/transport/stops'
+      path: '/stops'
+      fullPath: '/transport/stops'
+      preLoaderRoute: typeof AuthenticatedTransportStopsRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/transport/vehicles': {
+      id: '/_authenticated/transport/vehicles'
+      path: '/vehicles'
+      fullPath: '/transport/vehicles'
+      preLoaderRoute: typeof AuthenticatedTransportVehiclesRouteImport
+      parentRoute: typeof AuthenticatedTransportRouteRoute
+    }
+    '/_authenticated/visitors/': {
+      id: '/_authenticated/visitors/'
+      path: '/visitors'
+      fullPath: '/visitors/'
+      preLoaderRoute: typeof AuthenticatedVisitorsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/verify': {
       id: '/api/public/verify'
       path: '/api/public/verify'
@@ -2173,8 +3029,53 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedTransportRouteRouteChildren {
+  AuthenticatedTransportAllocationsRoute: typeof AuthenticatedTransportAllocationsRoute
+  AuthenticatedTransportAttendanceRoute: typeof AuthenticatedTransportAttendanceRoute
+  AuthenticatedTransportAttendantsRoute: typeof AuthenticatedTransportAttendantsRoute
+  AuthenticatedTransportDocumentsRoute: typeof AuthenticatedTransportDocumentsRoute
+  AuthenticatedTransportDriversRoute: typeof AuthenticatedTransportDriversRoute
+  AuthenticatedTransportFuelLogsRoute: typeof AuthenticatedTransportFuelLogsRoute
+  AuthenticatedTransportIncidentsRoute: typeof AuthenticatedTransportIncidentsRoute
+  AuthenticatedTransportMaintenanceRoute: typeof AuthenticatedTransportMaintenanceRoute
+  AuthenticatedTransportReportsRoute: typeof AuthenticatedTransportReportsRoute
+  AuthenticatedTransportRoutesRoute: typeof AuthenticatedTransportRoutesRoute
+  AuthenticatedTransportSettingsRoute: typeof AuthenticatedTransportSettingsRoute
+  AuthenticatedTransportStopsRoute: typeof AuthenticatedTransportStopsRoute
+  AuthenticatedTransportVehiclesRoute: typeof AuthenticatedTransportVehiclesRoute
+  AuthenticatedTransportIndexRoute: typeof AuthenticatedTransportIndexRoute
+}
+
+const AuthenticatedTransportRouteRouteChildren: AuthenticatedTransportRouteRouteChildren =
+  {
+    AuthenticatedTransportAllocationsRoute:
+      AuthenticatedTransportAllocationsRoute,
+    AuthenticatedTransportAttendanceRoute:
+      AuthenticatedTransportAttendanceRoute,
+    AuthenticatedTransportAttendantsRoute:
+      AuthenticatedTransportAttendantsRoute,
+    AuthenticatedTransportDocumentsRoute: AuthenticatedTransportDocumentsRoute,
+    AuthenticatedTransportDriversRoute: AuthenticatedTransportDriversRoute,
+    AuthenticatedTransportFuelLogsRoute: AuthenticatedTransportFuelLogsRoute,
+    AuthenticatedTransportIncidentsRoute: AuthenticatedTransportIncidentsRoute,
+    AuthenticatedTransportMaintenanceRoute:
+      AuthenticatedTransportMaintenanceRoute,
+    AuthenticatedTransportReportsRoute: AuthenticatedTransportReportsRoute,
+    AuthenticatedTransportRoutesRoute: AuthenticatedTransportRoutesRoute,
+    AuthenticatedTransportSettingsRoute: AuthenticatedTransportSettingsRoute,
+    AuthenticatedTransportStopsRoute: AuthenticatedTransportStopsRoute,
+    AuthenticatedTransportVehiclesRoute: AuthenticatedTransportVehiclesRoute,
+    AuthenticatedTransportIndexRoute: AuthenticatedTransportIndexRoute,
+  }
+
+const AuthenticatedTransportRouteRouteWithChildren =
+  AuthenticatedTransportRouteRoute._addFileChildren(
+    AuthenticatedTransportRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedTransportRouteRoute: typeof AuthenticatedTransportRouteRouteWithChildren
   AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
   AuthenticatedApprovalsRoute: typeof AuthenticatedApprovalsRoute
   AuthenticatedCoursesRoute: typeof AuthenticatedCoursesRoute
@@ -2240,6 +3141,20 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFinanceScholarshipsRoute: typeof AuthenticatedFinanceScholarshipsRoute
   AuthenticatedFinanceTaxationRoute: typeof AuthenticatedFinanceTaxationRoute
   AuthenticatedFinanceVendorsRoute: typeof AuthenticatedFinanceVendorsRoute
+  AuthenticatedHostelAllocationsRoute: typeof AuthenticatedHostelAllocationsRoute
+  AuthenticatedHostelAttendanceRoute: typeof AuthenticatedHostelAttendanceRoute
+  AuthenticatedHostelBedsRoute: typeof AuthenticatedHostelBedsRoute
+  AuthenticatedHostelBuildingsRoute: typeof AuthenticatedHostelBuildingsRoute
+  AuthenticatedHostelComplaintsRoute: typeof AuthenticatedHostelComplaintsRoute
+  AuthenticatedHostelFloorsRoute: typeof AuthenticatedHostelFloorsRoute
+  AuthenticatedHostelGatePassRoute: typeof AuthenticatedHostelGatePassRoute
+  AuthenticatedHostelMaintenanceRoute: typeof AuthenticatedHostelMaintenanceRoute
+  AuthenticatedHostelMessRoute: typeof AuthenticatedHostelMessRoute
+  AuthenticatedHostelReportsRoute: typeof AuthenticatedHostelReportsRoute
+  AuthenticatedHostelRoomsRoute: typeof AuthenticatedHostelRoomsRoute
+  AuthenticatedHostelSettingsRoute: typeof AuthenticatedHostelSettingsRoute
+  AuthenticatedHostelVisitorsRoute: typeof AuthenticatedHostelVisitorsRoute
+  AuthenticatedHostelWaitingListRoute: typeof AuthenticatedHostelWaitingListRoute
   AuthenticatedHrmsAttendanceRoute: typeof AuthenticatedHrmsAttendanceRoute
   AuthenticatedHrmsEmployeesRoute: typeof AuthenticatedHrmsEmployeesRoute
   AuthenticatedHrmsLeaveRoute: typeof AuthenticatedHrmsLeaveRoute
@@ -2249,6 +3164,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHrmsReportsRoute: typeof AuthenticatedHrmsReportsRoute
   AuthenticatedHrmsSelfServiceRoute: typeof AuthenticatedHrmsSelfServiceRoute
   AuthenticatedHrmsShiftsRoute: typeof AuthenticatedHrmsShiftsRoute
+  AuthenticatedInventoryItemsRoute: typeof AuthenticatedInventoryItemsRoute
+  AuthenticatedInventoryTransactionsRoute: typeof AuthenticatedInventoryTransactionsRoute
+  AuthenticatedLibraryCatalogRoute: typeof AuthenticatedLibraryCatalogRoute
+  AuthenticatedLibraryCirculationRoute: typeof AuthenticatedLibraryCirculationRoute
+  AuthenticatedLibraryFinesRoute: typeof AuthenticatedLibraryFinesRoute
+  AuthenticatedLibraryMembersRoute: typeof AuthenticatedLibraryMembersRoute
+  AuthenticatedLibrarySettingsRoute: typeof AuthenticatedLibrarySettingsRoute
   AuthenticatedLmsWorkspaceIdRoute: typeof AuthenticatedLmsWorkspaceIdRoute
   AuthenticatedStudentsStudentIdRoute: typeof AuthenticatedStudentsStudentIdRoute
   AuthenticatedStudentsAdmissionsRoute: typeof AuthenticatedStudentsAdmissionsRoute
@@ -2258,18 +3180,27 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTimetableSubstitutionsRoute: typeof AuthenticatedTimetableSubstitutionsRoute
   AuthenticatedAcademicsIndexRoute: typeof AuthenticatedAcademicsIndexRoute
   AuthenticatedAttendanceIndexRoute: typeof AuthenticatedAttendanceIndexRoute
+  AuthenticatedCampusMaintenanceIndexRoute: typeof AuthenticatedCampusMaintenanceIndexRoute
   AuthenticatedExamsIndexRoute: typeof AuthenticatedExamsIndexRoute
   AuthenticatedFinanceIndexRoute: typeof AuthenticatedFinanceIndexRoute
+  AuthenticatedHostelIndexRoute: typeof AuthenticatedHostelIndexRoute
   AuthenticatedHrmsIndexRoute: typeof AuthenticatedHrmsIndexRoute
+  AuthenticatedInventoryIndexRoute: typeof AuthenticatedInventoryIndexRoute
+  AuthenticatedLibraryIndexRoute: typeof AuthenticatedLibraryIndexRoute
   AuthenticatedLmsIndexRoute: typeof AuthenticatedLmsIndexRoute
+  AuthenticatedMedicalIndexRoute: typeof AuthenticatedMedicalIndexRoute
+  AuthenticatedSecurityIndexRoute: typeof AuthenticatedSecurityIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
   AuthenticatedTimetableIndexRoute: typeof AuthenticatedTimetableIndexRoute
+  AuthenticatedVisitorsIndexRoute: typeof AuthenticatedVisitorsIndexRoute
   AuthenticatedAcademicsDepartmentsDepartmentIdRoute: typeof AuthenticatedAcademicsDepartmentsDepartmentIdRoute
   AuthenticatedAcademicsProgramsProgramIdRoute: typeof AuthenticatedAcademicsProgramsProgramIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedTransportRouteRoute:
+    AuthenticatedTransportRouteRouteWithChildren,
   AuthenticatedActivityRoute: AuthenticatedActivityRoute,
   AuthenticatedApprovalsRoute: AuthenticatedApprovalsRoute,
   AuthenticatedCoursesRoute: AuthenticatedCoursesRoute,
@@ -2340,6 +3271,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFinanceScholarshipsRoute: AuthenticatedFinanceScholarshipsRoute,
   AuthenticatedFinanceTaxationRoute: AuthenticatedFinanceTaxationRoute,
   AuthenticatedFinanceVendorsRoute: AuthenticatedFinanceVendorsRoute,
+  AuthenticatedHostelAllocationsRoute: AuthenticatedHostelAllocationsRoute,
+  AuthenticatedHostelAttendanceRoute: AuthenticatedHostelAttendanceRoute,
+  AuthenticatedHostelBedsRoute: AuthenticatedHostelBedsRoute,
+  AuthenticatedHostelBuildingsRoute: AuthenticatedHostelBuildingsRoute,
+  AuthenticatedHostelComplaintsRoute: AuthenticatedHostelComplaintsRoute,
+  AuthenticatedHostelFloorsRoute: AuthenticatedHostelFloorsRoute,
+  AuthenticatedHostelGatePassRoute: AuthenticatedHostelGatePassRoute,
+  AuthenticatedHostelMaintenanceRoute: AuthenticatedHostelMaintenanceRoute,
+  AuthenticatedHostelMessRoute: AuthenticatedHostelMessRoute,
+  AuthenticatedHostelReportsRoute: AuthenticatedHostelReportsRoute,
+  AuthenticatedHostelRoomsRoute: AuthenticatedHostelRoomsRoute,
+  AuthenticatedHostelSettingsRoute: AuthenticatedHostelSettingsRoute,
+  AuthenticatedHostelVisitorsRoute: AuthenticatedHostelVisitorsRoute,
+  AuthenticatedHostelWaitingListRoute: AuthenticatedHostelWaitingListRoute,
   AuthenticatedHrmsAttendanceRoute: AuthenticatedHrmsAttendanceRoute,
   AuthenticatedHrmsEmployeesRoute: AuthenticatedHrmsEmployeesRoute,
   AuthenticatedHrmsLeaveRoute: AuthenticatedHrmsLeaveRoute,
@@ -2349,6 +3294,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHrmsReportsRoute: AuthenticatedHrmsReportsRoute,
   AuthenticatedHrmsSelfServiceRoute: AuthenticatedHrmsSelfServiceRoute,
   AuthenticatedHrmsShiftsRoute: AuthenticatedHrmsShiftsRoute,
+  AuthenticatedInventoryItemsRoute: AuthenticatedInventoryItemsRoute,
+  AuthenticatedInventoryTransactionsRoute:
+    AuthenticatedInventoryTransactionsRoute,
+  AuthenticatedLibraryCatalogRoute: AuthenticatedLibraryCatalogRoute,
+  AuthenticatedLibraryCirculationRoute: AuthenticatedLibraryCirculationRoute,
+  AuthenticatedLibraryFinesRoute: AuthenticatedLibraryFinesRoute,
+  AuthenticatedLibraryMembersRoute: AuthenticatedLibraryMembersRoute,
+  AuthenticatedLibrarySettingsRoute: AuthenticatedLibrarySettingsRoute,
   AuthenticatedLmsWorkspaceIdRoute: AuthenticatedLmsWorkspaceIdRoute,
   AuthenticatedStudentsStudentIdRoute: AuthenticatedStudentsStudentIdRoute,
   AuthenticatedStudentsAdmissionsRoute: AuthenticatedStudentsAdmissionsRoute,
@@ -2359,12 +3312,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedTimetableSubstitutionsRoute,
   AuthenticatedAcademicsIndexRoute: AuthenticatedAcademicsIndexRoute,
   AuthenticatedAttendanceIndexRoute: AuthenticatedAttendanceIndexRoute,
+  AuthenticatedCampusMaintenanceIndexRoute:
+    AuthenticatedCampusMaintenanceIndexRoute,
   AuthenticatedExamsIndexRoute: AuthenticatedExamsIndexRoute,
   AuthenticatedFinanceIndexRoute: AuthenticatedFinanceIndexRoute,
+  AuthenticatedHostelIndexRoute: AuthenticatedHostelIndexRoute,
   AuthenticatedHrmsIndexRoute: AuthenticatedHrmsIndexRoute,
+  AuthenticatedInventoryIndexRoute: AuthenticatedInventoryIndexRoute,
+  AuthenticatedLibraryIndexRoute: AuthenticatedLibraryIndexRoute,
   AuthenticatedLmsIndexRoute: AuthenticatedLmsIndexRoute,
+  AuthenticatedMedicalIndexRoute: AuthenticatedMedicalIndexRoute,
+  AuthenticatedSecurityIndexRoute: AuthenticatedSecurityIndexRoute,
   AuthenticatedStudentsIndexRoute: AuthenticatedStudentsIndexRoute,
   AuthenticatedTimetableIndexRoute: AuthenticatedTimetableIndexRoute,
+  AuthenticatedVisitorsIndexRoute: AuthenticatedVisitorsIndexRoute,
   AuthenticatedAcademicsDepartmentsDepartmentIdRoute:
     AuthenticatedAcademicsDepartmentsDepartmentIdRoute,
   AuthenticatedAcademicsProgramsProgramIdRoute:
@@ -2388,3 +3349,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

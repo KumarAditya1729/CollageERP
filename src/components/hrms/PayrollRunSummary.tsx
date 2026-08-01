@@ -51,18 +51,18 @@ export function PayrollRunSummary({ run, onViewPayslips }: PayrollRunSummaryProp
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Gross</p>
-            <p className="text-lg font-semibold">{`₹${(run.total_gross).toLocaleString("en-IN")}`}</p>
+            <p className="text-lg font-semibold">{`₹${run.total_gross.toLocaleString("en-IN")}`}</p>
           </div>
           <div>
             <p className="text-muted-foreground text-xs">Net Pay</p>
-            <p className="text-lg font-semibold text-primary">{`₹${(run.total_net).toLocaleString("en-IN")}`}</p>
+            <p className="text-lg font-semibold text-primary">{`₹${run.total_net.toLocaleString("en-IN")}`}</p>
           </div>
         </div>
 
         <div>
           <div className="flex justify-between text-xs text-muted-foreground mb-1">
             <span>Deductions</span>
-            <span>{`₹${(run.total_deductions).toLocaleString("en-IN")}`}</span>
+            <span>{`₹${run.total_deductions.toLocaleString("en-IN")}`}</span>
           </div>
           <Progress
             value={run.total_gross > 0 ? (run.total_deductions / run.total_gross) * 100 : 0}

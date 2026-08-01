@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { useRefunds } from "@/hooks/finance/useRefunds";
 import { RefundProcessor } from "@/components/finance/RefundProcessor";
 
-
 export const Route = createFileRoute("/_authenticated/finance/refunds")({
   component: RefundsPage,
 });
@@ -36,7 +35,7 @@ function RefundsPage() {
                   <CardDescription>Reason: {refund.reason}</CardDescription>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="font-bold">{(`₹${Number(refund.amount).toLocaleString('en-IN')}`)}</span>
+                  <span className="font-bold">{`₹${Number(refund.amount).toLocaleString("en-IN")}`}</span>
                   <Badge
                     variant={
                       refund.status === "approved"

@@ -20,11 +20,7 @@ export interface StaffAttendanceRow {
   remarks: string | null;
 }
 
-export function useHRAttendance(filters?: {
-  staffId?: string;
-  from?: string;
-  to?: string;
-}) {
+export function useHRAttendance(filters?: { staffId?: string; from?: string; to?: string }) {
   const { tenant } = useAccess();
   return useQuery({
     queryKey: ["hr_attendance", tenant?.id, filters],

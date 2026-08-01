@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useBankAccounts } from "@/hooks/finance/useReconciliation";
 import { BankStatementImporter } from "@/components/finance/BankStatementImporter";
 
-
 export const Route = createFileRoute("/_authenticated/finance/reconciliation")({
   component: ReconciliationPage,
 });
@@ -33,7 +32,7 @@ function ReconciliationPage() {
             <CardContent>
               <div className="mt-4">
                 <p className="text-sm font-medium text-muted-foreground">System Balance</p>
-                <p className="text-2xl font-bold">{(`₹${Number(acc.current_balance).toLocaleString('en-IN')}`)}</p>
+                <p className="text-2xl font-bold">{`₹${Number(acc.current_balance).toLocaleString("en-IN")}`}</p>
               </div>
             </CardContent>
           </Card>

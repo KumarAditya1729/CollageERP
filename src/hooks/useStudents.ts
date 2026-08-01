@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAccess } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { integrationService } from "@/lib/integrationService";
 import { STUDENT_SELECT, type StudentRecord } from "@/lib/students";
 
 export interface LookupRow {
@@ -202,13 +203,68 @@ export function useStudentMutations() {
       const { data, error } = await supabase
         .from("students")
         .insert({ ...values, tenant_id: tenant!.id, created_by: user?.id ?? null } as never)
-        .select("id")
+        .select("id, admission_number, user_id")
         .single();
       if (error) throw error;
+
+      // Integration 1: Auto-create Library Membership
+      if (data.admission_number) {
+        await supabase.from("lib_members" as unknown as never).insert({
+          tenant_id: tenant!.id,
+          user_id: data.user_id || user?.id, // Fallback if no user_id created yet
+          member_number: data.admission_number,
+          member_type: "student",
+          status: "active",
+          joined_date: new Date().toISOString().split("T")[0],
+        } as unknown as never);
+      }
+
+      // Integration 2: Auto-create Hostel Eligibility (Waiting List)
+      await supabase.from("hos_waiting_list" as unknown as never).insert({
+        tenant_id: tenant!.id,
+        student_id: data.id,
+        status: "waiting",
+        application_date: new Date().toISOString().split("T")[0],
+      } as unknown as never);
+
+      // Integration 3: Auto-create Transport Eligibility is skipped because trn_student_allocations requires route_id and stops which we don't have at admission.
+
+      // Integration 4: Audit, Search, and Timeline
+      await integrationService.insertAuditLog({
+        tenant_id: tenant!.id,
+        actor_id: user?.id ?? null,
+        action: "create",
+        entity_type: "students",
+        entity_id: data.id,
+        entity_label: data.admission_number as string,
+        new_data: values,
+        module: "students",
+      });
+
+      await integrationService.insertSearchIndex({
+        tenant_id: tenant!.id,
+        entity_type: "students",
+        entity_id: data.id,
+        title: String(values.first_name || "") + " " + String(values.last_name || ""),
+        subtitle: `Admission Number: ${data.admission_number}`,
+        url: `/_authenticated/students/${data.id}`,
+        module: "students",
+      });
+
+      await integrationService.insertTimelineEntry({
+        tenant_id: tenant!.id,
+        actor_id: user?.id ?? null,
+        entity_type: "students",
+        entity_id: data.id,
+        module: "students",
+        verb: "ADMITTED",
+        summary: `Student admitted with admission number ${data.admission_number}`,
+      });
+
       return data.id as string;
     },
     onSuccess: () => {
-      toast.success("Student created");
+      toast.success("Student created and integrations configured");
       invalidate();
     },
     onError: (error: Error) => toast.error(error.message),
@@ -218,7 +274,7 @@ export function useStudentMutations() {
     mutationFn: async ({ ids, values }: { ids: string[]; values: Record<string, unknown> }) => {
       const { error } = await supabase
         .from("students")
-        .update({ ...values, updated_by: user?.id ?? null } as never)
+        .update({ ...values, updated_by: user?.id ?? null })
         .in("id", ids);
       if (error) throw error;
     },
@@ -235,7 +291,7 @@ export function useStudentMutations() {
     mutationFn: async (ids: string[]) => {
       const { error } = await supabase
         .from("students")
-        .update({ deleted_at: new Date().toISOString(), deleted_by: user?.id ?? null } as never)
+        .update({ deleted_at: new Date().toISOString(), deleted_by: user?.id ?? null })
         .in("id", ids);
       if (error) throw error;
     },
@@ -250,7 +306,7 @@ export function useStudentMutations() {
     mutationFn: async (ids: string[]) => {
       const { error } = await supabase
         .from("students")
-        .update({ deleted_at: null, deleted_by: null, updated_by: user?.id ?? null } as never)
+        .update({ deleted_at: null, deleted_by: null, updated_by: user?.id ?? null })
         .in("id", ids);
       if (error) throw error;
     },

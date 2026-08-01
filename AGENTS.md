@@ -1,10 +1,19 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
+# CampusOS Agent Guidelines
+
+This project uses Antigravity for AI-assisted development.
+
+## Conventions
+
+- File-based routing via TanStack Router — run `npx @tanstack/router-cli generate` after adding route files
+- All integrations (audit, timeline, search, notifications) go through `src/lib/integrationService.ts`
+- Use existing hooks from `src/hooks/` — do not duplicate data-fetching logic
+- StatCard icon prop accepts a `LucideIcon` component reference (not JSX)
+- DataTable requires `key`, `header`, `getRowId` — see `src/components/common/data-table.tsx`
+
+## Dev Server
+
+```bash
+npm run dev        # Vite dev server with HMR
+npm run build      # Production build
+npm start          # Serve production build
+```

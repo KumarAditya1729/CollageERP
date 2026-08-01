@@ -11,7 +11,6 @@ import { Separator } from "@/components/ui/separator";
 import { Download, Printer } from "lucide-react";
 import type { PayslipRow } from "@/hooks/hrms/usePayroll";
 
-
 interface PayslipViewerProps {
   payslip: PayslipRow;
   trigger?: React.ReactNode;
@@ -82,13 +81,13 @@ export function PayslipViewer({ payslip, trigger }: PayslipViewerProps) {
                     <span className="text-muted-foreground capitalize">
                       {key.replace(/_/g, " ")}
                     </span>
-                    <span className="font-medium">{`₹${(value).toLocaleString("en-IN")}`}</span>
+                    <span className="font-medium">{`₹${value.toLocaleString("en-IN")}`}</span>
                   </div>
                 ))}
                 <Separator className="my-2" />
                 <div className="flex justify-between text-sm font-bold">
                   <span>Gross Salary</span>
-                  <span className="text-green-600">{`₹${(payslip.gross_salary).toLocaleString("en-IN")}`}</span>
+                  <span className="text-green-600">{`₹${payslip.gross_salary.toLocaleString("en-IN")}`}</span>
                 </div>
               </div>
             </div>
@@ -100,13 +99,13 @@ export function PayslipViewer({ payslip, trigger }: PayslipViewerProps) {
                     <span className="text-muted-foreground capitalize">
                       {key.replace(/_/g, " ")}
                     </span>
-                    <span className="font-medium">{`₹${(value).toLocaleString("en-IN")}`}</span>
+                    <span className="font-medium">{`₹${value.toLocaleString("en-IN")}`}</span>
                   </div>
                 ))}
                 <Separator className="my-2" />
                 <div className="flex justify-between text-sm font-bold">
                   <span>Total Deductions</span>
-                  <span className="text-red-500">{`₹${(payslip.total_deductions).toLocaleString("en-IN")}`}</span>
+                  <span className="text-red-500">{`₹${payslip.total_deductions.toLocaleString("en-IN")}`}</span>
                 </div>
               </div>
             </div>
@@ -118,7 +117,7 @@ export function PayslipViewer({ payslip, trigger }: PayslipViewerProps) {
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 flex justify-between items-center">
             <span className="text-lg font-semibold">Net Pay</span>
             <span className="text-3xl font-bold text-primary">
-              {`₹${(payslip.net_salary).toLocaleString("en-IN")}`}
+              {`₹${payslip.net_salary.toLocaleString("en-IN")}`}
             </span>
           </div>
 
