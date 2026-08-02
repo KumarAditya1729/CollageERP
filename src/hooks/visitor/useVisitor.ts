@@ -41,7 +41,8 @@ export function useCreateVisitorPass() {
 
   return useMutation({
     mutationFn: async (pass: Record<string, unknown>) => {
-      const data = await visitorService.createPass({ ...pass, tenant_id: tenant?.id });
+      const { destination, visitor_name, ...dbPass } = pass;
+      const data = await visitorService.createPass({ ...dbPass, tenant_id: tenant?.id });
       // Integration 10: Visitor Entry -> Security Log
       await supabase.from("security_incidents" as unknown as never).insert({
         tenant_id: tenant!.id,

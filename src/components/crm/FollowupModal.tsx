@@ -54,9 +54,9 @@ export function FollowupModal({ open, onOpenChange, lead }: FollowupModalProps) 
         await logFollowup.mutateAsync({
           lead_id: lead.id,
           type: values.type as any,
-          date: values.date ? new Date(values.date).toISOString() : new Date().toISOString(),
-          notes: values.notes,
-          next_followup_date: values.next_followup_date ? new Date(values.next_followup_date).toISOString() : null,
+          date: values.date ? new Date(String(values.date)).toISOString() : new Date().toISOString(),
+          notes: values.notes ? String(values.notes) : null,
+          next_followup_date: values.next_followup_date ? new Date(String(values.next_followup_date)).toISOString() : null,
         });
       }}
     />

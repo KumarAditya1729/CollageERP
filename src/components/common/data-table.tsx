@@ -73,7 +73,8 @@ interface ViewState {
 
 export interface DataTableProps<T> {
   columns: DataTableColumn<T>[];
-  rows: T[] | undefined;
+  rows?: T[] | undefined;
+  data?: T[] | undefined;
   getRowId: (row: T) => string;
   loading?: boolean;
   error?: Error | null;
@@ -110,7 +111,8 @@ function readValue<T>(column: DataTableColumn<T>, row: T) {
 
 export function DataTable<T>({
   columns,
-  rows,
+  rows: rowsProp,
+  data,
   getRowId,
   loading,
   error,
@@ -129,6 +131,7 @@ export function DataTable<T>({
   pageSizeOptions = [10, 25, 50, 100],
   serverPagination,
 }: DataTableProps<T>) {
+  const rows = rowsProp ?? data ?? [];
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState<string[]>([]);

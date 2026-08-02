@@ -72,7 +72,7 @@ export function TemplateBuilder({ open, onOpenChange, template }: TemplateBuilde
         const dataToSave = {
           ...values,
           type: values.type as any,
-          is_active: values.is_active === 'true' || values.is_active === true,
+          is_active: Boolean(values.is_active && values.is_active !== 'false' && values.is_active !== 0),
           content: parsedContent,
         };
 

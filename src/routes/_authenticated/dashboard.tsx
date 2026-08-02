@@ -66,8 +66,8 @@ async function countRows(table: string, tenantId: string, filters?: Record<strin
 }
 
 function DashboardPage() {
-  const { tenant, campus, activeRole, user } = useAccess();
-
+  const { tenant, campus, activeRole } = useAccess();
+  const user: any = (useAccess() as any).user;
   const metrics = useQuery({
     queryKey: ["dashboard-metrics", tenant?.id],
     enabled: Boolean(tenant?.id),
@@ -215,7 +215,7 @@ function DashboardPage() {
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm" className="rounded-[12px] h-9 gap-2 shrink-0 border-border hover:border-emerald-500/50 transition-all font-semibold">
-          <Link to="/fees">
+          <Link to="/finance/payments">
             <DollarSign className="size-4 text-emerald-500" />
             <span>Collect Fee Receipt</span>
           </Link>
@@ -227,7 +227,7 @@ function DashboardPage() {
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm" className="rounded-[12px] h-9 gap-2 shrink-0 border-border hover:border-purple-500/50 transition-all font-semibold">
-          <Link to="/compliance">
+          <Link to="/finance/compliance">
             <ShieldCheck className="size-4 text-purple-500" />
             <span>Generate Statutory Report</span>
           </Link>
@@ -325,7 +325,7 @@ function DashboardPage() {
                   B.Tech CSE Semester 4 shows ₹2,45,000 in uncollected dues exceeding the grace window.
                 </p>
                 <Button asChild variant="link" className="p-0 h-auto text-xs font-bold text-primary">
-                  <Link to="/fees">Initiate Bulk Reminder Email →</Link>
+                  <Link to="/finance/payments">Initiate Bulk Reminder Email →</Link>
                 </Button>
               </div>
 
@@ -340,7 +340,7 @@ function DashboardPage() {
                   All 14 mandatory academic faculty rosters have been validated against AICTE regulations.
                 </p>
                 <Button asChild variant="link" className="p-0 h-auto text-xs font-bold text-emerald-600">
-                  <Link to="/compliance">Download Certified Compliance PDF →</Link>
+                  <Link to="/finance/compliance">Download Certified Compliance PDF →</Link>
                 </Button>
               </div>
 

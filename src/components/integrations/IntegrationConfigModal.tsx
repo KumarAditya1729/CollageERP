@@ -30,7 +30,7 @@ export function IntegrationConfigModal({ open, onOpenChange, catalogItem, existi
       submitLabel="Save Integration Settings"
       initialValues={{
         ...(existing?.config ?? {}),
-        is_enabled: existing ? existing.is_enabled : true,
+        is_enabled: existing ? String(existing.is_enabled) : "true",
       }}
       fields={[
         {
@@ -38,8 +38,8 @@ export function IntegrationConfigModal({ open, onOpenChange, catalogItem, existi
           label: "Connection State",
           type: "select",
           options: [
-            { value: true as any, label: "Enabled & Active" },
-            { value: false as any, label: "Disabled / Disconnect" },
+            { value: "true", label: "Enabled & Active" },
+            { value: "false", label: "Disabled / Disconnect" },
           ],
           required: true,
         },
@@ -53,7 +53,7 @@ export function IntegrationConfigModal({ open, onOpenChange, catalogItem, existi
           display_name: catalogItem.display_name,
           category: catalogItem.category,
           config,
-          is_enabled: is_enabled === "true" || is_enabled === true,
+          is_enabled: Boolean(is_enabled && is_enabled !== "false" && is_enabled !== 0),
           existingId: existing?.id,
         });
       }}

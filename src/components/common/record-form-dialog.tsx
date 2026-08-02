@@ -25,7 +25,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-export type FieldType = "text" | "email" | "tel" | "number" | "date" | "textarea" | "select";
+export type FieldType = "text" | "email" | "tel" | "number" | "date" | "datetime-local" | "time" | "checkbox" | "url" | "password" | "textarea" | "select";
 
 export interface FieldDef {
   name: string;
@@ -41,7 +41,7 @@ export interface FieldDef {
   group?: string;
 }
 
-export type RecordValues = Record<string, string | number | null>;
+export type RecordValues = Record<string, any>;
 
 function buildSchema(fields: FieldDef[]) {
   const shape: Record<string, z.ZodTypeAny> = {};
@@ -96,7 +96,7 @@ export function RecordFormDialog({
   title: string;
   description?: string;
   fields: FieldDef[];
-  initialValues?: RecordValues;
+  initialValues?: any;
   submitLabel?: string;
   onSubmit: (values: RecordValues) => Promise<void>;
   defaultWizard?: boolean;

@@ -18,9 +18,9 @@ export function ErrorBoundaryFallback({ error, resetErrorBoundary }: FallbackPro
           </p>
         </div>
         
-        {error?.message && (
+        {(error as Error)?.message && (
           <div className="w-full rounded-md bg-red-50 p-3 text-left text-xs text-red-800 dark:bg-red-950/50 dark:text-red-300 overflow-auto max-h-32">
-            <code className="break-words font-mono">{error.message}</code>
+            <code className="break-words font-mono">{(error as Error).message}</code>
           </div>
         )}
 
