@@ -37,7 +37,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAccess } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -366,55 +365,82 @@ function StudentDetailPage() {
         }
       />
 
-      <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
-        <div className="space-y-4">
-          <Card className="shadow-none">
-            <CardContent className="space-y-4 pt-6">
-              <div className="flex items-center gap-3">
-                <Avatar className="size-14">
+      <div className="grid gap-6 lg:grid-cols-[340px_1fr] items-start">
+        {/* Sticky 360° Summary & Jump Navigation Sidebar */}
+        <div className="space-y-5 sticky top-24">
+          <Card className="rounded-[24px] border border-border bg-card shadow-sm overflow-hidden">
+            <div className="h-20 bg-linear-to-r from-primary/15 via-purple-500/10 to-transparent border-b border-border/60" />
+            <CardContent className="space-y-5 px-6 pb-6 -mt-10">
+              <div className="flex items-end justify-between">
+                <Avatar className="size-20 border-4 border-card shadow-md rounded-2xl">
                   <AvatarImage src={row.photo_url ?? undefined} alt={studentName(row)} />
-                  <AvatarFallback>{initials(row)}</AvatarFallback>
+                  <AvatarFallback className="text-lg font-bold bg-primary text-primary-foreground">{initials(row)}</AvatarFallback>
                 </Avatar>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold">{studentName(row)}</p>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    <Badge variant={statusTone[row.status] ?? "secondary"} className="capitalize">
-                      {humanise(row.status)}
-                    </Badge>
-                    {row.deleted_at ? <Badge variant="destructive">Archived</Badge> : null}
-                  </div>
-                </div>
+                <Badge variant={statusTone[row.status] ?? "secondary"} className="capitalize font-mono text-xs px-2.5 py-0.5 rounded-full shadow-2xs">
+                  {humanise(row.status)}
+                </Badge>
               </div>
 
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Profile completion</span>
-                  <span className="font-medium tabular-nums">{completion.percent}%</span>
+              <div>
+                <h2 className="text-lg font-extrabold text-foreground tracking-tight">{studentName(row)}</h2>
+                <p className="text-xs font-mono text-muted-foreground mt-0.5">{row.admission_number}{row.roll_number ? ` · Roll #${row.roll_number}` : ""}</p>
+              </div>
+
+              <div className="space-y-2 rounded-[16px] bg-muted/40 p-4 border border-border/80">
+                <div className="flex items-center justify-between text-xs font-semibold">
+                  <span className="text-muted-foreground">Data Profile Complete</span>
+                  <span className="text-primary font-mono font-bold tabular-nums">{completion.percent}%</span>
                 </div>
-                <Progress value={completion.percent} />
+                <Progress value={completion.percent} className="h-2 rounded-full bg-muted" />
                 {completion.missing.length ? (
-                  <p className="text-xs text-muted-foreground">
-                    Missing: {completion.missing.slice(0, 4).join(", ")}
-                    {completion.missing.length > 4 ? ` +${completion.missing.length - 4} more` : ""}
+                  <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+                    ⚠️ Missing: {completion.missing.slice(0, 3).join(", ")}
+                    {completion.missing.length > 3 ? ` +${completion.missing.length - 3} more` : ""}
                   </p>
                 ) : (
-                  <p className="text-xs text-muted-foreground">All key fields captured.</p>
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">✅ 100% verified student telemetry.</p>
                 )}
               </div>
 
-              <div className="grid gap-3 border-t pt-4">
-                <Field label="Email" value={row.email ?? "—"} />
-                <Field label="Phone" value={row.phone ?? "—"} />
-                <Field label="Campus" value={campusName ?? "—"} />
-                <Field label="Academic year" value={yearName ?? "—"} />
+              <div className="grid gap-3.5 border-t border-border/80 pt-4">
+                <Field label="Institutional Email" value={row.email ?? "—"} />
+                <Field label="Primary Contact" value={row.phone ?? "—"} />
+                <Field label="Assigned Campus" value={campusName ?? "—"} />
+                <Field label="Current Academic Year" value={yearName ?? "—"} />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle className="text-sm">Tags</CardTitle>
-              <CardDescription>Group students for reporting and outreach.</CardDescription>
+          <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+            <CardHeader className="py-3 px-5 border-b border-border/60 bg-muted/20">
+              <CardTitle className="text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">360° Profile Jump Menu</CardTitle>
+            </CardHeader>
+            <CardContent className="p-2 space-y-1 text-xs font-semibold">
+              <a href="#overview" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>👤 Personal & Family Overview</span>
+              </a>
+              <a href="#academic" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>🎓 Academic Standing & CGPA</span>
+              </a>
+              <a href="#guardians" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>👨‍👩‍👦 Guardian Network ({guardians.data?.length ?? 0})</span>
+              </a>
+              <a href="#documents" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>🗂️ Verified Documents ({documentsCount.data ?? 0})</span>
+              </a>
+              <a href="#id-card" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>🪪 Digital Identity Card</span>
+              </a>
+              <a href="#timeline" className="flex items-center gap-2 px-3 py-2 rounded-[12px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                <span>⏳ Audit Timeline & Notes</span>
+              </a>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xs font-mono uppercase text-muted-foreground font-bold">Assigned Tags</CardTitle>
+              <CardDescription className="text-[11px]">Categorize student for targeted filtering.</CardDescription>
             </CardHeader>
             <CardContent>
               <EntityTags entityType="students" entityId={row.id} canManage={canManage} />
@@ -422,142 +448,139 @@ function StudentDetailPage() {
           </Card>
         </div>
 
-        <Tabs defaultValue="overview">
-          <TabsList className="flex-wrap">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="academic">Academic</TabsTrigger>
-            <TabsTrigger value="guardians">Guardians</TabsTrigger>
-            <TabsTrigger value="documents">Documents</TabsTrigger>
-            <TabsTrigger value="custom">Custom fields</TabsTrigger>
-            <TabsTrigger value="timeline">Timeline</TabsTrigger>
-            <TabsTrigger value="discussion">Discussion</TabsTrigger>
-            <TabsTrigger value="id">ID card</TabsTrigger>
-          </TabsList>
+        {/* 360° Scrollable Single-Page Profile Canvas */}
+        <div className="space-y-8 min-w-0">
+          {/* Section 1: Personal & Family Overview */}
+          <section id="overview" className="space-y-5 scroll-mt-28">
+            <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+              <span className="flex size-7 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 font-bold text-xs">👤</span>
+              <h3 className="text-base font-extrabold tracking-tight text-foreground">Personal & Family Overview</h3>
+            </div>
 
-          <TabsContent value="overview" className="mt-4 space-y-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Personal details</CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-3">
-                <Field label="Full name" value={studentName(row)} />
-                <Field label="Gender" value={humanise(row.gender)} />
-                <Field label="Date of birth" value={formatDate(row.date_of_birth)} />
-                <Field
-                  label="Blood group"
-                  value={masterLabel(lookups.data?.bloodGroups, row.blood_group_id)}
+            <div className="grid gap-5">
+              <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+                <CardHeader className="px-6 py-4 border-b border-border/60 bg-muted/20">
+                  <CardTitle className="text-sm font-bold">Demographics & Identifiers</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 grid gap-6 sm:grid-cols-3">
+                  <Field label="Full Name" value={studentName(row)} />
+                  <Field label="Gender" value={humanise(row.gender)} />
+                  <Field label="Date of Birth" value={formatDate(row.date_of_birth)} />
+                  <Field label="Blood Group" value={masterLabel(lookups.data?.bloodGroups, row.blood_group_id)} />
+                  <Field label="Category" value={masterLabel(lookups.data?.categories, row.category_id)} />
+                  <Field label="Caste" value={masterLabel(lookups.data?.castes, row.caste_id)} />
+                  <Field label="Religion" value={masterLabel(lookups.data?.religions, row.religion_id)} />
+                  <Field label="Nationality" value={masterLabel(lookups.data?.nationalities, row.nationality_id)} />
+                  <Field label="ABC ID" value={row.abc_id ?? "—"} />
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+                <CardHeader className="px-6 py-4 border-b border-border/60 bg-muted/20">
+                  <CardTitle className="text-sm font-bold">Contact Coordinates & Address</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 grid gap-6 sm:grid-cols-2">
+                  <Field label="Institutional Email" value={row.email ?? "—"} />
+                  <Field label="Personal Phone" value={row.phone ?? "—"} />
+                  <Field label="Emergency Contact" value={row.emergency_contact ?? "—"} />
+                  <Field label="Permanent Residence Address" value={addressToText(row.address)} />
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+                <CardHeader className="px-6 py-4 border-b border-border/60 bg-muted/20">
+                  <CardTitle className="text-sm font-bold">Parental Summary</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 grid gap-6 sm:grid-cols-3">
+                  <Field label="Father's Name" value={row.father_name ?? "—"} />
+                  <Field label="Mother's Name" value={row.mother_name ?? "—"} />
+                  <Field label="Guardian Name" value={row.guardian_name ?? "—"} />
+                  <Field label="Guardian Phone" value={row.guardian_phone ?? "—"} />
+                  <Field label="Guardian Email" value={row.guardian_email ?? "—"} />
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* Section 2: Academic Standing */}
+          <section id="academic" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+              <span className="flex size-7 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 font-bold text-xs">🎓</span>
+              <h3 className="text-base font-extrabold tracking-tight text-foreground">Academic Records & Progression</h3>
+            </div>
+
+            <Card className="rounded-[20px] border border-border bg-card shadow-xs overflow-hidden">
+              <CardContent className="p-6">
+                <AcademicRecordsTab
+                  row={row}
+                  departmentName={departmentName}
+                  programName={programName}
+                  semesterName={semesterName}
+                  yearName={yearName}
+                  credits={credits}
+                  cgpa={cgpa}
+                  enrollments={enrollments}
                 />
-                <Field
-                  label="Category"
-                  value={masterLabel(lookups.data?.categories, row.category_id)}
-                />
-                <Field label="Caste" value={masterLabel(lookups.data?.castes, row.caste_id)} />
-                <Field
-                  label="Religion"
-                  value={masterLabel(lookups.data?.religions, row.religion_id)}
-                />
-                <Field
-                  label="Nationality"
-                  value={masterLabel(lookups.data?.nationalities, row.nationality_id)}
-                />
-                <Field label="ABC ID" value={row.abc_id ?? "—"} />
               </CardContent>
             </Card>
+          </section>
 
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Contact & address</CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-2">
-                <Field label="Email" value={row.email ?? "—"} />
-                <Field label="Phone" value={row.phone ?? "—"} />
-                <Field label="Emergency contact" value={row.emergency_contact ?? "—"} />
-                <Field label="Address" value={addressToText(row.address)} />
-              </CardContent>
-            </Card>
+          {/* Section 3: Guardian Network */}
+          <section id="guardians" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center justify-between border-b border-border/80 pb-2">
+              <div className="flex items-center gap-2">
+                <span className="flex size-7 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 font-bold text-xs">👨‍👩‍👦</span>
+                <h3 className="text-base font-extrabold tracking-tight text-foreground">Guardian Network</h3>
+              </div>
+              {canManage ? (
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setGuardianEditId(null);
+                    setGuardianEditing(null);
+                    setGuardianOpen(true);
+                  }}
+                  className="rounded-[12px] h-8 font-semibold text-xs shadow-xs"
+                >
+                  + Add Guardian
+                </Button>
+              ) : null}
+            </div>
 
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Family summary</CardTitle>
-                <CardDescription>
-                  Detailed guardian records live in the Guardians tab.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-3">
-                <Field label="Father" value={row.father_name ?? "—"} />
-                <Field label="Mother" value={row.mother_name ?? "—"} />
-                <Field label="Guardian" value={row.guardian_name ?? "—"} />
-                <Field label="Guardian phone" value={row.guardian_phone ?? "—"} />
-                <Field label="Guardian email" value={row.guardian_email ?? "—"} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="academic" className="mt-4 space-y-4">
-            <AcademicRecordsTab
-              row={row}
-              departmentName={departmentName}
-              programName={programName}
-              semesterName={semesterName}
-              yearName={yearName}
-              credits={credits}
-              cgpa={cgpa}
-              enrollments={enrollments}
-            />
-          </TabsContent>
-
-          <TabsContent value="guardians" className="mt-4">
-            <Card className="shadow-none">
-              <CardHeader className="flex-row items-center justify-between space-y-0">
-                <div>
-                  <CardTitle className="text-sm">Guardians</CardTitle>
-                  <CardDescription>Parents, guardians and emergency contacts.</CardDescription>
-                </div>
-                {canManage ? (
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      setGuardianEditId(null);
-                      setGuardianEditing(null);
-                      setGuardianOpen(true);
-                    }}
-                  >
-                    Add guardian
-                  </Button>
-                ) : null}
-              </CardHeader>
-              <CardContent className="space-y-2">
+            <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+              <CardContent className="p-6 space-y-3">
                 {guardians.isLoading ? <InlineLoader /> : null}
                 {!guardians.isLoading && !(guardians.data ?? []).length ? (
-                  <p className="text-sm text-muted-foreground">No guardian records yet.</p>
+                  <p className="text-xs text-muted-foreground py-4 text-center font-medium">No official guardian profiles attached yet.</p>
                 ) : null}
                 {(guardians.data ?? []).map((guardian) => (
                   <div
                     key={guardian.id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3"
+                    className="flex flex-wrap items-center justify-between gap-4 rounded-[16px] border border-border p-4 bg-muted/20 hover:bg-muted/40 transition-colors"
                   >
                     <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium">{guardian.full_name}</p>
-                        <Badge variant="outline" className="capitalize">
+                      <div className="flex items-center gap-2.5">
+                        <p className="text-sm font-bold text-foreground">{guardian.full_name}</p>
+                        <Badge variant="outline" className="capitalize font-mono text-[10px] bg-card">
                           {humanise(guardian.relation)}
                         </Badge>
-                        {guardian.is_primary ? <Badge>Primary</Badge> : null}
+                        {guardian.is_primary ? <Badge className="bg-emerald-500/15 text-emerald-600 border-emerald-500/20 font-mono text-[10px]">Primary Contact</Badge> : null}
                       </div>
                       <p className="mt-1 text-xs text-muted-foreground">
                         {[guardian.phone, guardian.email, guardian.occupation]
                           .filter(Boolean)
-                          .join(" · ") || "No contact details"}
+                          .join(" · ") || "No contact details provided"}
                         {guardian.annual_income
-                          ? ` · annual income ${Number(guardian.annual_income).toLocaleString()}`
+                          ? ` · Annual income ₹${Number(guardian.annual_income).toLocaleString()}`
                           : ""}
                       </p>
                     </div>
                     {canManage ? (
-                      <div className="flex gap-1.5">
+                      <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           size="sm"
+                          className="h-8 rounded-xl text-xs font-semibold"
                           onClick={() => {
                             setGuardianEditId(guardian.id);
                             setGuardianEditing({
@@ -577,7 +600,7 @@ function StudentDetailPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-destructive"
+                          className="h-8 rounded-xl text-xs text-destructive hover:bg-destructive/10"
                           onClick={() => removeGuardian.mutate(guardian.id)}
                         >
                           Remove
@@ -588,17 +611,17 @@ function StudentDetailPage() {
                 ))}
               </CardContent>
             </Card>
-          </TabsContent>
+          </section>
 
-          <TabsContent value="documents" className="mt-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Student documents</CardTitle>
-                <CardDescription>
-                  Verification status, expiry tracking and version history.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          {/* Section 4: Verified Documents */}
+          <section id="documents" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+              <span className="flex size-7 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 font-bold text-xs">🗂️</span>
+              <h3 className="text-base font-extrabold tracking-tight text-foreground">Verified Documents Repository</h3>
+            </div>
+
+            <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+              <CardContent className="p-6">
                 <EntityDocuments
                   entityType="students"
                   entityId={row.id}
@@ -607,62 +630,28 @@ function StudentDetailPage() {
                 />
               </CardContent>
             </Card>
-          </TabsContent>
+          </section>
 
-          <TabsContent value="custom" className="mt-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Custom fields</CardTitle>
-                <CardDescription>
-                  Institution-specific data captured for every student.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CustomFieldsPanel entityType="students" entityId={row.id} canManage={canManage} />
-              </CardContent>
-            </Card>
-          </TabsContent>
+          {/* Section 5: Digital ID Card */}
+          <section id="id-card" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center justify-between border-b border-border/80 pb-2">
+              <div className="flex items-center gap-2">
+                <span className="flex size-7 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 font-bold text-xs">🪪</span>
+                <h3 className="text-base font-extrabold tracking-tight text-foreground">Digital Identity Card</h3>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-semibold" onClick={() => window.print()}>
+                  <IdCard className="size-3.5 mr-1.5" />
+                  Print ID
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 rounded-xl text-xs font-semibold" asChild>
+                  <Link to="/students/id-cards">Batch Print</Link>
+                </Button>
+              </div>
+            </div>
 
-          <TabsContent value="timeline" className="mt-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Timeline</CardTitle>
-                <CardDescription>Audit trail and activity feed for this student.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <EntityTimeline entityType="students" entityId={row.id} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="discussion" className="mt-4">
-            <Card className="shadow-none">
-              <CardContent className="pt-6">
-                <EntityComments entityType="students" entityId={row.id} canManage={canManage} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="id" className="mt-4">
-            <Card className="shadow-none">
-              <CardHeader className="flex-row items-center justify-between space-y-0">
-                <div>
-                  <CardTitle className="text-sm">Digital identity card</CardTitle>
-                  <CardDescription>
-                    QR verification payload and Code128 admission barcode.
-                  </CardDescription>
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => window.print()}>
-                    <IdCard className="size-4" />
-                    Print
-                  </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link to="/students/id-cards">Batch print</Link>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
+            <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+              <CardContent className="p-6 flex justify-center bg-muted/10">
                 <StudentIdCard
                   student={row}
                   context={{
@@ -676,8 +665,50 @@ function StudentDetailPage() {
                 />
               </CardContent>
             </Card>
-          </TabsContent>
-        </Tabs>
+          </section>
+
+          {/* Section 6: Custom Fields */}
+          <section id="custom" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+              <span className="flex size-7 items-center justify-center rounded-xl bg-slate-500/10 text-slate-600 font-bold text-xs">⚙️</span>
+              <h3 className="text-base font-extrabold tracking-tight text-foreground">Custom Institutional Fields</h3>
+            </div>
+
+            <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+              <CardContent className="p-6">
+                <CustomFieldsPanel entityType="students" entityId={row.id} canManage={canManage} />
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Section 7: Timeline & Discussions */}
+          <section id="timeline" className="space-y-5 scroll-mt-28 pt-4 border-t border-border/70">
+            <div className="flex items-center gap-2 border-b border-border/80 pb-2">
+              <span className="flex size-7 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 font-bold text-xs">⏳</span>
+              <h3 className="text-base font-extrabold tracking-tight text-foreground">Audit Timeline & Faculty Discussion</h3>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+                <CardHeader className="px-6 py-4 border-b border-border/60 bg-muted/20">
+                  <CardTitle className="text-sm font-bold">Activity Log & Audit Trail</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <EntityTimeline entityType="students" entityId={row.id} />
+                </CardContent>
+              </Card>
+
+              <Card className="rounded-[20px] border border-border bg-card shadow-xs">
+                <CardHeader className="px-6 py-4 border-b border-border/60 bg-muted/20">
+                  <CardTitle className="text-sm font-bold">Faculty Notes & Comments</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <EntityComments entityType="students" entityId={row.id} canManage={canManage} />
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        </div>
       </div>
 
       <RecordFormDialog

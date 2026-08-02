@@ -15,6 +15,7 @@ import {
   RoleSwitcher,
 } from "@/components/layout/switchers";
 import { ThemeToggle, UserMenu } from "@/components/layout/user-menu";
+import { AICopilotButton } from "@/components/common/ai-copilot-modal";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,17 +36,17 @@ function ShellBreadcrumbs() {
 
   return (
     <Breadcrumb className="hidden md:block">
-      <BreadcrumbList>
+      <BreadcrumbList className="text-xs font-medium">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/dashboard">CampusOS</Link>
+            <Link to="/dashboard" className="transition-colors hover:text-primary">CampusOS 3.0</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {current ? (
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{current.title}</BreadcrumbPage>
+              <BreadcrumbPage className="font-semibold text-foreground">{current.title}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         ) : null}
@@ -61,21 +62,25 @@ export function AppShell({ children }: { children: ReactNode }) {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
-        <SidebarInset className="min-w-0 bg-background">
-          <header className="sticky top-0 z-30 flex flex-col gap-2.5 border-b border-border/80 bg-background/85 px-5 py-3 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 shadow-2xs">
-            <div className="flex items-center gap-2.5">
-              <SidebarTrigger aria-label="Toggle sidebar" className="hover:bg-muted/70 rounded-lg p-2 transition-colors" />
-              <Separator orientation="vertical" className="mr-1 hidden h-5 sm:block opacity-60" />
-              <div className="hidden lg:flex lg:items-center lg:gap-1">
-                <OrganizationSwitcher />
-                <CampusSwitcher />
-                <AcademicYearSwitcher />
-                <AcademicSessionSwitcher />
+        <SidebarInset className="min-w-0 bg-background flex flex-col">
+          <header className="sticky top-0 z-30 flex flex-col gap-2 border-b border-border bg-card px-6 py-2.5 shadow-2xs transition-all duration-180">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <SidebarTrigger aria-label="Toggle sidebar" className="hover:bg-muted rounded-[12px] p-2 transition-colors cursor-pointer text-foreground" />
+                <Separator orientation="vertical" className="mr-1 hidden h-5 sm:block border-border" />
+                <div className="hidden lg:flex lg:items-center lg:gap-1.5">
+                  <OrganizationSwitcher />
+                  <CampusSwitcher />
+                  <AcademicYearSwitcher />
+                  <AcademicSessionSwitcher />
+                </div>
               </div>
-              <div className="ml-auto flex items-center gap-1.5">
-                <div className="hidden sm:block">
+
+              <div className="flex items-center gap-2">
+                <div className="hidden md:block">
                   <GlobalSearch />
                 </div>
+                <AICopilotButton className="hidden sm:inline-flex h-9" />
                 <RoleSwitcher className="hidden xl:inline-flex" />
                 <QuickActions />
                 <Button
@@ -84,32 +89,35 @@ export function AppShell({ children }: { children: ReactNode }) {
                   aria-label="Messages"
                   disabled
                   title="Messages — coming soon"
+                  className="rounded-[12px] h-9 w-9"
                 >
-                  <MessageSquare className="size-4.5" />
+                  <MessageSquare className="size-4.5 text-muted-foreground" />
                 </Button>
                 <NotificationCenter />
                 <ActivityDrawer />
+                <Separator orientation="vertical" className="h-5 mx-1 hidden sm:block border-border" />
                 <ThemeToggle />
                 <UserMenu />
               </div>
             </div>
-            <div className="flex items-center justify-between gap-2">
+            
+            <div className="flex items-center justify-between gap-2 pt-0.5 border-t border-border/40">
               <ShellBreadcrumbs />
-              <div className="sm:hidden">
+              <div className="sm:hidden w-full">
                 <GlobalSearch />
               </div>
             </div>
           </header>
 
           {!online ? (
-            <div className="flex items-center gap-2 border-b bg-muted/60 px-4 py-2 text-sm text-muted-foreground">
-              <WifiOff className="size-4" aria-hidden />
+            <div className="flex items-center justify-center gap-2 border-b border-warning/40 bg-warning/10 px-4 py-2 text-xs font-medium text-warning-foreground">
+              <WifiOff className="size-4 text-warning" aria-hidden />
               You are offline. Changes will fail to save until the connection returns.
             </div>
           ) : null}
 
-          <main className="flex-1 px-5 py-7 sm:px-8 lg:px-10">
-            <div className="mx-auto w-full max-w-[1450px] space-y-7 transition-all duration-200">{children}</div>
+          <main className="flex-1 px-6 py-8 sm:px-8 lg:px-12">
+            <div className="mx-auto w-full max-w-[1550px] space-y-7 transition-all duration-180">{children}</div>
           </main>
         </SidebarInset>
       </div>
