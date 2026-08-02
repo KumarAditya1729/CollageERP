@@ -228,9 +228,9 @@ export function DataTable<T>({
   }, [sorted.length, totalRecordCount]);
 
   return (
-    <div className="space-y-4.5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/70 pb-3">
-        <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-xl border border-border/60">
+    <div className="space-y-4.5 w-full min-w-0">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/70 pb-3 w-full min-w-0">
+        <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-xl border border-border/60 overflow-x-auto no-scrollbar w-full sm:w-auto shrink-0">
           <button
             type="button"
             onClick={() => setView((p) => ({ ...p, activeTab: "all" }))}
