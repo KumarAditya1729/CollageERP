@@ -26,7 +26,7 @@ export const libraryService = {
   async getMembers(tenantId: string) {
     const { data, error } = await db
       .from("lib_members")
-      .select("*, users(first_name, last_name, email)")
+      .select("*, users:profiles(first_name, last_name, email)")
       .eq("tenant_id", tenantId);
     if (error) throw error;
     return data;
@@ -36,7 +36,7 @@ export const libraryService = {
     const { data, error } = await db
       .from("lib_issue_transactions")
       .select(
-        "*, lib_members(member_number, users(first_name, last_name)), lib_item_copies(accession_number, lib_items(title))",
+        "*, lib_members(member_number, users:profiles(first_name, last_name)), lib_item_copies(accession_number, lib_items(title))",
       )
       .eq("tenant_id", tenantId)
       .order("issue_date", { ascending: false });
@@ -57,7 +57,7 @@ export const libraryService = {
   async getFines(tenantId: string) {
     const { data, error } = await db
       .from("lib_fines")
-      .select("*, lib_members(member_number, users(first_name, last_name))")
+      .select("*, lib_members(member_number, users:profiles(first_name, last_name))")
       .eq("tenant_id", tenantId)
       .order("created_at", { ascending: false });
     if (error) throw error;
@@ -95,7 +95,7 @@ export const libraryService = {
   async getReservations(tenantId: string) {
     const { data, error } = await db
       .from("lib_reservations")
-      .select("*, lib_members(member_number, users(first_name, last_name)), lib_items(title)")
+      .select("*, lib_members(member_number, users:profiles(first_name, last_name)), lib_items(title)")
       .eq("tenant_id", tenantId)
       .order("created_at", { ascending: false });
     if (error) throw error;

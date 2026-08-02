@@ -7,7 +7,7 @@ export const medicalService = {
   async getRecords(tenantId: string) {
     const { data, error } = await db
       .from("medical_records")
-      .select("*, users(first_name, last_name)")
+      .select("*, users:profiles(first_name, last_name)")
       .eq("tenant_id", tenantId);
     if (error) throw error;
     return data;
@@ -16,7 +16,7 @@ export const medicalService = {
   async getVisits(tenantId: string) {
     const { data, error } = await db
       .from("medical_visits")
-      .select("*, users(first_name, last_name)")
+      .select("*, users:profiles(first_name, last_name)")
       .eq("tenant_id", tenantId)
       .order("visit_time", { ascending: false });
     if (error) throw error;
@@ -32,7 +32,7 @@ export const medicalService = {
   async getVaccinations(tenantId: string) {
     const { data, error } = await db
       .from("vaccinations")
-      .select("*, users(first_name, last_name)")
+      .select("*, users:profiles(first_name, last_name)")
       .eq("tenant_id", tenantId)
       .order("administered_date", { ascending: false });
     if (error) throw error;

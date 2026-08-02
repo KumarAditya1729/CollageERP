@@ -42,7 +42,7 @@ export const securityService = {
   async getPanicAlerts(tenantId: string) {
     const { data, error } = await db
       .from("panic_alerts")
-      .select("*, users(first_name, last_name)")
+      .select("*, users:profiles(first_name, last_name)")
       .eq("tenant_id", tenantId)
       .order("created_at", { ascending: false });
     if (error) throw error;
