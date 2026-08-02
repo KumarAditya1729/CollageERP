@@ -411,101 +411,159 @@ export function DataTable<T>({
             ) : emptyAction}
           />
         ) : (
-          <div className="max-h-[calc(100vh-22rem)] overflow-auto">
-            <Table>
-              <TableHeader className="sticky top-0 z-10 bg-muted/90 backdrop-blur-md border-b border-border text-[11px] font-mono uppercase tracking-wider font-bold text-muted-foreground">
-                <TableRow className="hover:bg-transparent border-0">
-                  {bulkActions ? (
-                    <TableHead className="w-12 pl-5">
-                      <Checkbox
-                        checked={allOnPageSelected}
-                        aria-label="Select all rows on this page"
-                        onCheckedChange={(checked) =>
-                          setSelected((prev) => {
-                            const ids = pageRows.map(getRowId);
-                            return checked
-                              ? Array.from(new Set([...prev, ...ids]))
-                              : prev.filter((id) => !ids.includes(id));
-                          })
-                        }
-                      />
-                    </TableHead>
-                  ) : null}
-                  {visibleColumns.map((column) => (
-                    <TableHead
-                      key={column.key}
-                      className={cn("whitespace-nowrap py-3 font-mono text-[11px] font-bold tracking-wider uppercase", column.headerClassName)}
-                    >
-                      {column.sortable === false ? (
-                        column.header
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => toggleSort(column.key)}
-                          className="inline-flex items-center gap-1.5 font-bold hover:text-foreground cursor-pointer transition-colors"
-                        >
-                          {column.header}
-                          {view.sortKey === column.key ? (
-                            view.sortDir === "asc" ? (
-                              <ArrowUp className="size-3.5 text-primary font-bold" />
-                            ) : (
-                              <ArrowDown className="size-3.5 text-primary font-bold" />
-                            )
-                          ) : (
-                            <ArrowUpDown className="size-3 opacity-30 hover:opacity-100 transition-opacity" />
-                          )}
-                        </button>
-                      )}
-                    </TableHead>
-                  ))}
-                  {rowActions ? <TableHead className="w-16 text-right pr-5">Actions</TableHead> : null}
-                </TableRow>
-              </TableHeader>
-              <TableBody className="divide-y divide-border/60">
-                {pageRows.map((row, idx) => {
-                  const id = getRowId(row);
-                  return (
-                    <TableRow
-                      key={id}
-                      data-state={selected.includes(id) ? "selected" : undefined}
-                      className={cn(
-                        "transition-colors duration-180 hover:bg-muted/50 data-[state=selected]:bg-primary/5",
-                        onRowClick && "cursor-pointer"
-                      )}
-                      onClick={onRowClick ? () => onRowClick(row) : undefined}
-                    >
-                      {bulkActions ? (
-                        <TableCell className="w-12 pl-5" onClick={(event) => event.stopPropagation()}>
-                          <Checkbox
-                            checked={selected.includes(id)}
-                            aria-label="Select row"
-                            onCheckedChange={(checked) =>
-                              setSelected((prev) =>
-                                checked ? [...prev, id] : prev.filter((value) => value !== id),
+          <>
+            <div className="hidden sm:block max-h-[calc(100vh-22rem)] overflow-auto">
+              <Table>
+                <TableHeader className="sticky top-0 z-10 bg-muted/90 backdrop-blur-md border-b border-border text-[11px] font-mono uppercase tracking-wider font-bold text-muted-foreground">
+                  <TableRow className="hover:bg-transparent border-0">
+                    {bulkActions ? (
+                      <TableHead className="w-12 pl-5">
+                        <Checkbox
+                          checked={allOnPageSelected}
+                          aria-label="Select all rows on this page"
+                          onCheckedChange={(checked) =>
+                            setSelected((prev) => {
+                              const ids = pageRows.map(getRowId);
+                              return checked
+                                ? Array.from(new Set([...prev, ...ids]))
+                                : prev.filter((id) => !ids.includes(id));
+                            })
+                          }
+                        />
+                      </TableHead>
+                    ) : null}
+                    {visibleColumns.map((column) => (
+                      <TableHead
+                        key={column.key}
+                        className={cn("whitespace-nowrap py-3 font-mono text-[11px] font-bold tracking-wider uppercase", column.headerClassName)}
+                      >
+                        {column.sortable === false ? (
+                          column.header
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => toggleSort(column.key)}
+                            className="inline-flex items-center gap-1.5 font-bold hover:text-foreground cursor-pointer transition-colors"
+                          >
+                            {column.header}
+                            {view.sortKey === column.key ? (
+                              view.sortDir === "asc" ? (
+                                <ArrowUp className="size-3.5 text-primary font-bold" />
+                              ) : (
+                                <ArrowDown className="size-3.5 text-primary font-bold" />
                               )
-                            }
-                          />
-                        </TableCell>
-                      ) : null}
-                      {visibleColumns.map((column) => (
-                        <TableCell key={column.key} className={cn("py-3.5 text-xs font-normal", column.className)}>
-                          {column.render ? column.render(row) : (readValue(column, row) ?? "—")}
-                        </TableCell>
-                      ))}
+                            ) : (
+                              <ArrowUpDown className="size-3 opacity-30 hover:opacity-100 transition-opacity" />
+                            )}
+                          </button>
+                        )}
+                      </TableHead>
+                    ))}
+                    {rowActions ? <TableHead className="w-16 text-right pr-5">Actions</TableHead> : null}
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="divide-y divide-border/60">
+                  {pageRows.map((row, idx) => {
+                    const id = getRowId(row);
+                    return (
+                      <TableRow
+                        key={id}
+                        data-state={selected.includes(id) ? "selected" : undefined}
+                        className={cn(
+                          "transition-colors duration-180 hover:bg-muted/50 data-[state=selected]:bg-primary/5",
+                          onRowClick && "cursor-pointer"
+                        )}
+                        onClick={onRowClick ? () => onRowClick(row) : undefined}
+                      >
+                        {bulkActions ? (
+                          <TableCell className="w-12 pl-5" onClick={(event) => event.stopPropagation()}>
+                            <Checkbox
+                              checked={selected.includes(id)}
+                              aria-label="Select row"
+                              onCheckedChange={(checked) =>
+                                setSelected((prev) =>
+                                  checked ? [...prev, id] : prev.filter((value) => value !== id),
+                                )
+                              }
+                            />
+                          </TableCell>
+                        ) : null}
+                        {visibleColumns.map((column) => (
+                          <TableCell key={column.key} className={cn("py-3.5 text-xs font-normal", column.className)}>
+                            {column.render ? column.render(row) : (readValue(column, row) ?? "—")}
+                          </TableCell>
+                        ))}
+                        {rowActions ? (
+                          <TableCell
+                            className="text-right pr-5 py-2.5"
+                            onClick={(event) => event.stopPropagation()}
+                          >
+                            {rowActions(row)}
+                          </TableCell>
+                        ) : null}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+
+            {/* Mobile Responsive Stacked Card View (Build to fit any display) */}
+            <div className="sm:hidden divide-y divide-border/60 max-h-[calc(100vh-16rem)] overflow-auto bg-card/40">
+              {pageRows.map((row) => {
+                const id = getRowId(row);
+                return (
+                  <div
+                    key={id}
+                    className={cn(
+                      "p-4 space-y-3 transition-colors duration-180 hover:bg-muted/30",
+                      selected.includes(id) && "bg-primary/5",
+                      onRowClick && "cursor-pointer"
+                    )}
+                    onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  >
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-2">
+                      <div className="flex items-center gap-2.5">
+                        {bulkActions ? (
+                          <div onClick={(event) => event.stopPropagation()}>
+                            <Checkbox
+                              checked={selected.includes(id)}
+                              aria-label="Select row"
+                              onCheckedChange={(checked) =>
+                                setSelected((prev) =>
+                                  checked ? [...prev, id] : prev.filter((value) => value !== id)
+                                )
+                              }
+                            />
+                          </div>
+                        ) : null}
+                        <span className="font-mono text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                          Record #{String(id).slice(0, 8)}
+                        </span>
+                      </div>
                       {rowActions ? (
-                        <TableCell
-                          className="text-right pr-5 py-2.5"
-                          onClick={(event) => event.stopPropagation()}
-                        >
+                        <div onClick={(event) => event.stopPropagation()}>
                           {rowActions(row)}
-                        </TableCell>
+                        </div>
                       ) : null}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                      {visibleColumns.map((column) => (
+                        <div key={column.key} className={cn("space-y-0.5 overflow-hidden", column.className)}>
+                          <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-wider block truncate">
+                            {typeof column.header === "string" ? column.header : column.key}
+                          </span>
+                          <div className="text-foreground font-medium truncate">
+                            {column.render ? column.render(row) : (readValue(column, row) ?? "—")}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
 
