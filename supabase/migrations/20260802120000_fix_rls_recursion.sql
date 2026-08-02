@@ -8,9 +8,7 @@ CREATE POLICY profiles_select_self ON public.profiles FOR SELECT TO authenticate
     OR public.is_platform_admin()
     OR EXISTS (
       SELECT 1 FROM public.tenant_members m
-      WHERE m.user_id = profiles.id AND m.tenant_id IN (
-        SELECT tm.tenant_id FROM public.tenant_members tm WHERE tm.user_id = auth.uid() AND tm.status = 'active' AND tm.deleted_at IS NULL
-      )
+      WHERE m.user_id = profiles.id AND m.tenant_id IN (SELECT public.user_tenant_ids())
     )
   );
 
@@ -19,9 +17,7 @@ DROP POLICY IF EXISTS tenant_members_select ON public.tenant_members;
 CREATE POLICY tenant_members_select ON public.tenant_members FOR SELECT TO authenticated
   USING (
     user_id = auth.uid() 
-    OR tenant_id IN (
-      SELECT tm.tenant_id FROM public.tenant_members tm WHERE tm.user_id = auth.uid() AND tm.status = 'active' AND tm.deleted_at IS NULL
-    )
+    OR tenant_id IN (SELECT public.user_tenant_ids())
     OR public.is_platform_admin()
   );
 
