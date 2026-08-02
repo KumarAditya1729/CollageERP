@@ -51,7 +51,7 @@ function HostelMessPage() {
     if (!plans) return [];
     return plans.map((p: any) => ({
       value: p.id,
-      label: `${p.name} - $${p.cost_per_month}/mo`,
+      label: `${p.name} - ₹${p.cost_per_month}/mo`,
     }));
   }, [plans]);
 

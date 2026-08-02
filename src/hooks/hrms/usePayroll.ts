@@ -89,18 +89,27 @@ export function usePayslips(payrollRunId: string) {
   });
 }
 
+export interface GeneratePayrollInput {
+  name: string;
+  pay_period_start: string;
+  pay_period_end: string;
+  working_days: number;
+}
+
 export function useCreatePayrollRun() {
   const queryClient = useQueryClient();
   const { tenant } = useAccess();
   return useMutation({
-    mutationFn: async (input: Partial<PayrollRunRow>): Promise<PayrollRunRow> => {
-      const { data, error } = await db
-        .from("hr_payroll_runs")
-        .insert([{ ...input, tenant_id: tenant?.id }])
-        .select()
-        .single();
+    mutationFn: async (input: GeneratePayrollInput): Promise<string> => {
+      const { data, error } = await db.rpc("generate_payroll_run", {
+        p_tenant_id: tenant?.id,
+        p_name: input.name,
+        p_pay_period_start: input.pay_period_start,
+        p_pay_period_end: input.pay_period_end,
+        p_working_days: input.working_days,
+      });
       if (error) throw error;
-      return data as PayrollRunRow;
+      return data as string; // returns payroll_run_id
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payroll_runs"] });

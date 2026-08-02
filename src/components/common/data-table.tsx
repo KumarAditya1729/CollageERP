@@ -301,7 +301,7 @@ export function DataTable<T>({
         </div>
       ) : null}
 
-      <div className="overflow-hidden rounded-xl border bg-card">
+      <div className="overflow-hidden rounded-xl border border-border/40 bg-card shadow-sm">
         {error ? (
           <ErrorState description={error.message} onRetry={onRetry} />
         ) : loading ? (

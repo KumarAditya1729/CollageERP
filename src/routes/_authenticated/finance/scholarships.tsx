@@ -103,7 +103,7 @@ function ScholarshipsPage() {
                           <Badge variant="secondary">
                             {scholarship.amount_type === "percentage"
                               ? `${scholarship.amount_value}%`
-                              : `$${scholarship.amount_value.toLocaleString()}`}
+                              : `₹${scholarship.amount_value.toLocaleString()}`}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
@@ -163,7 +163,7 @@ function ScholarshipsPage() {
                           <Badge variant="outline">
                             {discount.amount_type === "percentage"
                               ? `${discount.amount_value}%`
-                              : `$${discount.amount_value.toLocaleString()}`}
+                              : `₹${discount.amount_value.toLocaleString()}`}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">

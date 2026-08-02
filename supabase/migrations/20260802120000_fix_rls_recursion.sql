@@ -5,7 +5,7 @@ DROP POLICY IF EXISTS profiles_select_self ON public.profiles;
 CREATE POLICY profiles_select_self ON public.profiles FOR SELECT TO authenticated
   USING (
     id = auth.uid()
-    OR (SELECT p.is_platform_admin FROM public.profiles p WHERE p.id = auth.uid())
+    OR public.is_platform_admin()
     OR EXISTS (
       SELECT 1 FROM public.tenant_members m
       WHERE m.user_id = profiles.id AND m.tenant_id IN (
@@ -22,7 +22,7 @@ CREATE POLICY tenant_members_select ON public.tenant_members FOR SELECT TO authe
     OR tenant_id IN (
       SELECT tm.tenant_id FROM public.tenant_members tm WHERE tm.user_id = auth.uid() AND tm.status = 'active' AND tm.deleted_at IS NULL
     )
-    OR (SELECT p.is_platform_admin FROM public.profiles p WHERE p.id = auth.uid())
+    OR public.is_platform_admin()
   );
 
 -- 3. Fix Student Guardians Policy (Break circular dependency with students)

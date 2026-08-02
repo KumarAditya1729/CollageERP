@@ -48,6 +48,7 @@ import {
   ShieldOff,
   Heart,
   Syringe,
+  Plug,
   type LucideIcon,
 } from "lucide-react";
 
@@ -88,6 +89,12 @@ export const navGroups: NavGroup[] = [
         to: "/students/admissions",
         icon: UserPlus,
         permission: "student.view",
+      },
+      {
+        title: "CRM & Leads",
+        to: "/crm",
+        icon: UserPlus,
+        permission: "student.manage",
       },
       {
         title: "Student reports",
@@ -317,13 +324,14 @@ export const navGroups: NavGroup[] = [
     items: [
       { title: "Documents", to: "/documents", icon: FileText, permission: "document.view" },
       { title: "Media library", to: "/media", icon: Image, permission: "media.manage" },
+      { title: "Design Studio", to: "/design", icon: Image, permission: "media.manage" },
     ],
   },
   {
     label: "Operations",
     items: [
       { title: "Approvals", to: "/approvals", icon: CheckSquare, permission: "workflow.view" },
-      { title: "Notifications", to: "/notifications", icon: Bell },
+      { title: "Communication Center", to: "/communications", icon: Bell },
       { title: "Activity", to: "/activity", icon: Activity, permission: "audit.view" },
     ],
   },
@@ -351,6 +359,12 @@ export const navGroups: NavGroup[] = [
         title: "Financial Reports",
         to: "/finance/reports",
         icon: BarChart3,
+        permission: "finance.view",
+      },
+      {
+        title: "Statutory Compliance",
+        to: "/finance/compliance",
+        icon: ShieldCheck,
         permission: "finance.view",
       },
     ],
@@ -502,6 +516,7 @@ export const navGroups: NavGroup[] = [
     items: [
       { title: "Users", to: "/users", icon: Users, permission: "user.manage" },
       { title: "Roles & permissions", to: "/roles", icon: ShieldCheck, permission: "role.manage" },
+      { title: "Integrations", to: "/integrations", icon: Plug, permission: "settings.manage" },
       { title: "Settings", to: "/settings/general", icon: Settings, permission: "settings.manage" },
     ],
   },

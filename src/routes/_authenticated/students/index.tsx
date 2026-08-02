@@ -37,7 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAccess } from "@/hooks/useAccess";
-import { useStudentLookups, useStudentMutations, useStudentRegister } from "@/hooks/useStudents";
+import { usePaginatedStudents, useStudentLookups, useStudentMutations, useStudentRegister } from "@/hooks/useStudents";
 import { downloadCsv, formatDate } from "@/lib/export";
 import {
   GENDERS,
@@ -89,7 +89,7 @@ function StudentRegisterPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
   const lookups = useStudentLookups();
-  const register = useStudentRegister({ includeArchived: archived, page, pageSize });
+  const register = usePaginatedStudents({ includeArchived: archived, page, pageSize });
   const { createStudent, updateStudent, archiveStudents, restoreStudents } = useStudentMutations();
 
   const departmentName = (id: string | null) =>

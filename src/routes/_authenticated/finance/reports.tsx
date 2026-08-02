@@ -75,7 +75,7 @@ function ReportsPage() {
               <CardTitle className="text-sm font-medium">Total Revenue (YTD)</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$1,245,890.00</div>
+              <div className="text-2xl font-bold">₹1,245,890.00</div>
               <p className="text-xs text-muted-foreground">+12.5% from last year</p>
             </CardContent>
           </Card>
@@ -85,7 +85,7 @@ function ReportsPage() {
               <CardTitle className="text-sm font-medium">Outstanding Dues</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$45,231.00</div>
+              <div className="text-2xl font-bold">₹45,231.00</div>
               <p className="text-xs text-muted-foreground">-4% from last month</p>
             </CardContent>
           </Card>
@@ -95,7 +95,7 @@ function ReportsPage() {
               <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$845,120.00</div>
+              <div className="text-2xl font-bold">₹845,120.00</div>
               <p className="text-xs text-muted-foreground">Budget Utilization: 68%</p>
             </CardContent>
           </Card>
@@ -105,7 +105,7 @@ function ReportsPage() {
               <CardTitle className="text-sm font-medium">Net Cash Flow</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">+$400,770.00</div>
+              <div className="text-2xl font-bold text-green-600">+₹400,770.00</div>
               <p className="text-xs text-muted-foreground">Positive operating flow</p>
             </CardContent>
           </Card>

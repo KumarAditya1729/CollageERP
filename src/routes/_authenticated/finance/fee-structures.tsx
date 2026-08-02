@@ -153,7 +153,7 @@ function FeeStructuresPage() {
                         </TableCell>
                         <TableCell>{head.is_refundable ? "Yes" : "No"}</TableCell>
                         <TableCell className="text-right">
-                          {head.default_amount ? `$${head.default_amount.toLocaleString()}` : "-"}
+                          {head.default_amount ? `₹${head.default_amount.toLocaleString()}` : "-"}
                         </TableCell>
                       </TableRow>
                     ))

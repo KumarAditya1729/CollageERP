@@ -62,7 +62,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <SidebarInset className="min-w-0">
-          <header className="sticky top-0 z-30 flex flex-col gap-2 border-b bg-background/95 px-4 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+          <header className="sticky top-0 z-30 flex flex-col gap-2 border-b border-border/40 bg-background/70 px-4 py-2.5 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
             <div className="flex items-center gap-2">
               <SidebarTrigger aria-label="Toggle sidebar" />
               <Separator orientation="vertical" className="mr-1 hidden h-5 sm:block" />

@@ -24,6 +24,7 @@ import { RecordFormDialog, type RecordValues } from "@/components/common/record-
 import { ErrorState, InlineLoader } from "@/components/common/states";
 import { StudentIdCard } from "@/components/students/student-id-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AcademicRecordsTab } from "@/components/students/profile/academic-records-tab";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -493,66 +494,16 @@ function StudentDetailPage() {
           </TabsContent>
 
           <TabsContent value="academic" className="mt-4 space-y-4">
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Academic profile</CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-4 sm:grid-cols-3">
-                <Field label="Department" value={departmentName ?? "—"} />
-                <Field label="Programme" value={programName ?? "—"} />
-                <Field label="Semester" value={semesterName ?? "—"} />
-                <Field label="Academic year" value={yearName ?? "—"} />
-                <Field label="Admission number" value={row.admission_number} />
-                <Field label="Registration number" value={row.registration_number ?? "—"} />
-                <Field label="Roll number" value={row.roll_number ?? "—"} />
-                <Field label="Admitted on" value={formatDate(row.admission_date)} />
-                <Field label="Graduated on" value={formatDate(row.graduation_date)} />
-                <Field label="Credits registered" value={credits || "—"} />
-                <Field label="CGPA" value={cgpa ?? "Awaiting results"} />
-                <Field
-                  label="Academic standing"
-                  value={
-                    row.status === "enrolled"
-                      ? cgpa && Number(cgpa) < 5
-                        ? "Needs support"
-                        : "Good standing"
-                      : humanise(row.status)
-                  }
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-none">
-              <CardHeader>
-                <CardTitle className="text-sm">Registered courses</CardTitle>
-                <CardDescription>Live enrolments from the academic records.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {enrollments.isLoading ? <InlineLoader /> : null}
-                {!enrollments.isLoading && !(enrollments.data ?? []).length ? (
-                  <p className="text-sm text-muted-foreground">No course registrations yet.</p>
-                ) : null}
-                <ul className="space-y-2">
-                  {(enrollments.data ?? []).map((item) => (
-                    <li
-                      key={item.id}
-                      className="flex items-center justify-between rounded-lg border p-3 text-sm"
-                    >
-                      <span>
-                        <span className="font-medium">{item.courses?.code}</span> ·{" "}
-                        {item.courses?.title}
-                      </span>
-                      <span className="flex items-center gap-2 text-muted-foreground">
-                        {item.courses?.credits ? `${item.courses.credits} credits` : null}
-                        <Badge variant="outline" className="capitalize">
-                          {humanise(item.status)}
-                        </Badge>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <AcademicRecordsTab
+              row={row}
+              departmentName={departmentName}
+              programName={programName}
+              semesterName={semesterName}
+              yearName={yearName}
+              credits={credits}
+              cgpa={cgpa}
+              enrollments={enrollments}
+            />
           </TabsContent>
 
           <TabsContent value="guardians" className="mt-4">

@@ -121,8 +121,32 @@ export function useStudentLookups() {
   });
 }
 
-/** The full student register for the active tenant/campus. */
-export function useStudentRegister({
+/** The full student register for the active tenant/campus, without pagination (used for dropdowns and bulk operations). */
+export function useStudentRegister(includeArchived = false) {
+  const { tenant, campus } = useAccess();
+
+  return useQuery({
+    queryKey: ["students-register", tenant?.id, campus?.id ?? null, includeArchived],
+    enabled: Boolean(tenant?.id),
+    queryFn: async () => {
+      let builder = supabase
+        .from("students")
+        .select(STUDENT_SELECT)
+        .eq("tenant_id", tenant!.id);
+        
+      if (!includeArchived) builder = builder.is("deleted_at", null);
+      if (campus?.id) builder = builder.eq("campus_id", campus.id);
+      
+      const { data, error } = await builder.order("admission_number").limit(1000);
+      
+      if (error) throw error;
+      return (data ?? []) as unknown as StudentRecord[];
+    },
+  });
+}
+
+/** Paginated student register for the data table. */
+export function usePaginatedStudents({
   includeArchived = false,
   page = 1,
   pageSize = 50,
@@ -130,7 +154,7 @@ export function useStudentRegister({
   const { tenant, campus } = useAccess();
 
   return useQuery({
-    queryKey: ["students-register", tenant?.id, campus?.id ?? null, includeArchived, page, pageSize],
+    queryKey: ["students-paginated", tenant?.id, campus?.id ?? null, includeArchived, page, pageSize],
     enabled: Boolean(tenant?.id),
     queryFn: async () => {
       let builder = supabase
@@ -234,18 +258,21 @@ export function useStudentMutations() {
       }
 
       // Integration 2: Auto-create Hostel Eligibility (Waiting List)
-      await supabase.from("hos_waiting_list" as unknown as never).insert({
-        tenant_id: tenant!.id,
-        student_id: data.id,
-        status: "waiting",
-        application_date: new Date().toISOString().split("T")[0],
-      } as unknown as never);
+      if (values.opt_hostel && tenant?.id) {
+        await supabase.from("hos_waiting_list" as unknown as never).insert({
+          tenant_id: tenant.id,
+          student_id: data.id,
+          status: "waiting",
+          application_date: new Date().toISOString().split("T")[0],
+        } as unknown as never);
+      }
 
       // Integration 3: Auto-create Transport Eligibility (Waiting List)
       if (values.opt_transport && tenant?.id) {
-        const { error: trnError } = await supabase.from("trn_waiting_list").insert({
+        const { error: trnError } = await supabase.from("trn_waiting_list" as any).insert({
           tenant_id: tenant.id,
           student_id: data.id,
+          pickup_location: values.pickup_location || null,
           status: "waiting",
         });
 

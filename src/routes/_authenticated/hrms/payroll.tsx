@@ -8,6 +8,7 @@ import { Plus, Calendar } from "lucide-react";
 import { usePayrollRuns, usePayslips } from "@/hooks/hrms/usePayroll";
 import { PayrollRunSummary } from "@/components/hrms/PayrollRunSummary";
 import { PayslipViewer } from "@/components/hrms/PayslipViewer";
+import { GeneratePayrollDialog } from "@/components/hrms/GeneratePayrollDialog";
 
 export const Route = createFileRoute("/_authenticated/hrms/payroll")({
   component: PayrollPage,
@@ -15,7 +16,8 @@ export const Route = createFileRoute("/_authenticated/hrms/payroll")({
 
 function PayrollPage() {
   const [selectedRunId, setSelectedRunId] = useState<string | null>(null);
-  const { data: runs, isLoading } = usePayrollRuns();
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+  const { data: runs, isLoading, refetch } = usePayrollRuns();
   const { data: payslips } = usePayslips(selectedRunId ?? "");
 
   return (
@@ -27,7 +29,7 @@ function PayrollPage() {
             Process monthly payroll, manage payslips and bank transfers
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setIsGenerateModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           New Payroll Run
         </Button>
@@ -123,6 +125,12 @@ function PayrollPage() {
           )}
         </div>
       </div>
+
+      <GeneratePayrollDialog 
+        open={isGenerateModalOpen} 
+        onOpenChange={setIsGenerateModalOpen} 
+        onSuccess={() => refetch()} 
+      />
     </div>
   );
 }

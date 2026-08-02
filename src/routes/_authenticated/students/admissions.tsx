@@ -399,6 +399,25 @@ function AdmissionsPage() {
           },
           { name: "guardian_name", label: "Guardian name" },
           { name: "guardian_phone", label: "Guardian phone", type: "tel" },
+          {
+            name: "opt_transport",
+            label: "Opt for transport?",
+            type: "select",
+            options: [
+              { value: "true", label: "Yes" },
+              { value: "false", label: "No" },
+            ],
+          },
+          { name: "pickup_location", label: "Transport pickup location (Optional)" },
+          {
+            name: "opt_hostel",
+            label: "Opt for hostel?",
+            type: "select",
+            options: [
+              { value: "true", label: "Yes" },
+              { value: "false", label: "No" },
+            ],
+          },
         ]}
         onSubmit={async (values) => {
           const programCode =
@@ -406,6 +425,8 @@ function AdmissionsPage() {
           const numbers = await generateStudentNumbers(tenant!.id, { programCode });
           await createStudent.mutateAsync({
             ...values,
+            opt_transport: values.opt_transport === "true",
+            opt_hostel: values.opt_hostel === "true",
             admission_number: numbers.admission_number,
             status: "applicant",
             campus_id: campus?.id ?? null,

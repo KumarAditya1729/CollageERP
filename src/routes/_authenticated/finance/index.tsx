@@ -34,19 +34,19 @@ function FinanceDashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Invoiced"
-          value={`$${totalInvoiced.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          value={`₹${totalInvoiced.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
           icon={<FileText className="h-4 w-4 text-muted-foreground" />}
           trend={{ value: 12, label: "from last month", isPositive: true }}
         />
         <StatCard
           title="Total Collected"
-          value={`$${totalCollected.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          value={`₹${totalCollected.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
           icon={<Banknote className="h-4 w-4 text-muted-foreground" />}
           trend={{ value: 8, label: "from last month", isPositive: true }}
         />
         <StatCard
           title="Pending Dues"
-          value={`$${totalPending.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          value={`₹${totalPending.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
           icon={<CreditCard className="h-4 w-4 text-muted-foreground" />}
         />
         <StatCard

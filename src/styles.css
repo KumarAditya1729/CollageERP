@@ -19,6 +19,7 @@
  */
 
 @theme inline {
+  --font-sans: "Inter", "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -68,15 +69,15 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.995 0.001 250);
-  --foreground: oklch(0.21 0.02 258);
+  --radius: 0.85rem;
+  --background: oklch(0.99 0.01 250);
+  --foreground: oklch(0.15 0.02 258);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.02 258);
+  --card-foreground: oklch(0.15 0.02 258);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.02 258);
-  --primary: oklch(0.5 0.17 259);
-  --primary-foreground: oklch(0.99 0.002 250);
+  --popover-foreground: oklch(0.15 0.02 258);
+  --primary: oklch(0.45 0.17 259);
+  --primary-foreground: oklch(0.99 0.01 250);
   --secondary: oklch(0.966 0.006 250);
   --secondary-foreground: oklch(0.3 0.02 258);
   --muted: oklch(0.97 0.004 250);
@@ -110,14 +111,14 @@
 }
 
 .dark {
-  --background: oklch(0.17 0.015 258);
-  --foreground: oklch(0.96 0.004 250);
-  --card: oklch(0.212 0.017 258);
-  --card-foreground: oklch(0.96 0.004 250);
-  --popover: oklch(0.212 0.017 258);
-  --popover-foreground: oklch(0.96 0.004 250);
-  --primary: oklch(0.68 0.15 258);
-  --primary-foreground: oklch(0.16 0.02 258);
+  --background: oklch(0.15 0.015 258);
+  --foreground: oklch(0.98 0.005 250);
+  --card: oklch(0.18 0.017 258);
+  --card-foreground: oklch(0.98 0.005 250);
+  --popover: oklch(0.18 0.017 258);
+  --popover-foreground: oklch(0.98 0.005 250);
+  --primary: oklch(0.60 0.15 258);
+  --primary-foreground: oklch(0.12 0.02 258);
   --secondary: oklch(0.265 0.019 258);
   --secondary-foreground: oklch(0.94 0.005 250);
   --muted: oklch(0.26 0.018 258);
