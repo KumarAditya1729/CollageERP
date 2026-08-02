@@ -210,16 +210,16 @@ export function DataTable<T>({
     }));
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-1 flex-wrap items-center gap-2">
-          <div className="relative w-full max-w-xs">
+        <div className="flex flex-1 flex-wrap items-center gap-2.5">
+          <div className="relative w-full max-w-sm">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={searchPlaceholder}
-              className="pl-9"
+              className="pl-9 h-9 rounded-lg border-border/80 bg-background/90 shadow-xs focus-visible:ring-primary/50 transition-all"
               aria-label="Search table"
             />
             {query ? (
@@ -301,7 +301,7 @@ export function DataTable<T>({
         </div>
       ) : null}
 
-      <div className="overflow-hidden rounded-xl border border-border/40 bg-card shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-border/80 bg-card/95 shadow-xs backdrop-blur-xs transition-shadow">
         {error ? (
           <ErrorState description={error.message} onRetry={onRetry} />
         ) : loading ? (
@@ -315,9 +315,9 @@ export function DataTable<T>({
             action={query ? undefined : emptyAction}
           />
         ) : (
-          <div className="max-h-[calc(100vh-22rem)] overflow-auto">
+          <div className="max-h-[calc(100vh-21rem)] overflow-auto">
             <Table>
-              <TableHeader className="sticky top-0 z-10 bg-card">
+              <TableHeader className="sticky top-0 z-10 bg-muted/80 backdrop-blur-md border-b border-border/80 text-xs uppercase tracking-wider font-bold">
                 <TableRow className="hover:bg-transparent">
                   {bulkActions ? (
                     <TableHead className="w-10">
@@ -372,7 +372,10 @@ export function DataTable<T>({
                     <TableRow
                       key={id}
                       data-state={selected.includes(id) ? "selected" : undefined}
-                      className={cn(onRowClick && "cursor-pointer")}
+                      className={cn(
+                        "transition-colors hover:bg-muted/70 even:bg-muted/20 data-[state=selected]:bg-primary/10",
+                        onRowClick && "cursor-pointer hover:shadow-2xs"
+                      )}
                       onClick={onRowClick ? () => onRowClick(row) : undefined}
                     >
                       {bulkActions ? (
@@ -411,13 +414,13 @@ export function DataTable<T>({
       </div>
 
       {!loading && !error && (serverPagination ? serverPagination.totalRows > 0 : sorted.length > 0) ? (
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-muted-foreground">
+        <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between border-t border-border/40 text-xs text-muted-foreground font-medium">
+          <p>
             Showing {(currentPage - 1) * (serverPagination ? serverPagination.pageSize : view.pageSize) + 1}–
             {Math.min(currentPage * (serverPagination ? serverPagination.pageSize : view.pageSize), serverPagination ? serverPagination.totalRows : sorted.length)} of {serverPagination ? serverPagination.totalRows : sorted.length}
           </p>
-          <div className="flex items-center space-x-2">
-            <p className="hidden text-sm font-medium md:block">Rows per page</p>
+          <div className="flex items-center space-x-3">
+            <p className="hidden text-xs font-semibold uppercase tracking-wider text-muted-foreground md:block">Rows per page</p>
             <Select
               value={String(serverPagination ? serverPagination.pageSize : view.pageSize)}
               onValueChange={(v) => {

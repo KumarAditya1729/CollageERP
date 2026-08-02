@@ -61,11 +61,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
-        <SidebarInset className="min-w-0">
-          <header className="sticky top-0 z-30 flex flex-col gap-2 border-b border-border/40 bg-background/70 px-4 py-2.5 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 shadow-sm">
-            <div className="flex items-center gap-2">
-              <SidebarTrigger aria-label="Toggle sidebar" />
-              <Separator orientation="vertical" className="mr-1 hidden h-5 sm:block" />
+        <SidebarInset className="min-w-0 bg-background">
+          <header className="sticky top-0 z-30 flex flex-col gap-2.5 border-b border-border/80 bg-background/85 px-5 py-3 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 shadow-2xs">
+            <div className="flex items-center gap-2.5">
+              <SidebarTrigger aria-label="Toggle sidebar" className="hover:bg-muted/70 rounded-lg p-2 transition-colors" />
+              <Separator orientation="vertical" className="mr-1 hidden h-5 sm:block opacity-60" />
               <div className="hidden lg:flex lg:items-center lg:gap-1">
                 <OrganizationSwitcher />
                 <CampusSwitcher />
@@ -108,8 +108,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           ) : null}
 
-          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto w-full max-w-[1400px] space-y-6">{children}</div>
+          <main className="flex-1 px-5 py-7 sm:px-8 lg:px-10">
+            <div className="mx-auto w-full max-w-[1450px] space-y-7 transition-all duration-200">{children}</div>
           </main>
         </SidebarInset>
       </div>

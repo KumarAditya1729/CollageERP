@@ -172,14 +172,14 @@ export function RecordFormDialog({
   return (
     <>
       <Dialog open={open} onOpenChange={requestClose}>
-        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            {description ? <DialogDescription>{description}</DialogDescription> : null}
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl p-7 border-border/80">
+          <DialogHeader className="pb-3 border-b border-border/40">
+            <DialogTitle className="text-xl">{title}</DialogTitle>
+            {description ? <DialogDescription className="text-sm mt-1">{description}</DialogDescription> : null}
           </DialogHeader>
 
           <form
-            className="grid gap-4 sm:grid-cols-2"
+            className="grid gap-5 sm:grid-cols-2 py-3"
             onSubmit={(event) => {
               event.preventDefault();
               void submit();
@@ -190,10 +190,10 @@ export function RecordFormDialog({
               const error = errors[field.name];
               const value = values[field.name] ?? "";
               return (
-                <div key={field.name} className={cn("space-y-2", field.full && "sm:col-span-2")}>
-                  <Label htmlFor={id}>
+                <div key={field.name} className={cn("space-y-1.5", field.full && "sm:col-span-2")}>
+                  <Label htmlFor={id} className="text-xs font-semibold tracking-wide uppercase text-muted-foreground/90 flex items-center">
                     {field.label}
-                    {field.required ? <span className="ml-0.5 text-destructive">*</span> : null}
+                    {field.required ? <span className="ml-1 text-destructive font-bold">*</span> : null}
                   </Label>
 
                   {field.type === "select" ? (
@@ -257,11 +257,11 @@ export function RecordFormDialog({
             })}
           </form>
 
-          <DialogFooter>
-            <Button variant="outline" onClick={() => requestClose(false)} disabled={busy}>
+          <DialogFooter className="pt-4 mt-2">
+            <Button variant="outline" onClick={() => requestClose(false)} disabled={busy} className="w-24">
               Cancel
             </Button>
-            <Button onClick={() => void submit()} disabled={busy}>
+            <Button onClick={() => void submit()} disabled={busy} className="w-32 shadow-sm font-semibold">
               {busy ? "Saving…" : submitLabel}
             </Button>
           </DialogFooter>

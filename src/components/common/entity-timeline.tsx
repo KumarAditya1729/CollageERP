@@ -93,18 +93,24 @@ export function EntityTimeline({
   }
 
   return (
-    <ol className="relative space-y-4 border-l pl-5">
+    <ol className="relative space-y-5 border-l-2 border-primary/30 pl-6 my-2">
       {timeline.data.map((entry) => (
-        <li key={entry.id} className="relative">
-          <span className="absolute -left-[27px] top-1.5 size-2.5 rounded-full border-2 border-background bg-primary" />
-          <div className="flex flex-wrap items-center gap-2">
-            <p className="text-sm font-medium capitalize">{entry.title}</p>
-            <Badge variant="outline" className="text-[10px]">
-              {entry.kind}
-            </Badge>
-            <span className="text-xs text-muted-foreground">{formatDateTime(entry.at)}</span>
+        <li key={entry.id} className="relative p-3.5 rounded-xl border border-border/70 bg-muted/20 hover:bg-muted/45 transition-all shadow-2xs">
+          <span className="absolute -left-[31px] top-4 size-3 rounded-full border-2 border-background bg-primary ring-4 ring-primary/20" />
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold capitalize tracking-tight text-foreground">{entry.title}</p>
+              <Badge variant={entry.kind === "Audit" ? "default" : "secondary"} className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0">
+                {entry.kind}
+              </Badge>
+            </div>
+            <span className="text-[11px] font-medium text-muted-foreground tabular-nums">{formatDateTime(entry.at)}</span>
           </div>
-          {entry.detail ? <p className="text-sm text-muted-foreground">{entry.detail}</p> : null}
+          {entry.detail ? (
+            <p className="text-xs text-muted-foreground/90 font-mono bg-background/60 p-2 rounded-lg border border-border/40 mt-1">
+              {entry.detail}
+            </p>
+          ) : null}
         </li>
       ))}
     </ol>

@@ -94,17 +94,17 @@ export function AppSidebar() {
   );
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-border/40 bg-background/70 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center gap-2.5 px-1 py-1.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <GraduationCap className="size-4.5" />
+    <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar/95 backdrop-blur-md">
+      <SidebarHeader className="border-b border-border/40 bg-transparent px-3 py-3">
+        <div className="flex items-center gap-3">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-tr from-primary via-primary/90 to-chart-2 text-primary-foreground shadow-sm ring-1 ring-primary/30">
+            <GraduationCap className="size-5" />
           </div>
           {!collapsed ? (
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold leading-tight">CampusOS</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {tenant?.name ?? "No college"}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-bold tracking-tight text-foreground">CampusOS</p>
+              <p className="truncate text-[11px] font-medium text-muted-foreground/90 uppercase tracking-wider">
+                {tenant?.name ?? "Enterprise ERP"}
               </p>
             </div>
           ) : null}
@@ -129,10 +129,12 @@ export function AppSidebar() {
           const items = group.items.filter(visible);
           if (items.length === 0) return null;
           return (
-            <SidebarGroup key={group.label}>
-              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroup key={group.label} className="py-1.5">
+              <SidebarGroupLabel className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground/80 px-2">
+                {group.label}
+              </SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu>
+                <SidebarMenu className="space-y-0.5">
                   {items.map((item) => renderItem(item, { pinnable: true }))}
                 </SidebarMenu>
               </SidebarGroupContent>

@@ -106,11 +106,13 @@ export function GlobalSearch() {
       <Button
         variant="outline"
         onClick={() => setOpen(true)}
-        className="h-9 w-full justify-start gap-2 px-3 text-muted-foreground sm:w-72"
+        className="h-9 w-full justify-between gap-2 rounded-lg border-border/80 bg-muted/30 px-3.5 text-muted-foreground hover:bg-muted/60 hover:border-border hover:text-foreground transition-all sm:w-72 shadow-2xs group"
       >
-        <Search className="size-4" />
-        <span className="truncate text-sm">Search CampusOS…</span>
-        <kbd className="ml-auto hidden rounded border bg-muted px-1.5 py-0.5 text-[10px] font-medium sm:inline">
+        <div className="flex items-center gap-2 truncate">
+          <Search className="size-4 text-muted-foreground/80 group-hover:text-primary transition-colors" />
+          <span className="truncate text-sm font-medium">Quick Search...</span>
+        </div>
+        <kbd className="hidden rounded-md border border-border/60 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] font-bold text-muted-foreground/90 shadow-2xs sm:inline-block">
           ⌘K
         </kbd>
       </Button>
