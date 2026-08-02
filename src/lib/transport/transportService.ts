@@ -195,7 +195,7 @@ export const transportService = {
     const { data, error } = await db
       .from("trn_faculty_allocations")
       .select(
-        "*, employees(first_name, last_name, employee_id), trn_routes(name), pickup_stop:trn_stops!pickup_stop_id(name), drop_stop:trn_stops!drop_stop_id(name)",
+        "*, employees:staff(first_name, last_name, employee_id), trn_routes(name), pickup_stop:trn_stops!pickup_stop_id(name), drop_stop:trn_stops!drop_stop_id(name)",
       )
       .eq("tenant_id", tenantId)
       .order("created_at", { ascending: false });
