@@ -250,23 +250,14 @@ function DashboardPage() {
         />
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Enrolled Students" value={metrics.data?.students} icon={GraduationCap} />
-          <StatCard label="Faculty Members" value={metrics.data?.faculty} icon={UsersRound} />
-          <StatCard label="Staff Workforce" value={metrics.data?.staff} icon={UsersRound} />
-          <StatCard label="Active Departments" value={metrics.data?.departments} icon={Building2} />
-          <StatCard label="Academic Programmes" value={metrics.data?.programs} icon={Library} />
-          <StatCard label="Course Offerings" value={metrics.data?.courses} icon={BookOpen} />
-          <StatCard label="Document Repository" value={metrics.data?.documents} icon={FileText} />
-          <StatCard
-            label="Pending Workflows"
-            value={metrics.data?.approvals}
-            icon={CheckSquare}
-            footer={
-              <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs font-semibold text-primary">
-                <Link to="/approvals">Process inbox ({metrics.data?.approvals ?? 0}) →</Link>
-              </Button>
-            }
-          />
+          <StatCard label="Enrolled Students" value={metrics.data?.students} icon={GraduationCap} to="/students" />
+          <StatCard label="Faculty Members" value={metrics.data?.faculty} icon={UsersRound} to="/faculty" />
+          <StatCard label="Staff Workforce" value={metrics.data?.staff} icon={UsersRound} to="/staff" />
+          <StatCard label="Active Departments" value={metrics.data?.departments} icon={Building2} to="/departments" />
+          <StatCard label="Academic Programmes" value={metrics.data?.programs} icon={Library} to="/programs" />
+          <StatCard label="Course Offerings" value={metrics.data?.courses} icon={BookOpen} to="/courses" />
+          <StatCard label="Document Repository" value={metrics.data?.documents} icon={FileText} to="/documents" />
+          <StatCard label="Pending Workflows" value={metrics.data?.approvals} icon={CheckSquare} to="/approvals" />
         </div>
       )}
 
