@@ -22,4 +22,6 @@ CREATE TRIGGER set_updated_at_design_templates BEFORE UPDATE ON design_templates
 ALTER TABLE design_templates ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "tenant_isolation_design_templates" ON design_templates
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));

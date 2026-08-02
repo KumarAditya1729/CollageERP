@@ -44,7 +44,11 @@ ALTER TABLE crm_leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE crm_followups ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "tenant_isolation_crm_leads" ON crm_leads
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));
 
 CREATE POLICY "tenant_isolation_crm_followups" ON crm_followups
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));

@@ -38,7 +38,11 @@ ALTER TABLE tenant_integrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE integration_webhooks ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "tenant_isolation_tenant_integrations" ON tenant_integrations
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));
 
 CREATE POLICY "tenant_isolation_integration_webhooks" ON integration_webhooks
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));

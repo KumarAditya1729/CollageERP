@@ -39,7 +39,11 @@ ALTER TABLE communications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE communication_recipients ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "tenant_isolation_communications" ON communications
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));
 
 CREATE POLICY "tenant_isolation_communication_recipients" ON communication_recipients
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));

@@ -26,4 +26,6 @@ CREATE TRIGGER set_updated_at_statutory_reports BEFORE UPDATE ON statutory_repor
 ALTER TABLE statutory_reports ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "tenant_isolation_statutory_reports" ON statutory_reports
-    USING (tenant_id = (SELECT auth.jwt() ->> 'tenant_id')::uuid);
+    FOR ALL TO authenticated
+    USING (tenant_id IN (SELECT public.user_tenant_ids()))
+    WITH CHECK (tenant_id IN (SELECT public.user_tenant_ids()));
