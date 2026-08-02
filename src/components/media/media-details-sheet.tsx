@@ -90,18 +90,25 @@ export function MediaDetailsSheet({
     queryFn: async () => {
       const { data, error } = await supabase
         .from("comments")
-        .select("id, body, created_at, author_id, profiles:author_id(full_name, email)")
+        .select("id, body, created_at, author_id")
         .eq("entity_type", "media_assets")
         .eq("entity_id", asset!.id)
         .is("deleted_at", null)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data ?? []) as unknown as {
-        id: string;
-        body: string;
-        created_at: string;
-        profiles: { full_name: string | null; email: string | null } | null;
-      }[];
+      const rows = (data ?? []) as unknown as Array<{ id: string; body: string; created_at: string; author_id: string | null }>;
+      const authorIds = Array.from(new Set(rows.map((r) => r.author_id).filter(Boolean))) as string[];
+      let profilesMap: Record<string, { full_name: string | null; email: string | null }> = {};
+      if (authorIds.length > 0) {
+        const { data: profData } = await supabase.from("profiles").select("id, full_name, email").in("id", authorIds);
+        if (profData) {
+          profData.forEach((p) => { profilesMap[p.id] = { full_name: p.full_name, email: p.email }; });
+        }
+      }
+      return rows.map((r) => ({
+        ...r,
+        profiles: r.author_id && profilesMap[r.author_id] ? profilesMap[r.author_id] : { full_name: "Team Member", email: null },
+      }));
     },
   });
 
