@@ -45,8 +45,13 @@ export function AppSidebar() {
   });
 
   useEffect(() => {
-    setPins(JSON.parse(window.localStorage.getItem(PIN_KEY) ?? "[]"));
-    setRecents(JSON.parse(window.localStorage.getItem(RECENT_KEY) ?? "[]"));
+    try {
+      setPins(JSON.parse(window.localStorage.getItem(PIN_KEY) ?? "[]"));
+      setRecents(JSON.parse(window.localStorage.getItem(RECENT_KEY) ?? "[]"));
+    } catch {
+      setPins([]);
+      setRecents([]);
+    }
   }, []);
 
   useEffect(() => {

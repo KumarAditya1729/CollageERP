@@ -43,11 +43,11 @@ function AssetsPage() {
               <div className="mt-4 flex justify-between items-end">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Current Value</p>
-                  <p className="text-2xl font-bold">{`₹${Number(asset.current_value).toLocaleString("en-IN")}`}</p>
+                  <p className="text-2xl font-bold">{`₹${Number(asset.current_value || 0).toLocaleString("en-IN")}`}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-muted-foreground">Purchased</p>
-                  <p className="text-sm">{new Date(asset.purchase_date).toLocaleDateString()}</p>
+                  <p className="text-sm">{asset.purchase_date ? new Date(String(asset.purchase_date)).toLocaleDateString() : "N/A"}</p>
                 </div>
               </div>
             </CardContent>
