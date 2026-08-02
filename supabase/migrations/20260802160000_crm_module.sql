@@ -1,10 +1,21 @@
 -- CRM Module Migration
 
-CREATE TYPE crm_lead_source AS ENUM ('walk_in', 'website', 'referral', 'social_media', 'other');
-CREATE TYPE crm_lead_status AS ENUM ('new', 'contacted', 'interested', 'applied', 'enrolled', 'closed_lost');
-CREATE TYPE crm_followup_type AS ENUM ('call', 'email', 'meeting', 'whatsapp');
+DO $$ BEGIN
+    CREATE TYPE crm_lead_source AS ENUM ('walk_in', 'website', 'referral', 'social_media', 'other');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 
-CREATE TABLE crm_leads (
+DO $$ BEGIN
+    CREATE TYPE crm_lead_status AS ENUM ('new', 'contacted', 'interested', 'applied', 'enrolled', 'closed_lost');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE crm_followup_type AS ENUM ('call', 'email', 'meeting', 'whatsapp');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+CREATE TABLE IF NOT EXISTS crm_leads (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     campus_id UUID REFERENCES campuses(id) ON DELETE SET NULL,
@@ -22,7 +33,7 @@ CREATE TABLE crm_leads (
     deleted_at TIMESTAMPTZ
 );
 
-CREATE TABLE crm_followups (
+CREATE TABLE IF NOT EXISTS crm_followups (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     lead_id UUID NOT NULL REFERENCES crm_leads(id) ON DELETE CASCADE,
@@ -36,8 +47,10 @@ CREATE TABLE crm_followups (
 );
 
 -- Triggers for updated_at
-CREATE TRIGGER set_updated_at_crm_leads BEFORE UPDATE ON crm_leads FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
-CREATE TRIGGER set_updated_at_crm_followups BEFORE UPDATE ON crm_followups FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_crm_leads ON crm_leads;
+CREATE TRIGGER set_updated_at_crm_leads BEFORE UPDATE ON crm_leads FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_crm_followups ON crm_followups;
+CREATE TRIGGER set_updated_at_crm_followups BEFORE UPDATE ON crm_followups FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- RLS
 ALTER TABLE crm_leads ENABLE ROW LEVEL SECURITY;

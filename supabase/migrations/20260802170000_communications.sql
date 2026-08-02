@@ -1,10 +1,21 @@
 -- Communications Module Migration
 
-CREATE TYPE communication_type AS ENUM ('circular', 'email', 'sms');
-CREATE TYPE communication_status AS ENUM ('draft', 'sent', 'scheduled');
-CREATE TYPE recipient_status AS ENUM ('pending', 'delivered', 'failed');
+DO $$ BEGIN
+    CREATE TYPE communication_type AS ENUM ('circular', 'email', 'sms');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 
-CREATE TABLE communications (
+DO $$ BEGIN
+    CREATE TYPE communication_status AS ENUM ('draft', 'sent', 'scheduled');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE recipient_status AS ENUM ('pending', 'delivered', 'failed');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+CREATE TABLE IF NOT EXISTS communications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     campus_id UUID REFERENCES campuses(id) ON DELETE SET NULL,
@@ -19,7 +30,7 @@ CREATE TABLE communications (
     deleted_at TIMESTAMPTZ
 );
 
-CREATE TABLE communication_recipients (
+CREATE TABLE IF NOT EXISTS communication_recipients (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     communication_id UUID NOT NULL REFERENCES communications(id) ON DELETE CASCADE,
@@ -31,8 +42,10 @@ CREATE TABLE communication_recipients (
 );
 
 -- Triggers for updated_at
-CREATE TRIGGER set_updated_at_communications BEFORE UPDATE ON communications FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
-CREATE TRIGGER set_updated_at_communication_recipients BEFORE UPDATE ON communication_recipients FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_communications ON communications;
+CREATE TRIGGER set_updated_at_communications BEFORE UPDATE ON communications FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_communication_recipients ON communication_recipients;
+CREATE TRIGGER set_updated_at_communication_recipients BEFORE UPDATE ON communication_recipients FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- RLS
 ALTER TABLE communications ENABLE ROW LEVEL SECURITY;

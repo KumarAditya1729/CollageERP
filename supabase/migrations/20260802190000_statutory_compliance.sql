@@ -1,9 +1,16 @@
 -- Statutory and Financial Compliance Migration
 
-CREATE TYPE statutory_report_type AS ENUM ('naac', 'ugc', 'aicte', 'gst', 'pf', 'esic', 'audit', 'other');
-CREATE TYPE compliance_status AS ENUM ('pending', 'under_review', 'submitted', 'archived');
+DO $$ BEGIN
+    CREATE TYPE statutory_report_type AS ENUM ('naac', 'ugc', 'aicte', 'gst', 'pf', 'esic', 'audit', 'other');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 
-CREATE TABLE statutory_reports (
+DO $$ BEGIN
+    CREATE TYPE compliance_status AS ENUM ('pending', 'under_review', 'submitted', 'archived');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+CREATE TABLE IF NOT EXISTS statutory_reports (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     campus_id UUID REFERENCES campuses(id) ON DELETE SET NULL,
@@ -20,7 +27,8 @@ CREATE TABLE statutory_reports (
 );
 
 -- Triggers for updated_at
-CREATE TRIGGER set_updated_at_statutory_reports BEFORE UPDATE ON statutory_reports FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_statutory_reports ON statutory_reports;
+CREATE TRIGGER set_updated_at_statutory_reports BEFORE UPDATE ON statutory_reports FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- RLS
 ALTER TABLE statutory_reports ENABLE ROW LEVEL SECURITY;

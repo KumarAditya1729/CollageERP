@@ -1,9 +1,16 @@
 -- Deep Integrations Migration (WhatsApp, Payment Gateways, Biometric Hardware)
 
-CREATE TYPE integration_category AS ENUM ('payment', 'communication', 'biometrics', 'lms', 'meeting');
-CREATE TYPE integration_status AS ENUM ('connected', 'error', 'disconnected', 'pending');
+DO $$ BEGIN
+    CREATE TYPE integration_category AS ENUM ('payment', 'communication', 'biometrics', 'lms', 'meeting');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
 
-CREATE TABLE tenant_integrations (
+DO $$ BEGIN
+    CREATE TYPE integration_status AS ENUM ('connected', 'error', 'disconnected', 'pending');
+EXCEPTION WHEN duplicate_object THEN null;
+END $$;
+
+CREATE TABLE IF NOT EXISTS tenant_integrations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     campus_id UUID REFERENCES campuses(id) ON DELETE SET NULL,
@@ -19,7 +26,7 @@ CREATE TABLE tenant_integrations (
     deleted_at TIMESTAMPTZ
 );
 
-CREATE TABLE integration_webhooks (
+CREATE TABLE IF NOT EXISTS integration_webhooks (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     integration_id UUID NOT NULL REFERENCES tenant_integrations(id) ON DELETE CASCADE,
@@ -31,7 +38,8 @@ CREATE TABLE integration_webhooks (
 );
 
 -- Triggers for updated_at
-CREATE TRIGGER set_updated_at_tenant_integrations BEFORE UPDATE ON tenant_integrations FOR EACH ROW EXECUTE FUNCTION public.set_current_timestamp_updated_at();
+DROP TRIGGER IF EXISTS set_updated_at_tenant_integrations ON tenant_integrations;
+CREATE TRIGGER set_updated_at_tenant_integrations BEFORE UPDATE ON tenant_integrations FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
 
 -- RLS
 ALTER TABLE tenant_integrations ENABLE ROW LEVEL SECURITY;
