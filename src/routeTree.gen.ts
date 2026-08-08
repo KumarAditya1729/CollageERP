@@ -26,6 +26,7 @@ import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedFacultyRouteImport } from './routes/_authenticated/faculty'
 import { Route as AuthenticatedMediaRouteImport } from './routes/_authenticated/media'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProgramsRouteImport } from './routes/_authenticated/programs'
 import { Route as AuthenticatedRolesRouteImport } from './routes/_authenticated/roles'
@@ -254,6 +255,11 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -1103,6 +1109,7 @@ export interface FileRoutesByFullPath {
   '/faculty': typeof AuthenticatedFacultyRoute
   '/media': typeof AuthenticatedMediaRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programs': typeof AuthenticatedProgramsRoute
   '/roles': typeof AuthenticatedRolesRoute
@@ -1260,6 +1267,7 @@ export interface FileRoutesByTo {
   '/faculty': typeof AuthenticatedFacultyRoute
   '/media': typeof AuthenticatedMediaRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/programs': typeof AuthenticatedProgramsRoute
   '/roles': typeof AuthenticatedRolesRoute
@@ -1421,6 +1429,7 @@ export interface FileRoutesById {
   '/_authenticated/faculty': typeof AuthenticatedFacultyRoute
   '/_authenticated/media': typeof AuthenticatedMediaRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/programs': typeof AuthenticatedProgramsRoute
   '/_authenticated/roles': typeof AuthenticatedRolesRoute
@@ -1582,6 +1591,7 @@ export interface FileRouteTypes {
     | '/faculty'
     | '/media'
     | '/notifications'
+    | '/onboarding'
     | '/profile'
     | '/programs'
     | '/roles'
@@ -1739,6 +1749,7 @@ export interface FileRouteTypes {
     | '/faculty'
     | '/media'
     | '/notifications'
+    | '/onboarding'
     | '/profile'
     | '/programs'
     | '/roles'
@@ -1899,6 +1910,7 @@ export interface FileRouteTypes {
     | '/_authenticated/faculty'
     | '/_authenticated/media'
     | '/_authenticated/notifications'
+    | '/_authenticated/onboarding'
     | '/_authenticated/profile'
     | '/_authenticated/programs'
     | '/_authenticated/roles'
@@ -2171,6 +2183,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/profile': {
@@ -3244,6 +3263,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFacultyRoute: typeof AuthenticatedFacultyRoute
   AuthenticatedMediaRoute: typeof AuthenticatedMediaRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProgramsRoute: typeof AuthenticatedProgramsRoute
   AuthenticatedRolesRoute: typeof AuthenticatedRolesRoute
@@ -3377,6 +3397,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFacultyRoute: AuthenticatedFacultyRoute,
   AuthenticatedMediaRoute: AuthenticatedMediaRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProgramsRoute: AuthenticatedProgramsRoute,
   AuthenticatedRolesRoute: AuthenticatedRolesRoute,
@@ -3524,13 +3545,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
