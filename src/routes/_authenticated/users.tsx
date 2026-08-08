@@ -77,7 +77,7 @@ function UsersPage() {
       const { data, error } = await supabase
         .from("tenant_members")
         .select(
-          "id, user_id, status, joined_at, employee_code, profiles(full_name, email, avatar_url)",
+          "id, user_id, status, joined_at, employee_code, profiles!tenant_members_user_id_fkey(full_name, email, avatar_url)",
         )
         .eq("tenant_id", tenant!.id)
         .is("deleted_at", null)

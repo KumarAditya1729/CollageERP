@@ -320,7 +320,7 @@ DECLARE
   tbl text;
 BEGIN
   FOR tbl IN
-    SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE'
+    SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE' AND table_name != 'tenant_members'
   LOOP
     -- If table has user_id, add fk to profiles(id) if not exists
     IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'public' AND table_name = tbl AND column_name = 'user_id') THEN
