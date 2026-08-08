@@ -134,55 +134,7 @@ function HostelGatePassPage() {
     }));
   }, [students]);
 
-  const demoPasses = useMemo(() => [
-    {
-      id: "gp-demo-1",
-      students: { first_name: "Rohan", last_name: "Sharma", enrollment_number: "EN-DORM-0101" },
-      status: "approved",
-      out_time: "2026-08-01T17:00:00Z",
-      expected_in_time: "2026-08-03T20:00:00Z",
-      purpose: "Weekend home visitation in New Delhi (Parent verified via SMS OTP)",
-      pass_type: "outstation",
-    },
-    {
-      id: "gp-demo-2",
-      students: { first_name: "Ananya", last_name: "Iyer", enrollment_number: "EN-DORM-0142" },
-      status: "active",
-      out_time: "2026-08-02T08:00:00Z",
-      expected_in_time: "2026-08-02T20:30:00Z",
-      purpose: "Inter-college AI Robotics Hackathon competition at IIT Delhi",
-      pass_type: "local",
-    },
-    {
-      id: "gp-demo-3",
-      students: { first_name: "Vikram", last_name: "Ahuja", enrollment_number: "EN-DORM-0188" },
-      status: "pending_approval",
-      out_time: "2026-08-02T16:00:00Z",
-      expected_in_time: "2026-08-02T21:00:00Z",
-      purpose: "Urgent dental clinic appointment in City Plaza (Medical exception)",
-      pass_type: "emergency",
-    },
-    {
-      id: "gp-demo-4",
-      students: { first_name: "Priya", last_name: "Menon", enrollment_number: "EN-DORM-0210" },
-      status: "approved",
-      out_time: "2026-08-02T11:00:00Z",
-      expected_in_time: "2026-08-02T19:00:00Z",
-      purpose: "Shopping and movie gathering at Metropolitan Mall with group of 3",
-      pass_type: "local",
-    },
-    {
-      id: "gp-demo-5",
-      students: { first_name: "Sameer", last_name: "Khader", enrollment_number: "EN-DORM-0245" },
-      status: "closed",
-      out_time: "2026-07-30T10:00:00Z",
-      expected_in_time: "2026-07-31T20:00:00Z",
-      purpose: "Attending cousin's wedding ceremony in Jaipur (Approved by Dean)",
-      pass_type: "outstation",
-    },
-  ], []);
-
-  const gatePasses = (dbPasses && dbPasses.length > 0) ? dbPasses : demoPasses;
+  const gatePasses = dbPasses ?? [];
   const activeOutCount = gatePasses.filter((g: any) => g.status === "active" || g.status === "approved").length;
 
   const handleAICurfewAudit = () => {

@@ -135,16 +135,8 @@ function AcademicDashboard() {
     const map = new Map<string, number>();
     for (const row of curricula.data ?? []) map.set(row.status, (map.get(row.status) ?? 0) + 1);
     const result = [...map.entries()].sort((a, b) => b[1] - a[1]);
-    return result.length > 0 ? result : [["active", 18], ["under_review", 3], ["draft", 5]];
+    return result;
   }, [curricula.data]);
-
-  const demoFacultyLoad = useMemo(() => [
-    { id: "f1", name: "Dr. Arvind Ramesh (Head of CS)", hours: 18, department: "Computer Science" },
-    { id: "f2", name: "Prof. Neha Deshmukh (AI & ML)", hours: 16, department: "Artificial Intelligence" },
-    { id: "f3", name: "Dr. Suresh K. Verma (Quantum Comp)", hours: 14, department: "Physics & CS" },
-    { id: "f4", name: "Prof. Meera Kothari (Database Systems)", hours: 16, department: "Information Technology" },
-    { id: "f5", name: "Dr. Rajeshwar Rao (Algorithms)", hours: 12, department: "Computer Science" },
-  ], []);
 
   const loadByFaculty = useMemo(() => {
     const map = new Map<string, number>();
@@ -159,17 +151,10 @@ function AcademicDashboard() {
       })
       .sort((a, b) => b.hours - a.hours)
       .slice(0, 8);
-    return rows.length > 0 ? rows : demoFacultyLoad;
-  }, [workload.data, faculty.data, demoFacultyLoad]);
+    return rows;
+  }, [workload.data, faculty.data]);
 
   const maxLoad = Math.max(1, ...loadByFaculty.map((row) => row.hours));
-
-  const demoCredits = useMemo(() => [
-    { id: "d1", name: "School of Computer Science & Engineering", credits: 480 },
-    { id: "d2", name: "Department of Artificial Intelligence", credits: 360 },
-    { id: "d3", name: "Department of Electronics & Communication", credits: 320 },
-    { id: "d4", name: "School of Business & Management (MBA)", credits: 280 },
-  ], []);
 
   const creditsByDepartment = useMemo(() => {
     const map = new Map<string, number>();
@@ -185,8 +170,8 @@ function AcademicDashboard() {
       }))
       .sort((a, b) => b.credits - a.credits)
       .slice(0, 8);
-    return rows.length > 0 ? rows : demoCredits;
-  }, [courses.data, departments.data, demoCredits]);
+    return rows;
+  }, [courses.data, departments.data]);
 
   const maxCredits = Math.max(1, ...creditsByDepartment.map((row) => row.credits));
 

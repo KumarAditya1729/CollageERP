@@ -44,12 +44,7 @@ function InvoicesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const invoiceList: Array<Record<string, any>> = invoices && invoices.length > 0 ? invoices : [
-    { id: "1", invoice_number: "INV-2025-8810", student_id: "STU-2024-001 (Aarav Mehta)", due_date: "2025-09-30", total_amount: 75000, balance_amount: 0, status: "paid" },
-    { id: "2", invoice_number: "INV-2025-8811", student_id: "STU-2024-042 (Priya Patel)", due_date: "2025-09-30", total_amount: 82500, balance_amount: 32500, status: "partial" },
-    { id: "3", invoice_number: "INV-2025-8812", student_id: "STU-2025-119 (Vikram Singhal)", due_date: "2025-08-15", total_amount: 68000, balance_amount: 68000, status: "overdue" },
-    { id: "4", invoice_number: "INV-2025-8813", student_id: "STU-2025-204 (Ananya Roy)", due_date: "2025-10-15", total_amount: 75000, balance_amount: 75000, status: "unpaid" },
-  ];
+  const invoiceList: Array<Record<string, any>> = invoices ?? [];
 
   const totalInvoiced = invoiceList.reduce((sum, i) => sum + Number(i.total_amount || 0), 0);
   const totalPaid = invoiceList.filter(i => i.status === "paid").length;

@@ -76,8 +76,8 @@ function InventoryManagement() {
   const locationsList: Array<Record<string, any>> = locations.data ?? [];
   const stockList: Array<Record<string, any>> = stock.data ?? [];
 
-  const totalSKUs = itemsList.length || 184;
-  const totalLocations = locationsList.length || 24;
+  const totalSKUs = itemsList.length;
+  const totalLocations = locationsList.length;
 
   const handleCreateMovement = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,16 +133,11 @@ function InventoryManagement() {
     }
   };
 
-  const filteredItems = itemsList.length > 0 ? itemsList.filter((item) => {
+  const filteredItems = itemsList.filter((item: any) => {
     const name = String(item.name ?? item.item_name ?? "").toLowerCase();
     const sku = String(item.sku ?? item.target_location ?? "").toLowerCase();
     return !searchTerm || name.includes(searchTerm.toLowerCase()) || sku.includes(searchTerm.toLowerCase());
-  }) : [
-    { id: "INV-1001", name: "Apple iMac 24-inch M3 Chip (Retina Display)", sku: "APL-IMAC-24-M3", cat: "Computer Hardware", stock: 32, unit: "Pcs", location: "Central IT Vault - Rack 4", status: "Optimal" },
-    { id: "INV-1002", name: "Epson EB-L520U WUXGA Laser Projector", sku: "EPS-PROJ-520U", cat: "Smart Classroom AV", stock: 14, unit: "Pcs", location: "AV Tech Storage Room B", status: "Optimal" },
-    { id: "INV-1003", name: "Tektronix TBS1102C Digital Storage Oscilloscopes", sku: "TEK-OSC-1102C", cat: "Electronics Lab Apparatus", stock: 45, unit: "Units", location: "ECE Dept & Instrument Lab", status: "Optimal" },
-    { id: "INV-1004", name: "Whatman Grade 1 Qualitative Filter Papers (100 PK)", sku: "WHT-FIL-GR1", cat: "Chemical Consumables", stock: 8, unit: "Boxes", location: "Chemistry Supply Store", status: "Low Stock" },
-  ].filter(i => !searchTerm || i.name.toLowerCase().includes(searchTerm.toLowerCase()) || i.sku.toLowerCase().includes(searchTerm.toLowerCase()));
+  });
 
   return (
     <Can permission="inventory.view" fallback={<p className="p-8 text-muted-foreground">Access denied to supply chain command.</p>}>

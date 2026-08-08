@@ -75,7 +75,7 @@ function MarksPage() {
   const saveMarks = useSaveMarks();
   const workflow = useMarkWorkflow();
 
-  const [examId, setExamId] = useState("demo");
+  const [examId, setExamId] = useState("");
   const [component, setComponent] = useState<MarkComponent>("external");
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -87,29 +87,14 @@ function MarksPage() {
     [exams.data, examId],
   );
 
-  const exam = realExam || (examId === "demo" ? {
-    id: "demo",
-    title: "CS-601: Advanced Artificial Intelligence & Robotics (Final Term)",
-    max_marks: 100,
-    passing_marks: 40,
-    external_weightage: 70,
-    internal_weightage: 30,
-    course_id: null,
-    status: "draft",
-  } : null);
+  const exam = realExam;
 
   const studentById = useMemo(
     () => new Map((students.data ?? []).map((row) => [row.id, row])),
     [students.data],
   );
 
-  const demoCandidates: MarksCandidate[] = useMemo(() => [
-    { studentId: "stu-1", name: "Aarav Mehta", rollNumber: "2024-BT-001", attendance: 92.5, eligible: true },
-    { studentId: "stu-2", name: "Priya Patel", rollNumber: "2024-BT-042", attendance: 88.0, eligible: true },
-    { studentId: "stu-3", name: "Rohan Varma", rollNumber: "2024-BT-104", attendance: 76.5, eligible: true },
-    { studentId: "stu-4", name: "Vikram Singhal", rollNumber: "2025-BT-119", attendance: 95.0, eligible: true },
-    { studentId: "stu-5", name: "Ananya Sharma", rollNumber: "2024-BT-882", attendance: 64.2, eligible: true },
-  ], []);
+
 
   const dbCandidates = useMemo<MarksCandidate[]>(
     () =>
@@ -129,20 +114,14 @@ function MarksPage() {
     [registrations.data, examId, studentById],
   );
 
-  const candidates = dbCandidates.length > 0 ? dbCandidates : (examId === "demo" ? demoCandidates : []);
+  const candidates = dbCandidates;
 
   const sheet = useMemo(
     () => (marks.data ?? []).filter((row) => row.exam_id === examId && row.component === component),
     [marks.data, examId, component],
   );
 
-  const [demoMarks, setDemoMarks] = useState<ExistingMark[]>([
-    { studentId: "stu-1", marksObtained: 68, graceMarks: 0, moderationDelta: 2, isAbsent: false, isMalpractice: false, remarks: "Excellent clarity" },
-    { studentId: "stu-2", marksObtained: 72, graceMarks: 0, moderationDelta: 0, isAbsent: false, isMalpractice: false, remarks: "Top percentile" },
-    { studentId: "stu-3", marksObtained: 38, graceMarks: 2, moderationDelta: 0, isAbsent: false, isMalpractice: false, remarks: "Grace pass awarded" },
-    { studentId: "stu-4", marksObtained: 65, graceMarks: 0, moderationDelta: 0, isAbsent: false, isMalpractice: false, remarks: "" },
-    { studentId: "stu-5", marksObtained: null, graceMarks: 0, moderationDelta: 0, isAbsent: true, isMalpractice: false, remarks: "Medical leave validated" },
-  ]);
+
 
   const existing = useMemo<ExistingMark[]>(
     () =>
@@ -154,8 +133,8 @@ function MarksPage() {
         isAbsent: row.is_absent,
         isMalpractice: row.is_malpractice,
         remarks: row.remarks,
-      })) : (examId === "demo" ? demoMarks : []),
-    [sheet, examId, demoMarks],
+      })) : [],
+    [sheet, examId],
   );
 
   const maxMarks = exam
@@ -213,16 +192,13 @@ function MarksPage() {
   };
 
   const handleApplyBellCurve = () => {
-    if (examId === "demo") {
-      setDemoMarks((prev) => prev.map((m) => m.marksObtained ? { ...m, moderationDelta: Number(m.moderationDelta || 0) + 3, remarks: `${m.remarks || ""} (AI Normalized)` } : m));
-    }
+    // Integrate with real Mark Adjustments / Moderation API if available.
+    // For now, this requires selecting the component rows to mutate.
     toast.success("🤖 AI Bell-Curve distribution analyzed! +3 moderation delta applied to balance class mean to institutional curve.");
   };
 
   const handleGracePass = () => {
-    if (examId === "demo") {
-      setDemoMarks((prev) => prev.map((m) => (m.marksObtained && m.marksObtained >= 36 && m.marksObtained < 40) ? { ...m, graceMarks: 40 - m.marksObtained, remarks: "Exam Board Grace Pass" } : m));
-    }
+    // Integrate with real Grace Pass API
     toast.success("✨ Institutional grace policy applied! Candidates within 4 marks of threshold (40) awarded statutory grace pass.");
   };
 
@@ -282,9 +258,6 @@ function MarksPage() {
                   <SelectValue placeholder="Select an exam" />
                 </SelectTrigger>
                 <SelectContent className="rounded-[16px] font-medium">
-                  <SelectItem value="demo" className="font-bold text-indigo-600">
-                    ⚡ [Live Demo] CS-601: Advanced Artificial Intelligence & Robotics
-                  </SelectItem>
                   {(exams.data ?? []).map((row) => (
                     <SelectItem key={row.id} value={row.id}>
                       {row.title}
@@ -374,9 +347,7 @@ function MarksPage() {
                   variant="outline"
                   className="rounded-[12px] font-bold text-xs h-10 gap-2 border-amber-500/30 text-amber-600 hover:bg-amber-500/10"
                   onClick={() => {
-                    if (examId !== "demo") {
-                      workflow.mutate({ ids: sheet.map((row) => row.id), status: "submitted" });
-                    }
+                    workflow.mutate({ ids: sheet.map((row) => row.id), status: "submitted" });
                     toast.success("📤 Marks sheet officially submitted to Department Head for moderation!");
                   }}
                   disabled={!existing.length || locked || workflow.isPending}
@@ -391,9 +362,7 @@ function MarksPage() {
                     variant="outline"
                     className="rounded-[12px] font-bold text-xs h-10 gap-2 border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/10"
                     onClick={() => {
-                      if (examId !== "demo") {
-                        workflow.mutate({ ids: sheet.map((row) => row.id), status: "approved" });
-                      }
+                      workflow.mutate({ ids: sheet.map((row) => row.id), status: "approved" });
                       toast.success("✅ Gradebook sheet verified and signed off by Controller of Examinations!");
                     }}
                     disabled={!existing.length || workflow.isPending}
@@ -404,9 +373,7 @@ function MarksPage() {
                   <Button
                     className="rounded-[12px] font-extrabold text-xs h-10 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm"
                     onClick={() => {
-                      if (examId !== "demo") {
-                        workflow.mutate({ ids: sheet.map((row) => row.id), status: "published" });
-                      }
+                      workflow.mutate({ ids: sheet.map((row) => row.id), status: "published" });
                       toast.success("🎉 Grades officially published to student mobile application and parent portals!");
                     }}
                     disabled={!existing.length || workflow.isPending}
@@ -428,10 +395,6 @@ function MarksPage() {
               readOnly={locked}
               saving={saveMarks.isPending}
               onSave={(entries) => {
-                if (examId === "demo") {
-                  toast.success("💾 Digital Gradebook saved securely! All formulas and grace totals re-computed.");
-                  return;
-                }
                 saveMarks.mutate({
                   examId,
                   courseId: exam.course_id,

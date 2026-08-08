@@ -43,12 +43,7 @@ function PaymentsPage() {
   const [search, setSearch] = useState("");
   const [modeFilter, setModeFilter] = useState("all");
 
-  const paymentList: Array<Record<string, any>> = payments && payments.length > 0 ? payments : [
-    { id: "p1", receipt_number: "RCT-994821", student_id: "STU-2024-882 (Ananya Sharma)", payment_date: new Date().toISOString(), payment_mode: "net_banking", amount: 68500, status: "successful" },
-    { id: "p2", receipt_number: "RCT-994820", student_id: "STU-2025-104 (Rohan Varma)", payment_date: new Date(Date.now() - 86400000).toISOString(), payment_mode: "upi", amount: 72000, status: "successful" },
-    { id: "p3", receipt_number: "RCT-994819", student_id: "STU-2023-412 (Divya Patel)", payment_date: new Date(Date.now() - 172800000).toISOString(), payment_mode: "card", amount: 15000, status: "successful" },
-    { id: "p4", receipt_number: "RCT-994818", student_id: "STU-2024-033 (Siddharth Joshi)", payment_date: new Date(Date.now() - 259200000).toISOString(), payment_mode: "upi", amount: 45000, status: "refunded" },
-  ];
+  const paymentList: Array<Record<string, any>> = payments ?? [];
 
   const totalCollected = paymentList.filter(p => p.status === "successful").reduce((sum, p) => sum + Number(p.amount || 0), 0);
   const upiCount = paymentList.filter(p => p.payment_mode === "upi").length;

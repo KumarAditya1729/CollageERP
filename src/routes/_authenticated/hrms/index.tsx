@@ -23,7 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useStaffList, useFacultyList } from "@/hooks/hrms/useEmployees";
-import { useLeaveApplications } from "@/hooks/hrms/useLeave";
+import { useLeaveApplications, useApproveLeave } from "@/hooks/hrms/useLeave";
 import { usePayrollRuns } from "@/hooks/hrms/usePayroll";
 import { downloadCsv } from "@/lib/export";
 
@@ -121,6 +121,7 @@ function HRMSDashboard() {
   const { data: faculty, isLoading: loadingFaculty } = useFacultyList();
   const { data: pendingLeaves } = useLeaveApplications({ status: "pending" });
   const { data: payrollRuns } = usePayrollRuns();
+  const approveLeave = useApproveLeave();
 
   const totalEmployees = (staff?.length ?? 142) + (faculty?.length ?? 88);
   const activeStaff = staff?.filter((s) => s.employment_status === "active").length ?? 136;
@@ -131,8 +132,14 @@ function HRMSDashboard() {
     toast.success("🤖 AI Workforce Copilot analyzed retention metrics! 98.4% faculty morale index & 0 compensation discrepancies found.");
   };
 
-  const handleQuickApprove = (name: string) => {
-    toast.success(`✅ Successfully approved leave application for ${name}! Notification dispatched.`);
+  const handleQuickApprove = (id: string, name: string) => {
+    approveLeave.mutate(
+      { id, status: "approved" },
+      {
+        onSuccess: () => toast.success(`✅ Successfully approved leave application for ${name}! Notification dispatched.`),
+        onError: (err) => toast.error(`❌ Failed to approve leave: ${err.message}`),
+      }
+    );
   };
 
   return (
@@ -315,53 +322,20 @@ function HRMSDashboard() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => handleQuickApprove("Faculty Applicant")}
+                      onClick={() => handleQuickApprove(leave.id, "Faculty Applicant")}
                       className="rounded-[10px] h-8 font-bold text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20"
+                      disabled={approveLeave.isPending}
                     >
-                      Approve
+                      {approveLeave.isPending ? "Approving..." : "Approve"}
                     </Button>
                   </div>
                 </div>
               ))
             ) : (
-              // Fallback demo queue so Kumar sees an interactive list
-              <>
-                <div className="flex items-center justify-between p-3.5 rounded-[16px] border border-border bg-muted/30 hover:bg-muted/60 transition-colors">
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-foreground">Dr. Arvind Ramesh (Head of CS)</span>
-                      <Badge variant="outline" className="font-mono text-[10px] text-indigo-600 bg-background border-indigo-500/20">Sabbatical Leave</Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">International IEEE AI Conference presentation · Aug 12 – Aug 18 (6 Days)</p>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleQuickApprove("Dr. Arvind Ramesh")}
-                    className="rounded-[10px] h-8 px-3 font-extrabold text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20"
-                  >
-                    Approve
-                  </Button>
-                </div>
-
-                <div className="flex items-center justify-between p-3.5 rounded-[16px] border border-border bg-muted/30 hover:bg-muted/60 transition-colors">
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-foreground">Prof. Neha Deshmukh (AI & ML)</span>
-                      <Badge variant="outline" className="font-mono text-[10px] text-amber-600 bg-background border-amber-500/20">Medical Leave</Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Routine hospital checkup and recuperation · Aug 05 – Aug 06 (2 Days)</p>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleQuickApprove("Prof. Neha Deshmukh")}
-                    className="rounded-[10px] h-8 px-3 font-extrabold text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20"
-                  >
-                    Approve
-                  </Button>
-                </div>
-              </>
+              <div className="flex flex-col items-center justify-center p-6 text-center rounded-[16px] border border-dashed border-border bg-muted/10">
+                <p className="text-sm font-semibold text-muted-foreground">No pending leave applications.</p>
+                <p className="text-xs text-muted-foreground/70 mt-1">All caught up!</p>
+              </div>
             )}
           </div>
 

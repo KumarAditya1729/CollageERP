@@ -43,23 +43,8 @@ function RecruitmentPage() {
   const { data: dbJobs, isLoading: jobsLoading } = useJobPositions();
   const { data: dbApplicants, isLoading: appsLoading } = useApplicants(selectedJobId);
 
-  const demoJobs = useMemo(() => [
-    { id: "job-1", title: "Associate Professor of AI & Robotics", status: "open", openings: 2, employment_type: "Full_Time_Tenure", closing_date: "2026-09-30T23:59:59Z" },
-    { id: "job-2", title: "Chair of Data Science & BigFrames", status: "open", openings: 1, employment_type: "Full_Time_Tenure", closing_date: "2026-10-15T23:59:59Z" },
-    { id: "job-3", title: "Senior Enterprise Systems Architect", status: "open", openings: 3, employment_type: "Permanent_Staff", closing_date: "2026-08-30T23:59:59Z" },
-    { id: "job-4", title: "Visiting Scholar - Renewable Energy", status: "closed", openings: 1, employment_type: "Visiting_Contract", closing_date: "2026-07-01T23:59:59Z" },
-  ], []);
-
-  const demoApplicants: ApplicantRow[] = useMemo(() => [
-    { id: "app-1", tenant_id: "tenant-1", job_position_id: "job-1", first_name: "Dr. Vikram", last_name: "Sahani (Ph.D MIT)", email: "v.sahani@mit.edu", phone: "+91 98765-43210", stage: "interview", applied_date: "2026-07-10" } as unknown as ApplicantRow,
-    { id: "app-2", tenant_id: "tenant-1", job_position_id: "job-1", first_name: "Dr. Ananya", last_name: "Roy (H-Index 24)", email: "ananya.r@stanford.edu", phone: "+91 99123-45678", stage: "offer", applied_date: "2026-07-12" } as unknown as ApplicantRow,
-    { id: "app-3", tenant_id: "tenant-1", job_position_id: "job-2", first_name: "Prof. Rajesh", last_name: "Naidu (Ex-IITB)", email: "r.naidu@iitb.ac.in", phone: "+91 98111-22334", stage: "screening", applied_date: "2026-07-15" } as unknown as ApplicantRow,
-    { id: "app-4", tenant_id: "tenant-1", job_position_id: "job-3", first_name: "Samir", last_name: "Khanna (DevOps Lead)", email: "samir@techworks.io", phone: "+91 94455-66778", stage: "applied", applied_date: "2026-07-20" } as unknown as ApplicantRow,
-    { id: "app-5", tenant_id: "tenant-1", job_position_id: "job-1", first_name: "Dr. Elena", last_name: "Rostova (Postdoc)", email: "elena@ethz.ch", phone: "+41 44 632 1111", stage: "hired", applied_date: "2026-06-15" } as unknown as ApplicantRow,
-  ], []);
-
-  const jobs = (dbJobs && dbJobs.length > 0) ? dbJobs : demoJobs;
-  const applicants = (dbApplicants && dbApplicants.length > 0) ? dbApplicants : demoApplicants;
+  const jobs = dbJobs ?? [];
+  const applicants = dbApplicants ?? [];
 
   const openCount = jobs.filter((j) => j.status === "open").length;
   const interviewCount = applicants.filter((a: any) => a.stage === "interview" || a.stage === "offer").length;

@@ -268,6 +268,16 @@ export const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Placements & CRC",
+    icon: Briefcase,
+    description: "Manage recruiters, drives, student applications",
+    items: [
+      { title: "Dashboard", to: "/placements", icon: TrendingUp },
+      { title: "Recruiters", to: "/placements/companies", icon: Building2 },
+      { title: "Drives", to: "/placements/drives", icon: Users },
+    ],
+  },
+  {
     label: "Administration",
     icon: Sliders,
     description: "Users, IAM permissions, integrations and general settings",

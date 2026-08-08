@@ -40,8 +40,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { useFeeStructures, useFeeHeads } from "@/hooks/useFinance";
-
+import { useFeeStructures, useFeeHeads, useCreateFeeStructure, useCreateFeeHead } from "@/hooks/useFinance";
 export const Route = createFileRoute("/_authenticated/finance/fee-structures")({
   component: FeeStructuresPage,
 });
@@ -53,31 +52,53 @@ function FeeStructuresPage() {
   const [openStructureDialog, setOpenStructureDialog] = useState(false);
   const [openHeadDialog, setOpenHeadDialog] = useState(false);
 
-  const structureList: Array<Record<string, any>> = structures && structures.length > 0 ? structures : [
-    { id: "s1", name: "B.Tech Computer Science (AY 2024-25)", program_id: "B.Tech CSE", total_amount: 145000 },
-    { id: "s2", name: "MBA Executive Marketing & Finance (AY 2024-25)", program_id: "MBA Exec", total_amount: 185000 },
-    { id: "s3", name: "B.Sc Artificial Intelligence (AY 2025-26)", program_id: "B.Sc AI", total_amount: 95000 },
-  ];
+  const createStructure = useCreateFeeStructure();
+  const createHead = useCreateFeeHead();
 
-  const headList: Array<Record<string, any>> = heads && heads.length > 0 ? heads : [
-    { id: "h1", name: "Academic Tuition Fee", code: "TUI-01", frequency: "recurring", is_refundable: false, default_amount: 85000 },
-    { id: "h2", name: "Laboratory & Advanced Computing Fee", code: "LAB-02", frequency: "recurring", is_refundable: false, default_amount: 25000 },
-    { id: "h3", name: "Library & Digital IEEE Repository", code: "LIB-03", frequency: "recurring", is_refundable: false, default_amount: 15000 },
-    { id: "h4", name: "Hostel & Caution Security Deposit", code: "CAU-04", frequency: "one_time", is_refundable: true, default_amount: 20000 },
-  ];
+  const structureList = structures ?? [];
+  const headList = heads ?? [];
 
-  const avgTuition = Math.round(structureList.reduce((sum, s) => sum + Number(s.total_amount || 0), 0) / (structureList.length || 1));
+  const avgTuition = structureList.length > 0 
+    ? Math.round(structureList.reduce((sum, s) => sum + Number(s.total_amount || 0), 0) / structureList.length)
+    : 0;
   const refundableHeads = headList.filter(h => h.is_refundable).length;
 
-  const handleCreateStructure = (e: React.FormEvent) => {
+  const handleCreateStructure = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("✨ New Academic Fee Structure generated and mapped to institutional billing engine!");
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const program_id = formData.get("program_id") as string;
+    const total_amount = Number(formData.get("total_amount"));
+    
+    await createStructure.mutateAsync({
+      name,
+      program_id,
+      total_amount,
+      academic_year_id: "ay-2024", // Defaulting for demo purposes
+      fee_category_id: null,
+    });
+    
     setOpenStructureDialog(false);
   };
 
-  const handleCreateHead = (e: React.FormEvent) => {
+  const handleCreateHead = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("📋 New Fee Head registered in General Ledger accounts!");
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const code = formData.get("code") as string;
+    const default_amount = Number(formData.get("default_amount"));
+    const frequency = formData.get("frequency") as "one_time" | "recurring" | "optional";
+    
+    await createHead.mutateAsync({
+      name,
+      code,
+      default_amount,
+      frequency,
+      is_refundable: false,
+      tax_percent: 0,
+      description: null,
+    });
+    
     setOpenHeadDialog(false);
   };
 
@@ -126,21 +147,21 @@ function FeeStructuresPage() {
                 <form onSubmit={handleCreateHead} className="space-y-4 pt-3">
                   <div className="space-y-2">
                     <Label className="text-xs font-bold">Head Title</Label>
-                    <Input placeholder="e.g. Advanced Robotics Lab Fee" required className="rounded-[12px]" />
+                    <Input name="name" placeholder="e.g. Advanced Robotics Lab Fee" required className="rounded-[12px]" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
                       <Label className="text-xs font-bold">Billing Code</Label>
-                      <Input placeholder="ROBO-LAB" required className="rounded-[12px] font-mono uppercase" />
+                      <Input name="code" placeholder="ROBO-LAB" required className="rounded-[12px] font-mono uppercase" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold">Default Amount (₹)</Label>
-                      <Input type="number" placeholder="15000" required className="rounded-[12px] font-mono" />
+                      <Input name="default_amount" type="number" placeholder="15000" required className="rounded-[12px] font-mono" />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-xs font-bold">Billing Frequency</Label>
-                    <Select defaultValue="recurring">
+                    <Select name="frequency" defaultValue="recurring">
                       <SelectTrigger className="rounded-[12px] font-semibold text-xs">
                         <SelectValue />
                       </SelectTrigger>
@@ -180,16 +201,16 @@ function FeeStructuresPage() {
                 <form onSubmit={handleCreateStructure} className="space-y-4 pt-3">
                   <div className="space-y-2">
                     <Label className="text-xs font-bold">Structure Title</Label>
-                    <Input placeholder="e.g. B.Tech Artificial Intelligence (AY 2025-26)" required className="rounded-[12px]" />
+                    <Input name="name" placeholder="e.g. B.Tech Artificial Intelligence (AY 2025-26)" required className="rounded-[12px]" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
                       <Label className="text-xs font-bold">Target Academic Program</Label>
-                      <Input placeholder="B.Tech AI" required className="rounded-[12px] font-semibold" />
+                      <Input name="program_id" placeholder="B.Tech AI" required className="rounded-[12px] font-semibold" />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs font-bold">Total Aggregate Tuition (₹)</Label>
-                      <Input type="number" placeholder="145000" required className="rounded-[12px] font-mono" />
+                      <Input name="total_amount" type="number" placeholder="145000" required className="rounded-[12px] font-mono" />
                     </div>
                   </div>
                   <div className="space-y-2">

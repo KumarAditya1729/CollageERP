@@ -51,50 +51,7 @@ function TransportAllocations() {
   const updateMutation = useUpdateTransportStudentAllocation();
   const deleteMutation = useDeleteTransportStudentAllocation();
 
-  const demoAllocations = useMemo(() => [
-    {
-      id: "alloc-1",
-      status: "active",
-      students: { first_name: "Rahul", last_name: "Sharma (CS-B2)" },
-      trn_routes: { name: "Route #01 — Northgate Express" },
-      pickup_stop: { name: "Sector 18 Main Gate" },
-      drop_stop: { name: "University Campus Central" },
-    },
-    {
-      id: "alloc-2",
-      status: "active",
-      students: { first_name: "Sneha", last_name: "Patil (AI-A1)" },
-      trn_routes: { name: "Route #02 — South City Loop" },
-      pickup_stop: { name: "Botanical Gardens Metro" },
-      drop_stop: { name: "Engineering Gate 4" },
-    },
-    {
-      id: "alloc-3",
-      status: "active",
-      students: { first_name: "Vikram", last_name: "Ahuja (ME-C1)" },
-      trn_routes: { name: "Route #05 — East Campus Ring" },
-      pickup_stop: { name: "Railway Station Plaza" },
-      drop_stop: { name: "University Campus Central" },
-    },
-    {
-      id: "alloc-4",
-      status: "active",
-      students: { first_name: "Ananya", last_name: "Deshmukh (ECE)" },
-      trn_routes: { name: "Route #01 — Northgate Express" },
-      pickup_stop: { name: "Civil Lines Tower" },
-      drop_stop: { name: "Science Auditorium" },
-    },
-    {
-      id: "alloc-5",
-      status: "cancelled",
-      students: { first_name: "Rohan", last_name: "Gupta (MBA)" },
-      trn_routes: { name: "Route #03 — West Highway Shuttles" },
-      pickup_stop: { name: "High Court Junction" },
-      drop_stop: { name: "Management Block" },
-    },
-  ], []);
-
-  const allocations = (dbData && dbData.length > 0) ? dbData : demoAllocations;
+  const allocations = dbData ?? [];
   const activeCount = allocations.filter((a: any) => a.status === "active").length;
 
   const handleAISeatBalancer = () => {

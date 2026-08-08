@@ -115,15 +115,7 @@ function EnrollmentPage() {
     [students.data],
   );
 
-  const demoEnrollments: EnrollmentRow[] = useMemo(() => [
-    { id: "e1", student_id: "stu-1", course_id: "cs-601", semester_id: "sem-6", academic_session_id: "odd-2025", section_id: "sec-a", faculty_id: "f-1", status: "active", grade: "A+", enrolled_at: "2026-07-01T10:00:00Z" },
-    { id: "e2", student_id: "stu-2", course_id: "cs-601", semester_id: "sem-6", academic_session_id: "odd-2025", section_id: "sec-a", faculty_id: "f-1", status: "active", grade: "A", enrolled_at: "2026-07-01T10:15:00Z" },
-    { id: "e3", student_id: "stu-3", course_id: "cs-602", semester_id: "sem-6", academic_session_id: "odd-2025", section_id: "sec-b", faculty_id: "f-2", status: "withdrawn", grade: null, enrolled_at: "2026-07-02T11:00:00Z" },
-    { id: "e4", student_id: "stu-4", course_id: "cs-603", semester_id: "sem-6", academic_session_id: "odd-2025", section_id: "sec-a", faculty_id: "f-3", status: "completed", grade: "O (99)", enrolled_at: "2026-01-15T09:00:00Z" },
-  ], []);
-
-  const dbRows = enrollments.data ?? [];
-  const rows = dbRows.length > 0 ? dbRows : demoEnrollments;
+  const rows = enrollments.data ?? [];
 
   const activeCount = rows.filter((r) => r.status === "active" || r.status === "registered").length;
   const completedCount = rows.filter((r) => r.status === "completed").length;
@@ -131,10 +123,8 @@ function EnrollmentPage() {
 
   const setStatus = useMutation({
     mutationFn: async ({ ids, status }: { ids: string[]; status: string }) => {
-      if (dbRows.length > 0) {
-        const { error } = await supabase.from("enrollments").update({ status: status as any }).in("id", ids);
-        if (error) throw error;
-      }
+      const { error } = await supabase.from("enrollments").update({ status: status as any }).in("id", ids);
+      if (error) throw error;
     },
     onSuccess: (_, variables) => {
       toast.success(`✅ Updated ${variables.ids.length} enrollment record(s) to ${labelize(variables.status)}`);
@@ -144,10 +134,8 @@ function EnrollmentPage() {
 
   const moveSection = useMutation({
     mutationFn: async ({ ids, section }: { ids: string[]; section: string }) => {
-      if (dbRows.length > 0) {
-        const { error } = await supabase.from("enrollments").update({ section_id: section }).in("id", ids);
-        if (error) throw error;
-      }
+      const { error } = await supabase.from("enrollments").update({ section_id: section }).in("id", ids);
+      if (error) throw error;
     },
     onSuccess: () => {
       toast.success("✅ Students transferred seamlessly to target section!");
@@ -253,12 +241,12 @@ function EnrollmentPage() {
               header: "Student Candidate",
               value: (row) => {
                 const s = studentById.get(row.student_id);
-                return s ? studentName(s) : (row.student_id === "stu-1" ? "Aarav Mehta" : row.student_id === "stu-2" ? "Priya Patel" : row.student_id === "stu-3" ? "Rohan Varma" : "Vikram Singhal");
+                return s ? studentName(s) : "Unknown Candidate";
               },
               render: (row) => {
                 const s = studentById.get(row.student_id);
-                const name = s ? studentName(s) : (row.student_id === "stu-1" ? "Aarav Mehta" : row.student_id === "stu-2" ? "Priya Patel" : row.student_id === "stu-3" ? "Rohan Varma" : "Vikram Singhal");
-                const roll = s?.roll_number ?? (row.student_id === "stu-1" ? "2024-BT-001" : row.student_id === "stu-2" ? "2024-BT-042" : row.student_id === "stu-3" ? "2024-BT-104" : "2025-BT-119");
+                const name = s ? studentName(s) : "Unknown Candidate";
+                const roll = s?.roll_number ?? "N/A";
                 return (
                   <div className="space-y-0.5">
                     <p className="font-extrabold text-foreground text-sm">{name}</p>

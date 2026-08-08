@@ -5,6 +5,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { useServerFn } from "@tanstack/react-start";
+import { askCopilot } from "@/lib/ai.functions";
 
 interface Message {
   id: string;
@@ -33,7 +36,10 @@ export function AICopilotButton({ className, variant = "default", showText = tru
   const [input, setInput] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  const handleSend = (query?: string) => {
+  const { user } = useAuth();
+  const askCopilotFn = useServerFn(askCopilot);
+
+  const handleSend = async (query?: string) => {
     const textToSend = query || input;
     if (!textToSend.trim()) return;
 
@@ -47,27 +53,30 @@ export function AICopilotButton({ className, variant = "default", showText = tru
     setMessages((prev) => [...prev, userMsg]);
     if (!query) setInput("");
 
-    startTransition(() => {
-      setTimeout(() => {
-        let replyText = "I have analyzed the campus telemetry tables and cross-referenced current semester records. The requested institutional data has been synthesized and flagged in your administrative report feed.";
-        if (textToSend.toLowerCase().includes("fee") || textToSend.toLowerCase().includes("deficit")) {
-          replyText = "📊 Fee Analysis: 42 students in B.Tech CSE (Sem 4) currently have pending dues totaling ₹2,45,000. automated late-fee calculation of 2% has been scheduled for next Monday.";
-        } else if (textToSend.toLowerCase().includes("attendance") || textToSend.toLowerCase().includes("warning")) {
-          replyText = "✉️ Draft Generated: 'Dear Parent, this is an official advisory that your ward's attendance currently stands below the mandatory 75% threshold required for end-semester evaluations. Please arrange an interaction with the HoD.'";
-        } else if (textToSend.toLowerCase().includes("faculty") || textToSend.toLowerCase().includes("workload")) {
-          replyText = "⚖️ Workload Audit: Mechanical Engineering currently shows 3 faculty members exceeding 20 teaching hours/week, while 2 auxiliary instructors have open schedule blocks on Tuesdays.";
-        } else if (textToSend.toLowerCase().includes("compliance") || textToSend.toLowerCase().includes("statutory")) {
-          replyText = "🏛️ Compliance Check: AICTE and UGC statutory registers for Q3 are 98% complete. Only fire safety inspection renewal doc is pending attachment in Campus Operations.";
-        }
-
+    startTransition(async () => {
+      try {
+        const tenantId = user?.user_metadata?.tenant_id || "00000000-0000-0000-0000-000000000000";
+        const result = await askCopilotFn({ data: { query: textToSend, tenantId } });
+        
         const aiMsg: Message = {
           id: (Date.now() + 1).toString(),
           sender: "ai",
-          text: replyText,
+          text: result.text,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
         setMessages((prev) => [...prev, aiMsg]);
-      }, 700);
+      } catch (error) {
+        console.error("Failed to query AI copilot:", error);
+        toast.error("AI Copilot is currently offline. Please try again later.");
+        
+        const errMsg: Message = {
+          id: (Date.now() + 1).toString(),
+          sender: "ai",
+          text: "⚠️ I'm sorry, I am currently unable to reach the inference engine. Please check your network or API keys.",
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, errMsg]);
+      }
     });
   };
 

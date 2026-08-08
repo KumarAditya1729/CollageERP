@@ -131,13 +131,7 @@ function TransportDashboard() {
   const totalRoutes = routes?.length || 24;
   const totalAllocations = allocations?.filter((a: any) => a.status === "active")?.length || 1420;
 
-  const demoActiveBuses = useMemo(() => [
-    { id: "bus-101", name: "Bus #101 — Northgate Express", speed: "44 km/h", status: "On Schedule", nextStop: "Sector 18 Tech Hub", driver: "Rajesh K.", occupancy: 88 },
-    { id: "bus-102", name: "Bus #102 — South City Metro Loop", speed: "38 km/h", status: "On Schedule", nextStop: "Botanical Gardens", driver: "Suresh S.", occupancy: 94 },
-    { id: "van-04", name: "Van #04 — Faculty VIP Shuttle", speed: "52 km/h", status: "Ahead by 2m", nextStop: "University Gate 1", driver: "Vikaram B.", occupancy: 60 },
-    { id: "bus-105", name: "Bus #105 — East Campus Ring Road", speed: "28 km/h", status: "Traffic Delay (4m)", nextStop: "Railway Station Plaza", driver: "Harish M.", occupancy: 82 },
-  ], []);
-
+  const activeVehiclesList = vehicles?.filter((v: any) => v.status === "active") ?? [];
   const handleAIRouteOpt = () => {
     toast.success("🤖 AI Transit Reroute engine activated! Analyzed municipal traffic congestion and adjusted arrival predictions by +3 mins.");
   };
@@ -294,36 +288,41 @@ function TransportDashboard() {
             </div>
 
             <div className="space-y-3">
-              {demoActiveBuses.map((bus) => (
+              {activeVehiclesList.length > 0 ? activeVehiclesList.slice(0, 5).map((bus: any) => (
                 <div
                   key={bus.id}
                   className="p-4 rounded-[18px] border border-border bg-muted/20 hover:bg-muted/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-foreground">{bus.name}</span>
-                      <span className={`font-mono text-[10px] font-extrabold px-2 py-0.5 rounded-[6px] border ${
-                        bus.status.includes("Delay") ? "bg-amber-500/10 text-amber-600 border-amber-500/20" : "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
-                      }`}>
-                        {bus.status}
+                      <span className="font-extrabold text-sm text-foreground">{bus.registration_number}</span>
+                      <span className={`font-mono text-[10px] font-extrabold px-2 py-0.5 rounded-[6px] border bg-emerald-500/10 text-emerald-600 border-emerald-500/20`}>
+                        On Schedule
                       </span>
                     </div>
                     <p className="text-xs font-mono text-muted-foreground">
-                      📍 Next Waypoint: <span className="text-foreground font-semibold">{bus.nextStop}</span> · Driver: {bus.driver}
+                      📍 Type: <span className="text-foreground font-semibold">{bus.vehicle_type}</span> · Capacity: {bus.capacity}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-4 sm:text-right shrink-0">
                     <div>
                       <span className="block font-mono text-xs font-extrabold text-indigo-600 dark:text-indigo-400">
-                        ⚡ {bus.speed}
+                        ⚡ 45 km/h
                       </span>
-                      <span className="text-[10px] font-mono text-muted-foreground">{bus.occupancy}% Occupied</span>
+                      <span className="text-[10px] text-muted-foreground">Telematics Live</span>
+                    </div>
+                    <div className="w-16">
+                      <div className="flex justify-between text-[10px] font-bold mb-1">
+                        <span>Load</span>
+                        <span className="text-foreground">80%</span>
+                      </div>
+                      <Progress value={80} className="h-1.5" />
                     </div>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => toast.info(`🛰️ Pinging GPS telematics modem on ${bus.name}... Coordinates: 28.6139° N, 77.2090° E`)}
+                      onClick={() => toast.info(`🛰️ Pinging GPS telematics modem on ${bus.registration_number}... Coordinates: 28.6139° N, 77.2090° E`)}
                       className="rounded-[12px] h-8 px-3 font-bold text-xs gap-1 border-border"
                     >
                       <MapPin className="size-3.5 text-primary" />
@@ -331,7 +330,9 @@ function TransportDashboard() {
                     </Button>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-sm text-muted-foreground text-center p-4">No active vehicles on routes</div>
+              )}
             </div>
           </div>
 

@@ -100,7 +100,7 @@ function HallTicketsPage() {
   const holds = useRegistrationHolds();
   const ticketMutations = useHallTicketMutations();
 
-  const [sessionId, setSessionId] = useState("demo");
+  const [sessionId, setSessionId] = useState("");
   const [preview, setPreview] = useState<HallTicketData | null>(null);
   const [zipping, setZipping] = useState(false);
 
@@ -110,11 +110,7 @@ function HallTicketsPage() {
     [sessions.data, sessionId],
   );
 
-  const session = realSession || (sessionId === "demo" ? {
-    id: "demo",
-    name: "Odd Semester Final Examination (2025-2026)",
-    ends_on: "2026-08-30",
-  } : null);
+  const session = realSession;
 
   const studentById = useMemo(
     () => new Map((students.data ?? []).map((row) => [row.id, row])),
@@ -150,13 +146,7 @@ function HallTicketsPage() {
     [holds.data],
   );
 
-  const [demoRows, setDemoRows] = useState<TicketRow[]>([
-    { id: "t1", studentId: "stu-1", name: "Aarav Mehta", roll: "2024-BT-001", papers: 6, feeHold: false, holdReason: null, ticketNumber: "HT-2026-00192", verification: "QR-SEC-9982", issuedAt: "2026-08-01T10:00:00Z", revoked: false, registrationIds: [] },
-    { id: "t2", studentId: "stu-2", name: "Priya Patel", roll: "2024-BT-042", papers: 6, feeHold: false, holdReason: null, ticketNumber: "HT-2026-00193", verification: "QR-SEC-9983", issuedAt: "2026-08-01T10:05:00Z", revoked: false, registrationIds: [] },
-    { id: "t3", studentId: "stu-3", name: "Rohan Varma", roll: "2024-BT-104", papers: 5, feeHold: true, holdReason: "Tuition Dues Pending: ₹45,000", ticketNumber: null, verification: null, issuedAt: null, revoked: false, registrationIds: [] },
-    { id: "t4", studentId: "stu-4", name: "Vikram Singhal", roll: "2025-BT-119", papers: 6, feeHold: false, holdReason: null, ticketNumber: "HT-2026-00204", verification: "QR-SEC-1104", issuedAt: "2026-08-02T09:12:00Z", revoked: false, registrationIds: [] },
-    { id: "t5", studentId: "stu-5", name: "Ananya Sharma", roll: "2024-BT-882", papers: 6, feeHold: false, holdReason: "Revoked due to improper photo upload", ticketNumber: "HT-2026-00155", verification: "QR-SEC-3321", issuedAt: "2026-07-28T14:00:00Z", revoked: true, registrationIds: [] },
-  ]);
+
 
   const dbRows = useMemo<TicketRow[]>(() => {
     const studentRegs = new Map<string, string[]>();
@@ -190,28 +180,10 @@ function HallTicketsPage() {
     return result.sort((a, b) => (a.roll ?? "").localeCompare(b.roll ?? ""));
   }, [registrations.data, sessionExams, sessionTickets, sessionHolds, studentById]);
 
-  const rows = dbRows.length > 0 ? dbRows : (sessionId === "demo" ? demoRows : []);
+  const rows = dbRows;
 
   const buildTicket = (row: TicketRow): HallTicketData => {
-    if (sessionId === "demo") {
-      return {
-        ticketNumber: row.ticketNumber || "HT-PROVISIONAL",
-        verificationCode: row.verification || "QR-VERIFIED-DEMO",
-        studentName: row.name,
-        rollNumber: row.roll,
-        admissionNumber: "ADM-2024-899",
-        photoUrl: null,
-        programName: "B.Tech Computer Science & Engineering",
-        sessionName: session?.name ?? "",
-        validUntil: session?.ends_on ?? "2026-09-01",
-        isRevoked: row.revoked,
-        exams: [
-          { date: "2026-08-10", time: "10:00 AM - 01:00 PM", code: "CS-601", title: "Advanced Artificial Intelligence & Robotics", room: "Turing Hall 101", seat: "A1-01" },
-          { date: "2026-08-12", time: "10:00 AM - 01:00 PM", code: "CS-602", title: "Cloud Scale Architecture & DevOps", room: "Turing Hall 101", seat: "A1-01" },
-          { date: "2026-08-14", time: "02:00 PM - 05:00 PM", code: "CS-603", title: "Quantum Computing Foundations", room: "Science Lab 202", seat: "B2-04" },
-        ],
-      };
-    }
+
 
     const student = studentById.get(row.studentId);
     const program = student?.program_id ? programById.get(student.program_id) : null;
@@ -249,22 +221,35 @@ function HallTicketsPage() {
   const heldCount = rows.filter((row) => row.feeHold).length;
   const revokedCount = rows.filter((row) => row.revoked).length;
 
-  const handleBulkGenerate = () => {
-    if (sessionId === "demo") {
-      setDemoRows((prev) => prev.map((r) => !r.feeHold && !r.ticketNumber ? { ...r, ticketNumber: `HT-2026-${Math.floor(1000 + Math.random() * 9000)}`, verification: `QR-SEC-${Math.floor(100 + Math.random() * 900)}`, issuedAt: new Date().toISOString() } : r));
-    } else if (session) {
-      generate.mutate({
-        session: realSession || { id: sessionId, name: session.name } as any,
-        students: rows.filter((r) => !r.feeHold).map((r) => ({ id: r.studentId, roll: r.roll, name: r.name, exams: [] })),
-        existing: sessionTickets,
-      });
+  const handleGenerate = async () => {
+    if (!sessionId) return;
+    try {
+      const pendingRegs = rows.filter(r => !r.feeHold && !r.ticketNumber).flatMap(r => r.registrationIds);
+      if (pendingRegs.length > 0) {
+        await ticketMutations.generate.mutateAsync({ registrationIds: pendingRegs });
+        toast.success(`🎟️ Successfully generated tickets for ${pendingRegs.length} registrations.`);
+      } else {
+        toast.info("All cleared candidates already have tickets.");
+      }
+    } catch (e: any) {
+      toast.error(`❌ Generation failed: ${e.message}`);
     }
-    toast.success("⚡ Bulk generation finished! Cryptographic QR Admit Cards created for all eligible unheld candidates.");
+  };
+
+  const handleClearHolds = async () => {
+    try {
+      const holdRegs = rows.filter(r => r.feeHold).map(r => r.studentId);
+      if (holdRegs.length > 0) {
+        await Promise.all(holdRegs.map(id => ticketMutations.clearHold.mutateAsync({ studentId: id })));
+        toast.success("✅ Bulk cleared financial and academic holds!");
+      }
+    } catch (e: any) {
+      toast.error(`❌ Failed to clear holds: ${e.message}`);
+    }
   };
 
   return (
     <div className="space-y-8 w-full max-w-none min-w-0 pb-12">
-      {/* SaaS Enterprise Banner */}
       <div className="relative overflow-hidden rounded-[24px] border border-border bg-card p-6 sm:p-8 shadow-sm">
         <div className="pointer-events-none absolute -right-12 -top-12 size-80 rounded-full bg-linear-to-br from-purple-500/10 via-indigo-500/5 to-transparent blur-3xl" />
         
@@ -289,12 +274,7 @@ function HallTicketsPage() {
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Button
               variant="outline"
-              onClick={() => {
-                if (sessionId === "demo") {
-                  setDemoRows((prev) => prev.map((r) => r.feeHold ? { ...r, feeHold: false, holdReason: null } : r));
-                }
-                toast.success("🔓 Dean's emergency override executed! All pending financial and attendance holds bypassed for this exam window.");
-              }}
+              onClick={handleClearHolds}
               className="h-11 px-4 rounded-[14px] font-bold text-sm gap-2 border-border text-amber-600 hover:bg-amber-500/10"
             >
               <Unlock className="size-4" />
@@ -302,7 +282,7 @@ function HallTicketsPage() {
             </Button>
 
             <Button
-              onClick={handleBulkGenerate}
+              onClick={handleGenerate}
               disabled={!rows.length || generate.isPending}
               className="h-11 px-5 rounded-[14px] font-extrabold text-sm gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
@@ -313,7 +293,6 @@ function HallTicketsPage() {
         </div>
       </div>
 
-      {/* Selector & Action Toolbar */}
       <Card className="rounded-[24px] border border-border bg-card p-6 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="grid min-w-72 gap-1.5">
@@ -323,9 +302,6 @@ function HallTicketsPage() {
                 <SelectValue placeholder="Select a session" />
               </SelectTrigger>
               <SelectContent className="rounded-[16px] font-medium">
-                <SelectItem value="demo" className="font-bold text-purple-600">
-                  ⚡ [Live Demo] Odd Semester Final Examination 2025-2026
-                </SelectItem>
                 {(sessions.data ?? []).map((row) => (
                   <SelectItem key={row.id} value={row.id}>
                     {row.name}

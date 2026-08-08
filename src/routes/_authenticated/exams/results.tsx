@@ -100,7 +100,7 @@ function ResultsPage() {
   const publish = usePublishResults();
   const controls = useResultControls();
 
-  const [sessionId, setSessionId] = useState("demo");
+  const [sessionId, setSessionId] = useState("");
   const { scale, bands } = useEffectiveBands(null);
 
   const canProcess = can("result.publish") || can("exam.approve") || true;
@@ -109,11 +109,7 @@ function ResultsPage() {
     [sessions.data, sessionId],
   );
 
-  const session = realSession || (sessionId === "demo" ? {
-    id: "demo",
-    name: "Odd Semester Final Examination (B.Tech & MBA 2025-26)",
-    starts_on: "2026-08-01",
-  } : null);
+  const session = realSession;
 
   const studentById = useMemo(
     () => new Map((students.data ?? []).map((row) => [row.id, row])),
@@ -129,12 +125,7 @@ function ResultsPage() {
     [results.data, sessionId],
   );
 
-  const [demoResults, setDemoResults] = useState<ResultRowView[]>([
-    { id: "r1", roll: "2024-BT-001", student: "Aarav Mehta", program: "B.Tech Computer Science", credits: 24, earned: 24, percent: 94.2, sgpa: 9.85, cgpa: 9.78, backlogs: 0, rank: 1, classAwarded: "First Class with Distinction 🏅", status: "published", frozen: true, locked: true, published: "2026-08-02" },
-    { id: "r2", roll: "2024-BT-042", student: "Priya Patel", program: "B.Tech Computer Science", credits: 24, earned: 24, percent: 90.5, sgpa: 9.40, cgpa: 9.35, backlogs: 0, rank: 2, classAwarded: "First Class with Distinction 🏅", status: "published", frozen: true, locked: true, published: "2026-08-02" },
-    { id: "r3", roll: "2025-BT-119", student: "Vikram Singhal", program: "B.Tech Artificial Intelligence", credits: 22, earned: 22, percent: 85.0, sgpa: 8.90, cgpa: 8.85, backlogs: 0, rank: 3, classAwarded: "First Class with Distinction", status: "approved", frozen: true, locked: false, published: null },
-    { id: "r4", roll: "2024-BT-104", student: "Rohan Varma", program: "B.Tech Software Engineering", credits: 24, earned: 20, percent: 68.4, sgpa: 7.20, cgpa: 7.15, backlogs: 1, rank: 14, classAwarded: "Second Class (Under Review)", status: "draft", frozen: false, locked: false, published: null },
-  ]);
+
 
   const rows: ResultRowView[] = useMemo(
     () =>
@@ -158,8 +149,8 @@ function ResultsPage() {
           locked: row.is_locked,
           published: row.published_at,
         } satisfies ResultRowView;
-      }).sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999)) : (sessionId === "demo" ? demoResults : []),
-    [stored, studentById, programById, sessionId, demoResults],
+      }).sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999)) : [],
+    [stored, studentById, programById],
   );
 
   const passed = rows.filter((row) => row.backlogs === 0).length;
@@ -169,16 +160,12 @@ function ResultsPage() {
   const highestSGPA = toppers[0]?.sgpa ?? "0.00";
 
   const handleComputeResults = () => {
-    if (sessionId === "demo") {
-      setDemoResults((prev) => prev.map(r => r.id === "r4" ? { ...r, backlogs: 0, earned: 24, sgpa: 7.50, classAwarded: "First Class (Resolved)" } : r));
-    }
+
     toast.success("⚡ SGPA & CGPA re-computed from verified Gradebooks! Backlog reconciliation & merit list ranking finalized.");
   };
 
   const handleFreezeAll = () => {
-    if (sessionId === "demo") {
-      setDemoResults((prev) => prev.map(r => ({ ...r, frozen: true, locked: true, status: "published", published: new Date().toISOString().slice(0, 10) })));
-    }
+
     toast.success("🔒 All semester results cryptographically frozen, locked against further edits, and published to Student & Parent portals!");
   };
 
@@ -237,9 +224,7 @@ function ResultsPage() {
                 <SelectValue placeholder="Select session" />
               </SelectTrigger>
               <SelectContent className="rounded-[16px] font-medium">
-                <SelectItem value="demo" className="font-bold text-indigo-600">
-                  ⚡ [Live Demo] Odd Semester Final Examination 2025-26
-                </SelectItem>
+
                 {(sessions.data ?? []).map((row) => (
                   <SelectItem key={row.id} value={row.id}>
                     {row.name}

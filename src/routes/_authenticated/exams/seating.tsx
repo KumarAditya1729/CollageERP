@@ -94,7 +94,7 @@ function SeatingPage() {
   const seatMutations = useSeatMutations();
   const roomMutations = useResourceMutations({ table: "exam_rooms" });
 
-  const [examId, setExamId] = useState("demo");
+  const [examId, setExamId] = useState("");
   const [hallOpen, setHallOpen] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState<Set<string>>(new Set(["stu-2"]));
@@ -106,11 +106,7 @@ function SeatingPage() {
     [exams.data, examId],
   );
 
-  const exam = realExam || (examId === "demo" ? {
-    id: "demo",
-    title: "CS-601: Advanced Artificial Intelligence & Robotics (Final Term)",
-    exam_date: "2026-08-10",
-  } : null);
+  const exam = realExam;
 
   const roomsById = useMemo(
     () => new Map((rooms.data ?? []).map((row) => [row.id, row])),
@@ -151,20 +147,7 @@ function SeatingPage() {
     [registrations.data, examId, studentById],
   );
 
-  const demoCandidates = useMemo(() => [
-    { id: "stu-1", name: "Aarav Mehta", roll: "2024-BT-001" },
-    { id: "stu-2", name: "Priya Patel", roll: "2024-BT-042" },
-    { id: "stu-3", name: "Rohan Varma", roll: "2024-BT-104" },
-    { id: "stu-4", name: "Vikram Singhal", roll: "2025-BT-119" },
-    { id: "stu-5", name: "Ananya Sharma", roll: "2024-BT-882" },
-  ], []);
-
-  const candidates = dbCandidates.length > 0 ? dbCandidates : (examId === "demo" ? demoCandidates : []);
-
-  const demoHalls: HallRow[] = useMemo(() => [
-    { id: "h1", room: "Lecture Hall 101 (Turing Hall)", building: "Block A - Technology Wing", floor: 1, block: "North Block", capacity: 30, allocated: 18, special: false, prefix: "A1" },
-    { id: "h2", room: "Examination Hall 202 (Science Lab)", building: "Block B - Sciences", floor: 2, block: "East Wing", capacity: 25, allocated: 12, special: true, prefix: "B2" },
-  ], []);
+  const candidates = dbCandidates;
 
   const halls: HallRow[] = useMemo(
     () =>
@@ -183,39 +166,9 @@ function SeatingPage() {
           special: hall.is_special_needs,
           prefix: hall.seat_prefix,
         } satisfies HallRow;
-      }) : (examId === "demo" ? demoHalls : []),
-    [examHalls, roomsById, buildingsById, examSeats, examId, demoHalls],
+      }) : [],
+    [examHalls, roomsById, buildingsById, examSeats],
   );
-
-  const demoMatrix: SeatMatrixHall[] = useMemo(() => [
-    {
-      id: "h1",
-      roomName: "Lecture Hall 101 (Turing Hall)",
-      buildingName: "Block A - Technology Wing",
-      floor: 1,
-      blockLabel: "North Block",
-      capacity: 30,
-      specialNeeds: false,
-      seats: [
-        { id: "s1", seatNumber: "A1-01", rowLabel: "Row A", benchNumber: "Bench 1", studentName: "Aarav Mehta", rollNumber: "2024-BT-001", specialNeeds: false, verificationCode: "VCF-8821" },
-        { id: "s3", seatNumber: "A1-03", rowLabel: "Row A", benchNumber: "Bench 2", studentName: "Rohan Varma", rollNumber: "2024-BT-104", specialNeeds: false, verificationCode: "VCF-7734" },
-        { id: "s5", seatNumber: "A1-05", rowLabel: "Row B", benchNumber: "Bench 3", studentName: "Ananya Sharma", rollNumber: "2024-BT-882", specialNeeds: false, verificationCode: "VCF-9912" },
-      ],
-    },
-    {
-      id: "h2",
-      roomName: "Examination Hall 202 (Science Lab)",
-      buildingName: "Block B - Sciences",
-      floor: 2,
-      blockLabel: "East Wing",
-      capacity: 25,
-      specialNeeds: true,
-      seats: [
-        { id: "s2", seatNumber: "B2-01", rowLabel: "Front Row", benchNumber: "Priority 1", studentName: "Priya Patel", rollNumber: "2024-BT-042", specialNeeds: true, verificationCode: "VCF-1002" },
-        { id: "s4", seatNumber: "B2-02", rowLabel: "Row A", benchNumber: "Bench 2", studentName: "Vikram Singhal", rollNumber: "2025-BT-119", specialNeeds: false, verificationCode: "VCF-3304" },
-      ],
-    },
-  ], []);
 
   const matrix = useMemo<SeatMatrixHall[]>(
     () =>
@@ -247,8 +200,8 @@ function SeatingPage() {
               };
             }),
         };
-      }) : (examId === "demo" ? demoMatrix : []),
-    [examHalls, roomsById, buildingsById, examSeats, studentById, examId, demoMatrix],
+      }) : [],
+    [examHalls, roomsById, buildingsById, examSeats, studentById],
   );
 
   const totalCapacity = halls.reduce((sum, h) => sum + h.capacity, 0);
@@ -317,10 +270,7 @@ function SeatingPage() {
               <SelectTrigger id="seating-exam" className="h-11 rounded-[14px] font-bold text-sm bg-muted/30">
                 <SelectValue placeholder="Select an exam" />
               </SelectTrigger>
-              <SelectContent className="rounded-[16px] font-medium">
-                <SelectItem value="demo" className="font-bold text-emerald-600">
-                  ⚡ [Live Demo] CS-601: Advanced Artificial Intelligence & Robotics
-                </SelectItem>
+              <SelectContent className="rounded-[16px]">
                 {(exams.data ?? []).map((row) => (
                   <SelectItem key={row.id} value={row.id}>
                     {row.title}

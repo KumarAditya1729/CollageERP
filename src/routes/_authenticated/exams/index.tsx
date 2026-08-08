@@ -76,14 +76,7 @@ function ExamDashboard() {
   const today = new Date().toISOString().slice(0, 10);
   const dbUpcoming = (exams.data ?? []).filter((exam) => exam.exam_date && exam.exam_date >= today).slice(0, 8);
 
-  const demoUpcoming = [
-    { id: "e1", title: "CS-601: Advanced Artificial Intelligence & Robotics", exam_date: "2026-08-10", starts_at: "09:30 AM", ends_at: "12:30 PM", status: "published", courseCode: "B.Tech Sem VI" },
-    { id: "e2", title: "EC-604: Digital Signal & Image Processing", exam_date: "2026-08-12", starts_at: "02:00 PM", ends_at: "05:00 PM", status: "scheduled", courseCode: "B.Tech Sem VI" },
-    { id: "e3", title: "MBA-402: Corporate Mergers, Acquisitions & Valuation", exam_date: "2026-08-14", starts_at: "10:00 AM", ends_at: "01:00 PM", status: "locked", courseCode: "MBA Sem IV" },
-    { id: "e4", title: "CS-408: Operating Systems Kernel Design & Rust", exam_date: "2026-08-16", starts_at: "09:30 AM", ends_at: "12:30 PM", status: "published", courseCode: "B.Tech Sem IV" },
-  ];
-
-  const upcomingList = dbUpcoming.length > 0 ? dbUpcoming : demoUpcoming;
+  const upcomingList = dbUpcoming;
 
   const marksProgress = useMemo(() => {
     const rows = marks.data ?? [];

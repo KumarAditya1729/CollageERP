@@ -32,3 +32,24 @@ export function useVendors() {
     enabled: !!tenant?.id,
   });
 }
+
+export function useCreateVendor() {
+  const { tenant } = useAccess();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: Omit<VendorRow, "id" | "tenant_id" | "status">) => {
+      const { error } = await db
+        .from("finance_vendors")
+        .insert({
+          ...data,
+          tenant_id: tenant?.id,
+          status: "active",
+        });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendors"] });
+    },
+  });
+}

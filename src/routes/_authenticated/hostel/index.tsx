@@ -30,6 +30,8 @@ import {
   useHostelRooms,
   useHostelAllocations,
   useHostelComplaints,
+  useHostelGatePasses,
+  useUpdateHostelGatePass,
 } from "@/hooks/hostel/useHostel";
 
 export const Route = createFileRoute("/_authenticated/hostel/")({
@@ -133,20 +135,25 @@ function HostelDashboard() {
   const activeAllocations = allocations?.filter((a: any) => a.status !== "vacated")?.length || 1710;
   const openComplaints = complaints?.filter((c: any) => c.status === "open")?.length || 2;
 
-  const [demoGatePasses, setDemoGatePasses] = useState([
-    { id: "gp-1", student: "Rohan Sharma (CS-B2)", destination: "Weekend Family Visit — New Delhi", parentConsent: "Verified via OTP", time: "Leaving Fri 5:00 PM", status: "pending" },
-    { id: "gp-2", student: "Ananya Iyer (AI-A1)", destination: "Hackathon at IIT Delhi (Group of 4)", parentConsent: "Parent letter on file", time: "Leaving Sat 7:00 AM", status: "pending" },
-    { id: "gp-3", student: "Vikram Singh (Mech)", destination: "Medical Dental Appointment (City Plaza)", parentConsent: "Warden pre-approved", time: "Returning today 8:30 PM", status: "approved" },
-  ]);
+  const { data: gatePasses } = useHostelGatePasses();
+  const updateGatePass = useUpdateHostelGatePass();
+
+  const pendingPasses = (gatePasses ?? []).filter((p: any) => p.status === "pending" || p.status === "pending_approval");
 
   const handleApproveGatePass = (id: string, name: string) => {
-    setDemoGatePasses((prev) => prev.map((p) => p.id === id ? { ...p, status: "approved" } : p));
-    toast.success(`✅ Gate-pass exit permit approved for ${name}. QR digital exit code dispatched to student & security gate app!`);
+    updateGatePass.mutate({ id, status: "approved" }, {
+      onSuccess: () => {
+        toast.success(`✅ Gate-pass exit permit approved for ${name}. QR digital exit code dispatched to student & security gate app!`);
+      }
+    });
   };
 
   const handleRejectGatePass = (id: string, name: string) => {
-    setDemoGatePasses((prev) => prev.map((p) => p.id === id ? { ...p, status: "denied" } : p));
-    toast.error(`❌ Denied gate-pass for ${name}. Notification sent to student explaining campus curfew guidelines.`);
+    updateGatePass.mutate({ id, status: "denied" }, {
+      onSuccess: () => {
+        toast.error(`❌ Denied gate-pass for ${name}. Notification sent to student explaining campus curfew guidelines.`);
+      }
+    });
   };
 
   const handleAIRoommateMatch = () => {
@@ -285,52 +292,47 @@ function HostelDashboard() {
             </div>
 
             <div className="space-y-3">
-              {demoGatePasses.map((gp) => (
+              {pendingPasses.length > 0 ? pendingPasses.map((gp: any) => {
+                const studentName = gp.students ? `${gp.students.first_name} ${gp.students.last_name}` : "Student";
+                return (
                 <div
                   key={gp.id}
                   className="p-4 rounded-[18px] border border-border bg-muted/20 hover:bg-muted/40 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-extrabold text-sm text-foreground">{gp.student}</span>
+                      <span className="font-extrabold text-sm text-foreground">{studentName}</span>
                       <span className="font-mono text-[10px] bg-background px-2 py-0.5 rounded-[6px] border border-border text-emerald-600 font-bold">
-                        {gp.parentConsent}
+                        {gp.pass_type || "local"}
                       </span>
                     </div>
                     <p className="text-xs font-mono text-muted-foreground">
-                      🧳 {gp.destination} · <span className="text-foreground font-semibold">{gp.time}</span>
+                      🧳 {gp.purpose} · <span className="text-foreground font-semibold">Out: {new Date(gp.out_time).toLocaleString()}</span>
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2 sm:text-right shrink-0">
-                    {gp.status === "pending" ? (
-                      <>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleRejectGatePass(gp.id, gp.student)}
-                          className="rounded-[12px] h-9 px-3 font-extrabold text-xs text-red-600 hover:bg-red-500/10 border-border gap-1"
-                        >
-                          <X className="size-3.5" /> Deny
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={() => handleApproveGatePass(gp.id, gp.student)}
-                          className="rounded-[12px] h-9 px-3 font-extrabold text-xs bg-emerald-600 hover:bg-emerald-700 text-white gap-1 shadow-sm"
-                        >
-                          <Check className="size-3.5" /> Approve Pass
-                        </Button>
-                      </>
-                    ) : (
-                      <Badge variant="outline" className={`font-mono text-xs px-3 py-1 font-bold ${
-                        gp.status === "approved" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-red-500/10 text-red-600 border-red-500/20"
-                      }`}>
-                        {gp.status === "approved" ? "🟢 Approved & QR Sent" : "🔴 Denied Permit"}
-                      </Badge>
-                    )}
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleRejectGatePass(gp.id, studentName)}
+                      className="rounded-[12px] h-9 px-3 font-extrabold text-xs text-red-600 hover:bg-red-500/10 border-border gap-1"
+                    >
+                      <X className="size-3.5" /> Deny
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => handleApproveGatePass(gp.id, studentName)}
+                      className="rounded-[12px] h-9 px-3 font-extrabold text-xs bg-emerald-600 hover:bg-emerald-700 text-white gap-1 shadow-sm"
+                    >
+                      <Check className="size-3.5" /> Approve Pass
+                    </Button>
                   </div>
                 </div>
-              ))}
+                );
+              }) : (
+                <div className="text-sm text-muted-foreground text-center p-4">No pending gate passes</div>
+              )}
             </div>
           </div>
 

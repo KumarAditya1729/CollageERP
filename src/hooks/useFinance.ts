@@ -391,3 +391,51 @@ export function useRecordPayment() {
     onError: (error: Error) => toast.error(error.message),
   });
 }
+
+export function useCreateFeeStructure() {
+  const { tenant } = useAccess();
+  const { user } = useAuth();
+  const invalidate = useInvalidate();
+
+  return useMutation({
+    mutationFn: async (data: Omit<FeeStructureRow, "id">) => {
+      const { error } = await supabase
+        .from("finance_fee_structures" as never)
+        .insert({
+          ...data,
+          tenant_id: tenant?.id,
+          created_by: user?.id,
+        } as never);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Fee Structure created successfully");
+      invalidate(["finance_fee_structures"]);
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+}
+
+export function useCreateFeeHead() {
+  const { tenant } = useAccess();
+  const { user } = useAuth();
+  const invalidate = useInvalidate();
+
+  return useMutation({
+    mutationFn: async (data: Omit<FeeHeadRow, "id">) => {
+      const { error } = await supabase
+        .from("finance_fee_heads" as never)
+        .insert({
+          ...data,
+          tenant_id: tenant?.id,
+          created_by: user?.id,
+        } as never);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Fee Head created successfully");
+      invalidate(["finance_fee_heads"]);
+    },
+    onError: (error: Error) => toast.error(error.message),
+  });
+}

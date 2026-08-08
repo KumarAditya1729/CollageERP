@@ -131,6 +131,9 @@ import { Route as AuthenticatedLibrarySettingsRouteImport } from './routes/_auth
 import { Route as AuthenticatedLmsIndexRouteImport } from './routes/_authenticated/lms/index'
 import { Route as AuthenticatedLmsWorkspaceIdRouteImport } from './routes/_authenticated/lms/$workspaceId'
 import { Route as AuthenticatedMedicalIndexRouteImport } from './routes/_authenticated/medical/index'
+import { Route as AuthenticatedPlacementsIndexRouteImport } from './routes/_authenticated/placements/index'
+import { Route as AuthenticatedPlacementsCompaniesRouteImport } from './routes/_authenticated/placements/companies'
+import { Route as AuthenticatedPlacementsDrivesRouteImport } from './routes/_authenticated/placements/drives'
 import { Route as AuthenticatedSecurityIndexRouteImport } from './routes/_authenticated/security/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedSettingsScopeRouteImport } from './routes/_authenticated/settings/$scope'
@@ -865,6 +868,24 @@ const AuthenticatedMedicalIndexRoute =
     path: '/medical/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPlacementsIndexRoute =
+  AuthenticatedPlacementsIndexRouteImport.update({
+    id: '/placements/',
+    path: '/placements/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPlacementsCompaniesRoute =
+  AuthenticatedPlacementsCompaniesRouteImport.update({
+    id: '/placements/companies',
+    path: '/placements/companies',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPlacementsDrivesRoute =
+  AuthenticatedPlacementsDrivesRouteImport.update({
+    id: '/placements/drives',
+    path: '/placements/drives',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSecurityIndexRoute =
   AuthenticatedSecurityIndexRouteImport.update({
     id: '/security/',
@@ -1170,6 +1191,8 @@ export interface FileRoutesByFullPath {
   '/library/members': typeof AuthenticatedLibraryMembersRoute
   '/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
+  '/placements/companies': typeof AuthenticatedPlacementsCompaniesRoute
+  '/placements/drives': typeof AuthenticatedPlacementsDrivesRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
   '/settings/features': typeof AuthenticatedSettingsFeaturesRoute
@@ -1209,6 +1232,7 @@ export interface FileRoutesByFullPath {
   '/library/': typeof AuthenticatedLibraryIndexRoute
   '/lms/': typeof AuthenticatedLmsIndexRoute
   '/medical/': typeof AuthenticatedMedicalIndexRoute
+  '/placements/': typeof AuthenticatedPlacementsIndexRoute
   '/security/': typeof AuthenticatedSecurityIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/students/': typeof AuthenticatedStudentsIndexRoute
@@ -1324,6 +1348,8 @@ export interface FileRoutesByTo {
   '/library/members': typeof AuthenticatedLibraryMembersRoute
   '/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
+  '/placements/companies': typeof AuthenticatedPlacementsCompaniesRoute
+  '/placements/drives': typeof AuthenticatedPlacementsDrivesRoute
   '/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/settings/api': typeof AuthenticatedSettingsApiRoute
   '/settings/features': typeof AuthenticatedSettingsFeaturesRoute
@@ -1363,6 +1389,7 @@ export interface FileRoutesByTo {
   '/library': typeof AuthenticatedLibraryIndexRoute
   '/lms': typeof AuthenticatedLmsIndexRoute
   '/medical': typeof AuthenticatedMedicalIndexRoute
+  '/placements': typeof AuthenticatedPlacementsIndexRoute
   '/security': typeof AuthenticatedSecurityIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/students': typeof AuthenticatedStudentsIndexRoute
@@ -1482,6 +1509,8 @@ export interface FileRoutesById {
   '/_authenticated/library/members': typeof AuthenticatedLibraryMembersRoute
   '/_authenticated/library/settings': typeof AuthenticatedLibrarySettingsRoute
   '/_authenticated/lms/$workspaceId': typeof AuthenticatedLmsWorkspaceIdRoute
+  '/_authenticated/placements/companies': typeof AuthenticatedPlacementsCompaniesRoute
+  '/_authenticated/placements/drives': typeof AuthenticatedPlacementsDrivesRoute
   '/_authenticated/settings/$scope': typeof AuthenticatedSettingsScopeRoute
   '/_authenticated/settings/api': typeof AuthenticatedSettingsApiRoute
   '/_authenticated/settings/features': typeof AuthenticatedSettingsFeaturesRoute
@@ -1521,6 +1550,7 @@ export interface FileRoutesById {
   '/_authenticated/library/': typeof AuthenticatedLibraryIndexRoute
   '/_authenticated/lms/': typeof AuthenticatedLmsIndexRoute
   '/_authenticated/medical/': typeof AuthenticatedMedicalIndexRoute
+  '/_authenticated/placements/': typeof AuthenticatedPlacementsIndexRoute
   '/_authenticated/security/': typeof AuthenticatedSecurityIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/students/': typeof AuthenticatedStudentsIndexRoute
@@ -1640,6 +1670,8 @@ export interface FileRouteTypes {
     | '/library/members'
     | '/library/settings'
     | '/lms/$workspaceId'
+    | '/placements/companies'
+    | '/placements/drives'
     | '/settings/$scope'
     | '/settings/api'
     | '/settings/features'
@@ -1679,6 +1711,7 @@ export interface FileRouteTypes {
     | '/library/'
     | '/lms/'
     | '/medical/'
+    | '/placements/'
     | '/security/'
     | '/settings/'
     | '/students/'
@@ -1794,6 +1827,8 @@ export interface FileRouteTypes {
     | '/library/members'
     | '/library/settings'
     | '/lms/$workspaceId'
+    | '/placements/companies'
+    | '/placements/drives'
     | '/settings/$scope'
     | '/settings/api'
     | '/settings/features'
@@ -1833,6 +1868,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/lms'
     | '/medical'
+    | '/placements'
     | '/security'
     | '/settings'
     | '/students'
@@ -1951,6 +1987,8 @@ export interface FileRouteTypes {
     | '/_authenticated/library/members'
     | '/_authenticated/library/settings'
     | '/_authenticated/lms/$workspaceId'
+    | '/_authenticated/placements/companies'
+    | '/_authenticated/placements/drives'
     | '/_authenticated/settings/$scope'
     | '/_authenticated/settings/api'
     | '/_authenticated/settings/features'
@@ -1990,6 +2028,7 @@ export interface FileRouteTypes {
     | '/_authenticated/library/'
     | '/_authenticated/lms/'
     | '/_authenticated/medical/'
+    | '/_authenticated/placements/'
     | '/_authenticated/security/'
     | '/_authenticated/settings/'
     | '/_authenticated/students/'
@@ -2869,6 +2908,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMedicalIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/placements/': {
+      id: '/_authenticated/placements/'
+      path: '/placements'
+      fullPath: '/placements/'
+      preLoaderRoute: typeof AuthenticatedPlacementsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/placements/companies': {
+      id: '/_authenticated/placements/companies'
+      path: '/placements/companies'
+      fullPath: '/placements/companies'
+      preLoaderRoute: typeof AuthenticatedPlacementsCompaniesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/placements/drives': {
+      id: '/_authenticated/placements/drives'
+      path: '/placements/drives'
+      fullPath: '/placements/drives'
+      preLoaderRoute: typeof AuthenticatedPlacementsDrivesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/security/': {
       id: '/_authenticated/security/'
       path: '/security'
@@ -3272,6 +3332,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLibraryMembersRoute: typeof AuthenticatedLibraryMembersRoute
   AuthenticatedLibrarySettingsRoute: typeof AuthenticatedLibrarySettingsRoute
   AuthenticatedLmsWorkspaceIdRoute: typeof AuthenticatedLmsWorkspaceIdRoute
+  AuthenticatedPlacementsCompaniesRoute: typeof AuthenticatedPlacementsCompaniesRoute
+  AuthenticatedPlacementsDrivesRoute: typeof AuthenticatedPlacementsDrivesRoute
   AuthenticatedStudentsStudentIdRoute: typeof AuthenticatedStudentsStudentIdRoute
   AuthenticatedStudentsAdmissionsRoute: typeof AuthenticatedStudentsAdmissionsRoute
   AuthenticatedStudentsIdCardsRoute: typeof AuthenticatedStudentsIdCardsRoute
@@ -3293,6 +3355,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLibraryIndexRoute: typeof AuthenticatedLibraryIndexRoute
   AuthenticatedLmsIndexRoute: typeof AuthenticatedLmsIndexRoute
   AuthenticatedMedicalIndexRoute: typeof AuthenticatedMedicalIndexRoute
+  AuthenticatedPlacementsIndexRoute: typeof AuthenticatedPlacementsIndexRoute
   AuthenticatedSecurityIndexRoute: typeof AuthenticatedSecurityIndexRoute
   AuthenticatedStudentsIndexRoute: typeof AuthenticatedStudentsIndexRoute
   AuthenticatedTimetableIndexRoute: typeof AuthenticatedTimetableIndexRoute
@@ -3408,6 +3471,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLibraryMembersRoute: AuthenticatedLibraryMembersRoute,
   AuthenticatedLibrarySettingsRoute: AuthenticatedLibrarySettingsRoute,
   AuthenticatedLmsWorkspaceIdRoute: AuthenticatedLmsWorkspaceIdRoute,
+  AuthenticatedPlacementsCompaniesRoute: AuthenticatedPlacementsCompaniesRoute,
+  AuthenticatedPlacementsDrivesRoute: AuthenticatedPlacementsDrivesRoute,
   AuthenticatedStudentsStudentIdRoute: AuthenticatedStudentsStudentIdRoute,
   AuthenticatedStudentsAdmissionsRoute: AuthenticatedStudentsAdmissionsRoute,
   AuthenticatedStudentsIdCardsRoute: AuthenticatedStudentsIdCardsRoute,
@@ -3431,6 +3496,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLibraryIndexRoute: AuthenticatedLibraryIndexRoute,
   AuthenticatedLmsIndexRoute: AuthenticatedLmsIndexRoute,
   AuthenticatedMedicalIndexRoute: AuthenticatedMedicalIndexRoute,
+  AuthenticatedPlacementsIndexRoute: AuthenticatedPlacementsIndexRoute,
   AuthenticatedSecurityIndexRoute: AuthenticatedSecurityIndexRoute,
   AuthenticatedStudentsIndexRoute: AuthenticatedStudentsIndexRoute,
   AuthenticatedTimetableIndexRoute: AuthenticatedTimetableIndexRoute,
