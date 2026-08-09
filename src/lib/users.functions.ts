@@ -40,19 +40,38 @@ export const inviteUser = createServerFn({ method: "POST" })
     const { error: memberError } = await supabaseAdmin
       .from("tenant_members")
       .upsert(
-        { tenant_id: data.tenantId, user_id: userId, status: "invited" },
+        { tenant_id: data.tenantId, user_id: userId, status: "invited", deleted_at: null },
         { onConflict: "tenant_id,user_id" },
       );
     if (memberError) throw new Error(memberError.message);
 
     if (data.roleId) {
-      const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
-        user_id: userId,
-        role_id: data.roleId,
-        tenant_id: data.tenantId,
-        scope: "tenant",
-      });
-      if (roleError) throw new Error(roleError.message);
+      // Check if role assignment already exists (even if soft-deleted)
+      const { data: existingRole } = await supabaseAdmin
+        .from("user_roles")
+        .select("id, deleted_at")
+        .eq("user_id", userId)
+        .eq("role_id", data.roleId)
+        .eq("tenant_id", data.tenantId)
+        .maybeSingle();
+
+      if (existingRole) {
+        if (existingRole.deleted_at) {
+          const { error: roleError } = await supabaseAdmin
+            .from("user_roles")
+            .update({ deleted_at: null })
+            .eq("id", existingRole.id);
+          if (roleError) throw new Error(roleError.message);
+        }
+      } else {
+        const { error: roleError } = await supabaseAdmin.from("user_roles").insert({
+          user_id: userId,
+          role_id: data.roleId,
+          tenant_id: data.tenantId,
+          scope: "tenant",
+        });
+        if (roleError) throw new Error(roleError.message);
+      }
     }
 
     return { userId, email: data.email };
