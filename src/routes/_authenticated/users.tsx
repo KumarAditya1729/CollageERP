@@ -123,10 +123,32 @@ function UsersPage() {
 
   const assignRole = useMutation({
     mutationFn: async ({ userId, roleId }: { userId: string; roleId: string }) => {
-      const { error } = await supabase
+      // Check if role assignment already exists (even if soft-deleted)
+      const { data: existing } = await supabase
         .from("user_roles")
-        .insert({ user_id: userId, role_id: roleId, tenant_id: tenant!.id, scope: "tenant" });
-      if (error) throw error;
+        .select("id, deleted_at")
+        .eq("user_id", userId)
+        .eq("role_id", roleId)
+        .eq("tenant_id", tenant!.id)
+        .maybeSingle();
+
+      if (existing) {
+        if (!existing.deleted_at) {
+          throw new Error("User already has this role assigned.");
+        }
+        // Restore soft-deleted role
+        const { error } = await supabase
+          .from("user_roles")
+          .update({ deleted_at: null })
+          .eq("id", existing.id);
+        if (error) throw error;
+      } else {
+        // Insert new role
+        const { error } = await supabase
+          .from("user_roles")
+          .insert({ user_id: userId, role_id: roleId, tenant_id: tenant!.id, scope: "tenant" });
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       toast.success("Role assigned");
